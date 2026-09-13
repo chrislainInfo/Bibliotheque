@@ -1,6 +1,7 @@
 import express from "express"
 import authRoutes from "./routes/auth_routes.js"
 import categoryRouter from './routes/category_routes.js';
+import authorRouter from './routes/author_routes.js';
 
 
 
@@ -15,6 +16,7 @@ app.get("/api", (req, res) => {
 
 app.use("/api/auth", authRoutes)
 app.use('/api/categories', categoryRouter)
+app.use('/api/auteurs', authorRouter)
 
 app.use((req, res) => {
     res.status(404).json({
