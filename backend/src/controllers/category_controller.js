@@ -2,6 +2,7 @@ import AppError from '../errors/AppErrors.js';
 
 import {
     findAllCategories,
+    countCategories,
     findCategoryById,
     findCategoryByDesignation,
     createCategory,
@@ -12,10 +13,43 @@ import {
 
 // GET /api/categories
 export async function getCategories(req, res) {
-    const categories = await findAllCategories();
 
-    return res.status(200).json({
-        categories
+    const page = Number(req.query.page) || 1;
+    const limit = Number(req.query.limit) || 10;
+
+    if (!Number.isInteger(page) || page <= 0) {
+        throw new AppError(
+            'Le numéro de page doit être un entier supérieur à 0',
+            400
+        );
+    }
+
+    if (!Number.isInteger(limit) || limit <= 0) {
+        throw new AppError(
+            'La limite doit être un entier supérieur à 0',
+            400
+        );
+    }
+
+    const offset = (page - 1) * limit;
+
+    const categories = await findAllCategories(
+        limit,
+        offset
+    );
+
+    const total = await countCategories();
+
+    const totalPages = Math.ceil(total / limit);
+
+    return res.json({
+        categories,
+        pagination: {
+            page,
+            limit,
+            total,
+            totalPages
+        }
     });
 }
 

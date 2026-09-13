@@ -1,7 +1,7 @@
 import pool from '../config/database.js';
 
 
-export async function findAllCategories() {
+export async function findAllCategories(limit, offset) {
     const result = await pool.query(
         `SELECT
             id,
@@ -9,10 +9,23 @@ export async function findAllCategories() {
             created_at,
             updated_at
         FROM categories
-        ORDER BY designation ASC`
+        ORDER BY designation ASC
+        LIMIT $1
+        OFFSET $2`,
+        [limit, offset]
     );
 
     return result.rows;
+}
+
+
+export async function countCategories() {
+    const result = await pool.query(
+        `SELECT COUNT(*) AS total
+        FROM categories`
+    );
+
+    return Number(result.rows[0].total);
 }
 
 
@@ -62,7 +75,6 @@ export async function createCategory(designation) {
 }
 
 
-// Modifier une catégorie
 export async function updateCategory(id, designation) {
     const result = await pool.query(
         `UPDATE categories
@@ -81,11 +93,12 @@ export async function updateCategory(id, designation) {
     return result.rows[0] || null;
 }
 
+
 export async function deleteCategory(id) {
     const result = await pool.query(
         `DELETE FROM categories
-         WHERE id = $1
-         RETURNING id`,
+        WHERE id = $1
+        RETURNING id`,
         [id]
     );
 
