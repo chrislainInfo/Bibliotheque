@@ -55,44 +55,82 @@ export async function login(req, res) {
     // Connexion adhérent
     if (code && !email && !password) {
 
-          const user = await findAdherentByCode(code);
+        const utilisateur =
 
-        if (!user) {
+            await findAdherentByCode(code);
+
+        if (!utilisateur) {
 
             throw new AppError(
-                'Code de connexion invalide',
+
+                'Code incorrect',
+
                 401
-            )
+
+            );
+
         }
 
-        const codeValid = await bcrypt.compare( code, user.mot_de_passe )
+        const codeCorrect =
 
-        if (!codeValid) {
+            await bcrypt.compare(
 
-            throw new AppError( 'Code de connexion invalide', 401 )
+                code,
+
+                utilisateur.mot_de_passe
+
+            );
+
+        if (!codeCorrect) {
+
+            throw new AppError(
+
+                'Code incorrect',
+
+                401
+
+            );
 
         }
 
         const token = jwt.sign(
-            {
-                id: user.id,
-                role: user.role
-            },
-            process.env.JWT_SECRET,
-            {
-                expiresIn: '1d'
-            }
-        )
 
-        return res.status(200).json({
-            message: 'Connexion réussie',
-            token,
-            user: {
-                id: user.id,
-                role: user.role,
-                prenom: user.prenom
+            {
+
+                id: utilisateur.id,
+
+                role: utilisateur.role
+
+            },
+
+            process.env.JWT_SECRET,
+
+            {
+
+                expiresIn: '1h'
+
             }
-        })
+
+        );
+
+        return res.json({
+
+            message: 'Connexion adhérent réussie',
+
+            token,
+
+            user: {
+
+                id: utilisateur.id,
+
+                role: utilisateur.role,
+
+                prenom: utilisateur.prenom
+
+            }
+
+        });
+
     }
 
     // Aucun format de connexion reconnu
