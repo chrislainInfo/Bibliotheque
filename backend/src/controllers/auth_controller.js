@@ -1,6 +1,6 @@
 import AppError from '../errors/AppErrors.js';
 import { isValidEmail } from '../utils/utils.js';
-import { findBibliothecaireByEmail } from '../repositories/auth_repository.js';
+import { findBibliothecaireByEmail, findAdherentByCode } from '../repositories/auth_repository.js';
 import bcrypt from 'bcrypt';
 import jwt from 'jsonwebtoken';
 
@@ -55,9 +55,44 @@ export async function login(req, res) {
     // Connexion adhérent
     if (code && !email && !password) {
 
-        console.log('Tentative de connexion adhérent');
+          const user = await findAdherentByCode(code);
 
-        // La logique adhérent viendra ici
+        if (!user) {
+
+            throw new AppError(
+                'Code de connexion invalide',
+                401
+            )
+        }
+
+        const codeValid = await bcrypt.compare( code, user.mot_de_passe )
+
+        if (!codeValid) {
+
+            throw new AppError( 'Code de connexion invalide', 401 )
+
+        }
+
+        const token = jwt.sign(
+            {
+                id: user.id,
+                role: user.role
+            },
+            process.env.JWT_SECRET,
+            {
+                expiresIn: '1d'
+            }
+        )
+
+        return res.status(200).json({
+            message: 'Connexion réussie',
+            token,
+            user: {
+                id: user.id,
+                role: user.role,
+                prenom: user.prenom
+            }
+        })
     }
 
     // Aucun format de connexion reconnu
