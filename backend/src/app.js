@@ -4,6 +4,8 @@ import categoryRouter from './routes/category_routes.js'
 import authorRouter from './routes/author_routes.js'
 import bookRouter from './routes/book_routes.js'
 import adherentRouter from './routes/adherent_routes.js'
+import empruntRouter from './routes/emprunt_routes.js'
+import dashboardRouter from './routes/dashboard_routes.js'
 
 
 
@@ -16,11 +18,24 @@ app.get("/api", (req, res) => {
     res.json({ message: "API bibliothèque opérationnelle" })
 })
 
+
+
 app.use("/api/auth", authRoutes)
+
 app.use('/api/categories', categoryRouter)
+
 app.use('/api/auteurs', authorRouter)
+
 app.use('/api/livres', bookRouter)
-app.use('/api/adherents', adherentRouter);
+
+app.use('/api/adherents', adherentRouter)
+
+app.use('/api/emprunts', empruntRouter)
+
+app.use('/api/dashboard', dashboardRouter)
+
+
+
 
 app.use((req, res) => {
     res.status(404).json({
