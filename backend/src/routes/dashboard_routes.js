@@ -2,16 +2,16 @@ import { Router } from 'express';
 
 import {
     authenticateToken
-} from '../middlewares/auth.middleware.js';
+} from '../middleware/auth_middleware.js';
 
 import {
     authorizeRole
-} from '../middlewares/role.middleware.js';
+} from '../middleware/role_middleware.js';
 
 import {
     getBibliothecaireDashboardController,
     getAdherentDashboardController
-} from '../controllers/dashboard.controller.js';
+} from '../controllers/dashboard_controller.js';
 
 const router = Router();
 

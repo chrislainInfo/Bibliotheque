@@ -1,7 +1,7 @@
 import pool from '../config/database.js';
 
 // Connexion bibliothécaire
-export async function findLibrarianByEmail(email) {
+export async function findBibliothecaireByEmail(email) {
     const result = await pool.query(
         `SELECT
             u.id,

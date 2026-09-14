@@ -8,7 +8,7 @@ import {
     createAdherentController,
     updateAdherentController,
     deleteAdherentController
-} from '../controllers/adherent.controller.js';
+} from '../controllers/adherent_controller.js';
 
 
 const router = Router();
