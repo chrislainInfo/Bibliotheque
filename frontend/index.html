@@ -1,0 +1,470 @@
+<!DOCTYPE html>
+<html lang="fr">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>Bibliothèque — Accueil</title>
+    <link rel="stylesheet" href="./css/main.css">
+    <link rel="stylesheet" href="./index.css">
+</head>
+
+<body>
+
+    <main class="home-page">
+
+        <!-- HEADER -->
+        <header class="home-header">
+
+            <a href="index.html" class="home-logo">
+                <!-- Remplace cette zone par ton logo -->
+                <div class="home-logo-icon">
+                    <i class="fa-solid fa-book-open"></i>
+                </div>
+
+                <span>Bibliothèque</span>
+            </a>
+
+            <button
+                type="button"
+                class="btn btn-primary login-button"
+                id="openLoginButton"
+            >
+                <i class="fa-solid fa-right-to-bracket"></i>
+                <span>Connexion</span>
+            </button>
+
+        </header>
+
+
+        <!-- HERO -->
+        <section class="home-hero">
+
+            <div class="home-hero-content">
+
+                <span class="hero-badge">
+                    <i class="fa-solid fa-book-open"></i>
+                    Votre bibliothèque, simplement
+                </span>
+
+                <h1>
+                    Découvrez,
+                    <span>empruntez</span>
+                    et partagez le plaisir de lire.
+                </h1>
+
+                <p>
+                    Retrouvez vos livres, consultez vos emprunts
+                    et profitez d'une expérience simple et agréable
+                    au cœur de votre bibliothèque.
+                </p>
+
+                <div class="hero-actions">
+
+                    <button
+                        type="button"
+                        class="btn btn-primary hero-login-button"
+                        id="heroLoginButton"
+                    >
+                        <i class="fa-solid fa-right-to-bracket"></i>
+                        Se connecter
+                    </button>
+
+                    <a href="#presentation" class="hero-secondary-link">
+                        En savoir plus
+                        <i class="fa-solid fa-arrow-down"></i>
+                    </a>
+
+                </div>
+
+            </div>
+
+
+            
+            <div class="home-hero-image">
+
+                <img src="./assets/img/ChatGPT Image 15 sept. 2026, 12_56_47.png" alt="Personne assise dans un fauteuil en train de lire">
+
+                <!-- <div class="hero-image-placeholder">
+                    <i class="fa-solid fa-image"></i>
+                    <span>Votre illustration</span>
+                </div> -->
+
+            </div>
+
+        </section>
+
+
+        <!-- ==========================================
+             PETITE SECTION DE PRÉSENTATION
+             ========================================== -->
+
+        <section
+            class="home-presentation"
+            id="presentation"
+        >
+
+            <div class="presentation-header">
+
+                <span class="section-label">
+                    La bibliothèque autrement
+                </span>
+
+                <h2>
+                    Tout ce dont vous avez besoin,
+                    au même endroit.
+                </h2>
+
+                <p>
+                    Une interface pensée pour faciliter la gestion
+                    de votre bibliothèque et rendre vos interactions
+                    plus simples.
+                </p>
+
+            </div>
+
+
+            <div class="presentation-cards">
+
+                <article class="presentation-card">
+
+                    <div class="presentation-icon">
+                        <i class="fa-solid fa-book"></i>
+                    </div>
+
+                    <h3>Une collection accessible</h3>
+
+                    <p>
+                        Consultez facilement les livres disponibles
+                        dans votre bibliothèque.
+                    </p>
+
+                </article>
+
+
+                <article class="presentation-card">
+
+                    <div class="presentation-icon green">
+                        <i class="fa-solid fa-arrow-right-arrow-left"></i>
+                    </div>
+
+                    <h3>Suivez vos emprunts</h3>
+
+                    <p>
+                        Gardez un œil sur vos emprunts et leurs
+                        dates de retour.
+                    </p>
+
+                </article>
+
+
+                <article class="presentation-card">
+
+                    <div class="presentation-icon">
+                        <i class="fa-solid fa-user"></i>
+                    </div>
+
+                    <h3>Une gestion simplifiée</h3>
+
+                    <p>
+                        Une interface claire pour les adhérents
+                        comme pour les bibliothécaires.
+                    </p>
+
+                </article>
+
+            </div>
+
+        </section>
+
+
+        <!-- FOOTER -->
+
+        <footer class="home-footer">
+            <p>
+                © 2026 Bibliothèque. Tous droits réservés.
+            </p>
+        </footer>
+
+    </main>
+
+
+
+    <!-- ==========================================
+         MODALE DE CONNEXION
+         ========================================== -->
+
+    <div
+        class="login-modal-overlay"
+        id="loginModal"
+        aria-hidden="true"
+    >
+
+        <div
+            class="login-modal"
+            role="dialog"
+            aria-modal="true"
+            aria-labelledby="loginModalTitle"
+        >
+
+            <!-- HEADER MODALE -->
+
+            <div class="login-modal-header">
+
+                <div>
+                    <span class="modal-label">
+                        Accès à votre espace
+                    </span>
+
+                    <h2 id="loginModalTitle">
+                        Connexion
+                    </h2>
+                </div>
+
+                <button
+                    type="button"
+                    class="modal-close"
+                    id="closeLoginButton"
+                    aria-label="Fermer"
+                >
+                    <i class="fa-solid fa-xmark"></i>
+                </button>
+
+            </div>
+
+
+            <!-- ONGLETS -->
+
+            <div
+                class="login-tabs"
+                role="tablist"
+            >
+
+                <button
+                    type="button"
+                    class="login-tab active"
+                    id="librarianTab"
+                    data-role="bibliothecaire"
+                    role="tab"
+                    aria-selected="true"
+                >
+                    <i class="fa-solid fa-user-tie"></i>
+                    Bibliothécaire
+                </button>
+
+                <button
+                    type="button"
+                    class="login-tab"
+                    id="memberTab"
+                    data-role="adherent"
+                    role="tab"
+                    aria-selected="false"
+                >
+                    <i class="fa-solid fa-user"></i>
+                    Adhérent
+                </button>
+
+            </div>
+
+
+            <!-- ==================================
+                 FORMULAIRE BIBLIOTHÉCAIRE
+                 ================================== -->
+
+            <form
+                class="login-form active"
+                id="librarianForm"
+                data-form="bibliothecaire"
+            >
+
+                <div class="login-form-intro">
+
+                    <div class="login-form-icon">
+                        <i class="fa-solid fa-user-tie"></i>
+                    </div>
+
+                    <div>
+                        <h3>Espace bibliothécaire</h3>
+
+                        <p>
+                            Connectez-vous pour accéder à la gestion
+                            de la bibliothèque.
+                        </p>
+                    </div>
+
+                </div>
+
+
+                <div class="form-group">
+
+                    <label
+                        class="form-label"
+                        for="librarianEmail"
+                    >
+                        Adresse e-mail
+                    </label>
+
+                    <div class="input-with-icon">
+
+                        <i class="fa-solid fa-envelope"></i>
+
+                        <input
+                            type="email"
+                            id="librarianEmail"
+                            name="email"
+                            class="form-control"
+                            placeholder="exemple@bibliotheque.com"
+                            autocomplete="email"
+                            required
+                        >
+
+                    </div>
+
+                </div>
+
+
+                <div class="form-group">
+
+                    <label
+                        class="form-label"
+                        for="librarianPassword"
+                    >
+                        Mot de passe
+                    </label>
+
+                    <div class="input-with-icon password-input">
+
+                        <i class="fa-solid fa-lock"></i>
+
+                        <input
+                            type="password"
+                            id="librarianPassword"
+                            name="password"
+                            class="form-control"
+                            placeholder="Votre mot de passe"
+                            autocomplete="current-password"
+                            required
+                        >
+
+                        <button
+                            type="button"
+                            class="password-toggle"
+                            data-target="librarianPassword"
+                            aria-label="Afficher le mot de passe"
+                        >
+                            <i class="fa-solid fa-eye"></i>
+                        </button>
+
+                    </div>
+
+                </div>
+
+
+                <button
+                    type="submit"
+                    class="btn btn-primary login-submit"
+                >
+                    Se connecter
+                    <i class="fa-solid fa-arrow-right"></i>
+                </button>
+
+            </form>
+
+
+
+            <!-- ==================================
+                 FORMULAIRE ADHÉRENT
+                 ================================== -->
+
+            <form
+                class="login-form"
+                id="memberForm"
+                data-form="adherent"
+            >
+
+                <div class="login-form-intro">
+
+                    <div class="login-form-icon green">
+                        <i class="fa-solid fa-user"></i>
+                    </div>
+
+                    <div>
+                        <h3>Espace adhérent</h3>
+
+                        <p>
+                            Entrez votre code adhérent pour accéder
+                            à votre espace personnel.
+                        </p>
+                    </div>
+
+                </div>
+
+
+                <div class="form-group">
+
+                    <label
+                        class="form-label"
+                        for="memberCode"
+                    >
+                        Code adhérent
+                    </label>
+
+                    <div class="input-with-icon">
+
+                        <i class="fa-solid fa-id-card"></i>
+
+                        <input
+                            type="text"
+                            id="memberCode"
+                            name="code"
+                            class="form-control"
+                            placeholder="Ex. ADH-0001"
+                            autocomplete="off"
+                            required
+                        >
+
+                    </div>
+
+                    <small class="form-help">
+                        Votre code vous a été communiqué lors de
+                        votre inscription.
+                    </small>
+
+                </div>
+
+
+                <button
+                    type="submit"
+                    class="btn btn-primary login-submit"
+                >
+                    Accéder à mon espace
+                    <i class="fa-solid fa-arrow-right"></i>
+                </button>
+
+            </form>
+
+
+            <!-- FOOTER MODALE -->
+
+            <div class="login-modal-footer">
+
+                <i class="fa-solid fa-shield-halved"></i>
+
+                <span>
+                    Vos informations sont protégées.
+                </span>
+
+            </div>
+
+        </div>
+
+    </div>
+
+
+    <!-- JavaScript -->
+    <script src="./js/index.js"></script>
+
+</body>
+
+</html>

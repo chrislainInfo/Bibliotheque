@@ -1,0 +1,110 @@
+/* ========================================
+   INITIALISATION GLOBALE
+   ======================================== */
+
+body {
+    background-color: var(--color-background);
+    color: var(--color-text);
+    font-family: var(--font-family);
+    font-size: var(--font-size-md);
+    font-weight: var(--font-weight-regular);
+    line-height: 1.5;
+
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+}
+
+
+/* ========================================
+   TITRES
+   ======================================== */
+
+h1,
+h2,
+h3,
+h4,
+h5,
+h6 {
+    color: var(--color-text);
+    font-weight: var(--font-weight-semibold);
+    line-height: 1.25;
+}
+
+h1 {
+    font-size: var(--font-size-2xl);
+}
+
+h2 {
+    font-size: var(--font-size-xl);
+}
+
+h3 {
+    font-size: var(--font-size-lg);
+}
+
+
+/* ========================================
+   TEXTE
+   ======================================== */
+
+p {
+    color: var(--color-text-secondary);
+}
+
+.text-muted {
+    color: var(--color-text-secondary);
+}
+
+
+/* ========================================
+   FOCUS ACCESSIBLE
+   ======================================== */
+
+:focus-visible {
+    outline: 3px solid rgba(123, 63, 178, 0.25);
+    outline-offset: 2px;
+}
+
+
+/* ========================================
+   SCROLLBAR
+   ======================================== */
+
+::-webkit-scrollbar {
+    width: 7px;
+    height: 7px;
+}
+
+::-webkit-scrollbar-track {
+    background: transparent;
+}
+
+::-webkit-scrollbar-thumb {
+    background-color: #D8D1DF;
+    border-radius: var(--radius-full);
+}
+
+::-webkit-scrollbar-thumb:hover {
+    background-color: #BEB5C8;
+}
+
+
+/* ========================================
+   ANIMATIONS
+   ======================================== */
+
+.fade-in {
+    animation: fadeIn 0.3s ease;
+}
+
+@keyframes fadeIn {
+    from {
+        opacity: 0;
+        transform: translateY(5px);
+    }
+
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
