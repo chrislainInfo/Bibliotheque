@@ -1,0 +1,745 @@
+<!-- dashboard.html -->
+<!DOCTYPE html>
+<html lang="fr">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <meta
+        name="description"
+        content="Page des auteurs de la bibliothèque"
+    >
+
+    <title>Adherents — Bibliothèque</title>
+
+    <!-- CSS global -->
+    <link rel="stylesheet" href="../css/main.css">
+
+
+    <!-- CSS propre au Dashboard -->
+    <link rel="stylesheet" href="./auteurs.css">
+</head>
+
+
+<body>
+
+    <div class="app">
+
+        <!-- =====================================================
+             SIDEBAR
+             ===================================================== -->
+
+        <aside class="sidebar">
+
+            <!-- Logo -->
+            <div class="sidebar-logo">
+
+                <!--
+                    Remplace cette zone par ton logo.
+                    Tu peux mettre ton image dans asset/images/
+                -->
+                <a href="../dashboard/dashboard.html">
+
+                    <span class="sidebar-logo-icon">
+                        <i class="fa-solid fa-book-open"></i>
+                    </span>
+
+                    <span>Bibliothèque</span>
+
+                </a>
+
+            </div>
+
+
+            <!-- Navigation -->
+            <nav class="sidebar-nav">
+
+                <p class="sidebar-nav-title">
+                    Navigation
+                </p>
+
+
+                <ul class="sidebar-nav-list">
+
+                    <li class="sidebar-nav-item">
+
+                        <a href="../dashboard/dashboard.html">
+
+                            <i class="fa-solid fa-house"></i>
+
+                            <span>
+                                Tableau de bord
+                            </span>
+
+                        </a>
+
+                    </li>
+
+
+                    <li class="sidebar-nav-item">
+
+                        <a href="../livres/livres.html">
+
+                            <i class="fa-solid fa-book"></i>
+
+                            <span>
+                                Livres
+                            </span>
+
+                        </a>
+
+                    </li>
+
+
+                    <li class="sidebar-nav-item">
+
+                        <a href="../adherents/adherents.html">
+
+                            <i class="fa-solid fa-users"></i>
+
+                            <span>
+                                Adhérents
+                            </span>
+
+                        </a>
+
+                    </li>
+
+
+                    <li class="sidebar-nav-item">
+
+                        <a href="../emprunts/emprunts.html">
+
+                            <i class="fa-solid fa-arrow-right-arrow-left"></i>
+
+                            <span>
+                                Emprunts
+                            </span>
+
+                        </a>
+
+                    </li>
+
+
+                    <li class="sidebar-nav-item active">
+
+                        <a href="../auteurs/auteurs.html">
+
+                            <i class="fa-solid fa-user-pen"></i>
+
+                            <span>
+                                Auteurs
+                            </span>
+
+                        </a>
+
+                    </li>
+
+
+                    <li class="sidebar-nav-item">
+
+                        <a href="../categories/categories.html">
+
+                            <i class="fa-solid fa-tags"></i>
+
+                            <span>
+                                Catégories
+                            </span>
+
+                        </a>
+
+                    </li>
+
+                </ul>
+
+            </nav>
+
+
+            <!-- Illustration sidebar -->
+            <div class="sidebar-illustration">
+
+                <img
+                    src="../assets/img/ChatGPT Image 14 sept. 2026, 17_35_00.png"
+                    alt="Illustration d'une personne lisant"
+                >
+
+            </div>
+
+
+            <!-- Profil -->
+            <div class="sidebar-profile">
+
+                <div class="sidebar-profile-avatar">
+                    JD
+                </div>
+
+                <div class="sidebar-profile-info">
+
+                    <span class="sidebar-profile-name">
+                        Jean Dupont
+                    </span>
+
+                    <span class="sidebar-profile-role">
+                        Bibliothécaire
+                    </span>
+
+                </div>
+
+            </div>
+
+        </aside>
+
+
+
+        <!-- =====================================================
+             HEADER
+             ===================================================== -->
+
+        <header class="app-header">
+
+            <div class="header-left">
+
+                <h1 class="header-title">
+                    Tableau de bord
+                </h1>
+
+            </div>
+
+
+            <div class="header-actions">
+
+                <!-- Notifications -->
+                <button
+                    type="button"
+                    class="header-icon-button"
+                    aria-label="Notifications"
+                >
+
+                    <i class="fa-solid fa-bell"></i>
+
+                    <span class="header-notification-dot"></span>
+
+                </button>
+
+
+                <!-- Déconnexion -->
+                <button
+                    type="button"
+                    class="header-logout"
+                    id="logoutButton"
+                >
+
+                    <i class="fa-solid fa-right-from-bracket"></i>
+
+                    <span>
+                        Déconnexion
+                    </span>
+
+                </button>
+
+            </div>
+
+        </header>
+
+
+
+        <!-- =====================================================
+             CONTENU PRINCIPAL
+             ===================================================== -->
+
+        <main class="main-content">
+    <div class="main-content-inner">
+
+        <!-- En-tête -->
+        <header class="auteurs-header">
+            <div class="auteurs-header-content">
+                <span class="auteurs-eyebrow">GESTION</span>
+
+                <h1>Auteurs</h1>
+
+                <p>
+                    Gérez les auteurs référencés dans votre bibliothèque
+                    et consultez les livres qui leur sont associés.
+                </p>
+            </div>
+
+            <button class="auteurs-add-button" id="openAddAuthorButton">
+                <i class="fa-solid fa-plus"></i>
+                <span>Ajouter un auteur</span>
+            </button>
+        </header>
+
+        <!-- Statistiques -->
+        <section class="auteurs-stats">
+
+            <article class="auteur-stat-card">
+                <div class="auteur-stat-icon">
+                    <i class="fa-solid fa-users"></i>
+                </div>
+
+                <div class="auteur-stat-content">
+                    <span class="auteur-stat-label">Total auteurs</span>
+                    <strong id="totalAuthors">0</strong>
+                </div>
+            </article>
+
+            <article class="auteur-stat-card">
+                <div class="auteur-stat-icon">
+                    <i class="fa-solid fa-book"></i>
+                </div>
+
+                <div class="auteur-stat-content">
+                    <span class="auteur-stat-label">Auteurs avec livres</span>
+                    <strong id="authorsWithBooks">0</strong>
+                </div>
+            </article>
+
+            <article class="auteur-stat-card">
+                <div class="auteur-stat-icon">
+                    <i class="fa-solid fa-user-plus"></i>
+                </div>
+
+                <div class="auteur-stat-content">
+                    <span class="auteur-stat-label">Ajoutés récemment</span>
+                    <strong id="recentAuthors">0</strong>
+                </div>
+            </article>
+
+        </section>
+
+        <!-- Barre d'outils -->
+        <section class="auteurs-toolbar">
+
+            <div class="auteurs-search">
+                <i class="fa-solid fa-magnifying-glass"></i>
+
+                <input
+                    type="search"
+                    id="authorSearch"
+                    placeholder="Rechercher un auteur..."
+                    autocomplete="off"
+                >
+            </div>
+
+        </section>
+
+        <!-- Liste -->
+        <section class="auteurs-list-card">
+
+            <div class="auteurs-list-header">
+                <div>
+                    <h2>Liste des auteurs</h2>
+
+                    <p>
+                        <span id="authorsResultCount">0</span> auteur(s)
+                    </p>
+                </div>
+            </div>
+
+            <div class="auteurs-table-wrapper">
+                <table class="auteurs-table">
+
+                    <thead>
+                        <tr>
+                            <th>Nom</th>
+                            <th>Prénom</th>
+                            <th>Livres</th>
+                            <th>Date d'ajout</th>
+                            <th>Actions</th>
+                        </tr>
+                    </thead>
+
+                    <tbody id="authorsTableBody">
+                        <!-- Les auteurs seront injectés ici -->
+                    </tbody>
+
+                </table>
+            </div>
+
+            <!-- État vide -->
+            <div class="auteurs-empty-state" id="authorsEmptyState" hidden>
+                <div class="auteurs-empty-icon">
+                    <i class="fa-solid fa-user-pen"></i>
+                </div>
+
+                <h3>Aucun auteur trouvé</h3>
+
+                <p>
+                    Aucun auteur ne correspond à votre recherche.
+                </p>
+            </div>
+
+        </section>
+
+    </div>
+</main>
+
+
+<!-- Modal : Ajouter / Modifier un auteur -->
+<div class="modal-overlay" id="authorModal" hidden>
+
+    <div class="modal">
+
+        <div class="modal-header">
+            <div>
+                <span class="modal-eyebrow">GESTION</span>
+                <h2 id="authorModalTitle">Ajouter un auteur</h2>
+            </div>
+
+            <button
+                type="button"
+                class="modal-close"
+                id="closeAuthorModalButton"
+                aria-label="Fermer"
+            >
+                <i class="fa-solid fa-xmark"></i>
+            </button>
+        </div>
+
+        <form id="authorForm">
+
+            <input type="hidden" id="authorId">
+
+            <div class="form-group">
+                <label for="authorFirstName">
+                    Prénom
+                </label>
+
+                <input
+                    type="text"
+                    id="authorFirstName"
+                    name="prenom"
+                    placeholder="Ex. Victor"
+                    required
+                >
+            </div>
+
+            <div class="form-group">
+                <label for="authorLastName">
+                    Nom
+                </label>
+
+                <input
+                    type="text"
+                    id="authorLastName"
+                    name="nom"
+                    placeholder="Ex. Hugo"
+                    required
+                >
+            </div>
+
+            <div class="form-group">
+                <label for="authorBiography">
+                    Biographie
+                    <span>(optionnel)</span>
+                </label>
+
+                <textarea
+                    id="authorBiography"
+                    name="biographie"
+                    rows="4"
+                    placeholder="Présentez brièvement l'auteur..."
+                ></textarea>
+            </div>
+
+            <div class="form-message" id="authorFormMessage"></div>
+
+            <div class="modal-actions">
+
+                <button
+                    type="button"
+                    class="button-secondary"
+                    id="cancelAuthorButton"
+                >
+                    Annuler
+                </button>
+
+                <button
+                    type="submit"
+                    class="button-primary"
+                    id="saveAuthorButton"
+                >
+                    Enregistrer
+                </button>
+
+            </div>
+
+        </form>
+
+    </div>
+</div>
+
+
+<!-- Modal : Suppression -->
+<div class="modal-overlay" id="authorDeleteModal" hidden>
+
+    <div class="modal modal-small">
+
+        <div class="modal-header">
+            <div>
+                <span class="modal-eyebrow">ATTENTION</span>
+                <h2>Supprimer l'auteur</h2>
+            </div>
+
+            <button
+                type="button"
+                class="modal-close"
+                id="closeDeleteAuthorModalButton"
+                aria-label="Fermer"
+            >
+                <i class="fa-solid fa-xmark"></i>
+            </button>
+        </div>
+
+        <div class="delete-content">
+
+            <div class="delete-icon">
+                <i class="fa-solid fa-trash"></i>
+            </div>
+
+            <p>
+                Voulez-vous vraiment supprimer cet auteur ?
+                Cette action est irréversible.
+            </p>
+
+        </div>
+
+        <div class="modal-actions">
+
+            <button
+                type="button"
+                class="button-secondary"
+                id="cancelDeleteAuthorButton"
+            >
+                Annuler
+            </button>
+
+            <button
+                type="button"
+                class="button-danger"
+                id="confirmDeleteAuthorButton"
+            >
+                Supprimer
+            </button>
+
+        </div>
+
+    </div>
+</div>
+
+
+
+        <!-- =====================================================
+             BOTTOM NAVIGATION MOBILE
+             ===================================================== -->
+
+        <nav
+            class="mobile-bottom-nav"
+            aria-label="Navigation mobile"
+        >
+
+            <ul class="mobile-bottom-nav-list">
+
+
+                <li class="mobile-bottom-nav-item active">
+
+                    <a
+                        href="../dashboard/dashboard.html"
+                        class="mobile-bottom-nav-button"
+                    >
+
+                        <i class="fa-solid fa-house"></i>
+
+                        <span>
+                            Accueil
+                        </span>
+
+                    </a>
+
+                </li>
+
+
+                <li class="mobile-bottom-nav-item">
+
+                    <a
+                        href="../livres/livres.html"
+                        class="mobile-bottom-nav-button"
+                    >
+
+                        <i class="fa-solid fa-book"></i>
+
+                        <span>
+                            Livres
+                        </span>
+
+                    </a>
+
+                </li>
+
+
+                <li class="mobile-bottom-nav-item">
+
+                    <a
+                        href="../emprunts/emprunts.html"
+                        class="mobile-bottom-nav-button"
+                    >
+
+                        <i class="fa-solid fa-arrow-right-arrow-left"></i>
+
+                        <span>
+                            Emprunts
+                        </span>
+
+                    </a>
+
+                </li>
+
+
+                <li class="mobile-bottom-nav-item">
+
+                    <a
+                        href="../adherents/adherents.html"
+                        class="mobile-bottom-nav-button"
+                    >
+
+                        <i class="fa-solid fa-users"></i>
+
+                        <span>
+                            Adhérents
+                        </span>
+
+                    </a>
+
+                </li>
+
+
+                <li class="mobile-bottom-nav-item">
+
+                    <button
+                        type="button"
+                        class="mobile-bottom-nav-button"
+                        id="mobileMoreButton"
+                    >
+
+                        <i class="fa-solid fa-ellipsis"></i>
+
+                        <span>
+                            Plus
+                        </span>
+
+                    </button>
+
+                </li>
+
+            </ul>
+
+        </nav>
+
+
+
+        <!-- =====================================================
+             BOTTOM SHEET
+             ===================================================== -->
+
+        <div
+            class="bottom-sheet-overlay"
+            id="bottomSheetOverlay"
+        ></div>
+
+
+        <section
+            class="bottom-sheet"
+            id="bottomSheet"
+            aria-hidden="true"
+            aria-labelledby="bottomSheetTitle"
+        >
+
+            <div class="bottom-sheet-handle"></div>
+
+
+            <div class="bottom-sheet-header">
+
+                <h2 id="bottomSheetTitle">
+                    Plus d'options
+                </h2>
+
+
+                <button
+                    type="button"
+                    class="bottom-sheet-close"
+                    id="bottomSheetClose"
+                    aria-label="Fermer"
+                >
+
+                    <i class="fa-solid fa-xmark"></i>
+
+                </button>
+
+            </div>
+
+
+            <ul class="bottom-sheet-list">
+
+
+                <li>
+
+                    <a href="../auteurs/auteurs.html">
+
+                        <i class="fa-solid fa-user-pen"></i>
+
+                        <span>
+                            Auteurs
+                        </span>
+
+                    </a>
+
+                </li>
+
+
+                <li>
+
+                    <a href="../categories/categories.html">
+
+                        <i class="fa-solid fa-tags"></i>
+
+                        <span>
+                            Catégories
+                        </span>
+
+                    </a>
+
+                </li>
+
+
+                <li>
+
+                    <button
+                        type="button"
+                        id="bottomSheetLogout"
+                    >
+
+                        <i class="fa-solid fa-right-from-bracket"></i>
+
+                        <span>
+                            Déconnexion
+                        </span>
+
+                    </button>
+
+                </li>
+
+            </ul>
+
+        </section>
+
+    </div>
+
+
+
+    <script src="../js/api.js"></script>
+    <script src="./auteurs.js"></script>
+
+</body>
+
+</html>

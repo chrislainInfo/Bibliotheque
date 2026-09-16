@@ -1,0 +1,797 @@
+<!-- dashboard.html -->
+<!DOCTYPE html>
+<html lang="fr">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <meta
+        name="description"
+        content="Page des categories de la bibliothèque"
+    >
+
+    <title>Adherents — Bibliothèque</title>
+
+    <!-- CSS global -->
+    <link rel="stylesheet" href="../css/main.css">
+
+
+    <!-- CSS propre au Dashboard -->
+    <link rel="stylesheet" href="./categories.css">
+</head>
+
+
+<body>
+
+    <div class="app">
+
+        <!-- =====================================================
+             SIDEBAR
+             ===================================================== -->
+
+        <aside class="sidebar">
+
+            <!-- Logo -->
+            <div class="sidebar-logo">
+
+                <!--
+                    Remplace cette zone par ton logo.
+                    Tu peux mettre ton image dans asset/images/
+                -->
+                <a href="../dashboard/dashboard.html">
+
+                    <span class="sidebar-logo-icon">
+                        <i class="fa-solid fa-book-open"></i>
+                    </span>
+
+                    <span>Bibliothèque</span>
+
+                </a>
+
+            </div>
+
+
+            <!-- Navigation -->
+            <nav class="sidebar-nav">
+
+                <p class="sidebar-nav-title">
+                    Navigation
+                </p>
+
+
+                <ul class="sidebar-nav-list">
+
+                    <li class="sidebar-nav-item">
+
+                        <a href="../dashboard/dashboard.html">
+
+                            <i class="fa-solid fa-house"></i>
+
+                            <span>
+                                Tableau de bord
+                            </span>
+
+                        </a>
+
+                    </li>
+
+
+                    <li class="sidebar-nav-item">
+
+                        <a href="../livres/livres.html">
+
+                            <i class="fa-solid fa-book"></i>
+
+                            <span>
+                                Livres
+                            </span>
+
+                        </a>
+
+                    </li>
+
+
+                    <li class="sidebar-nav-item">
+
+                        <a href="../adherents/adherents.html">
+
+                            <i class="fa-solid fa-users"></i>
+
+                            <span>
+                                Adhérents
+                            </span>
+
+                        </a>
+
+                    </li>
+
+
+                    <li class="sidebar-nav-item">
+
+                        <a href="../emprunts/emprunts.html">
+
+                            <i class="fa-solid fa-arrow-right-arrow-left"></i>
+
+                            <span>
+                                Emprunts
+                            </span>
+
+                        </a>
+
+                    </li>
+
+
+                    <li class="sidebar-nav-item">
+
+                        <a href="../auteurs/auteurs.html">
+
+                            <i class="fa-solid fa-user-pen"></i>
+
+                            <span>
+                                Auteurs
+                            </span>
+
+                        </a>
+
+                    </li>
+
+
+                    <li class="sidebar-nav-item active">
+
+                        <a href="../categories/categories.html">
+
+                            <i class="fa-solid fa-tags"></i>
+
+                            <span>
+                                Catégories
+                            </span>
+
+                        </a>
+
+                    </li>
+
+                </ul>
+
+            </nav>
+
+
+            <!-- Illustration sidebar -->
+            <div class="sidebar-illustration">
+
+                <img
+                    src="../assets/img/ChatGPT Image 14 sept. 2026, 17_35_00.png"
+                    alt="Illustration d'une personne lisant"
+                >
+
+            </div>
+
+
+            <!-- Profil -->
+            <div class="sidebar-profile">
+
+                <div class="sidebar-profile-avatar">
+                    JD
+                </div>
+
+                <div class="sidebar-profile-info">
+
+                    <span class="sidebar-profile-name">
+                        Jean Dupont
+                    </span>
+
+                    <span class="sidebar-profile-role">
+                        Bibliothécaire
+                    </span>
+
+                </div>
+
+            </div>
+
+        </aside>
+
+
+
+        <!-- =====================================================
+             HEADER
+             ===================================================== -->
+
+        <header class="app-header">
+
+            <div class="header-left">
+
+                <h1 class="header-title">
+                    Tableau de bord
+                </h1>
+
+            </div>
+
+
+            <div class="header-actions">
+
+                <!-- Notifications -->
+                <button
+                    type="button"
+                    class="header-icon-button"
+                    aria-label="Notifications"
+                >
+
+                    <i class="fa-solid fa-bell"></i>
+
+                    <span class="header-notification-dot"></span>
+
+                </button>
+
+
+                <!-- Déconnexion -->
+                <button
+                    type="button"
+                    class="header-logout"
+                    id="logoutButton"
+                >
+
+                    <i class="fa-solid fa-right-from-bracket"></i>
+
+                    <span>
+                        Déconnexion
+                    </span>
+
+                </button>
+
+            </div>
+
+        </header>
+
+
+
+        <!-- =====================================================
+             CONTENU PRINCIPAL
+             ===================================================== -->
+
+        <main class="main-content">
+    <div class="main-content-inner">
+
+        <!-- En-tête -->
+        <header class="categories-header">
+            <div class="categories-header-content">
+                <span class="categories-eyebrow">GESTION</span>
+
+                <h1>Catégories</h1>
+
+                <p>
+                    Gérez les catégories de livres de votre bibliothèque
+                    et organisez facilement votre catalogue.
+                </p>
+            </div>
+
+            <button class="categories-add-button" id="openAddCategoryButton">
+                <i class="fa-solid fa-plus"></i>
+                <span>Ajouter une catégorie</span>
+            </button>
+        </header>
+
+
+        <!-- Statistiques -->
+        <section class="categories-stats">
+
+            <article class="categorie-stat-card">
+                <div class="categorie-stat-icon">
+                    <i class="fa-solid fa-layer-group"></i>
+                </div>
+
+                <div class="categorie-stat-content">
+                    <span class="categorie-stat-label">
+                        Total catégories
+                    </span>
+
+                    <strong id="totalCategories">0</strong>
+                </div>
+            </article>
+
+
+            <article class="categorie-stat-card">
+                <div class="categorie-stat-icon">
+                    <i class="fa-solid fa-book"></i>
+                </div>
+
+                <div class="categorie-stat-content">
+                    <span class="categorie-stat-label">
+                        Catégories utilisées
+                    </span>
+
+                    <strong id="usedCategories">0</strong>
+                </div>
+            </article>
+
+
+            <article class="categorie-stat-card">
+                <div class="categorie-stat-icon">
+                    <i class="fa-solid fa-folder-plus"></i>
+                </div>
+
+                <div class="categorie-stat-content">
+                    <span class="categorie-stat-label">
+                        Ajoutées récemment
+                    </span>
+
+                    <strong id="recentCategories">0</strong>
+                </div>
+            </article>
+
+        </section>
+
+
+        <!-- Barre de recherche -->
+        <section class="categories-toolbar">
+
+            <div class="categories-search">
+                <i class="fa-solid fa-magnifying-glass"></i>
+
+                <input
+                    type="search"
+                    id="categorySearch"
+                    placeholder="Rechercher une catégorie..."
+                    autocomplete="off"
+                >
+            </div>
+
+        </section>
+
+
+        <!-- Liste des catégories -->
+        <section class="categories-list-card">
+
+            <div class="categories-list-header">
+                <div>
+                    <h2>Liste des catégories</h2>
+
+                    <p>
+                        <span id="categoriesResultCount">0</span>
+                        catégorie(s)
+                    </p>
+                </div>
+            </div>
+
+
+            <div class="categories-table-wrapper">
+
+                <table class="categories-table">
+
+                    <thead>
+                        <tr>
+                            <th>Nom</th>
+                            <th>Description</th>
+                            <th>Nombre de livres</th>
+                            <th>Date d'ajout</th>
+                            <th>Actions</th>
+                        </tr>
+                    </thead>
+
+                    <tbody id="categoriesTableBody">
+                        <!-- Les catégories seront injectées ici -->
+                    </tbody>
+
+                </table>
+
+            </div>
+
+
+            <!-- État vide -->
+            <div
+                class="categories-empty-state"
+                id="categoriesEmptyState"
+                hidden
+            >
+
+                <div class="categories-empty-icon">
+                    <i class="fa-solid fa-folder-open"></i>
+                </div>
+
+                <h3>Aucune catégorie trouvée</h3>
+
+                <p>
+                    Aucune catégorie ne correspond à votre recherche.
+                </p>
+
+            </div>
+
+        </section>
+
+    </div>
+</main>
+
+
+<!-- =========================================================
+     MODAL : AJOUT / MODIFICATION
+     ========================================================= -->
+
+<div class="modal-overlay" id="categoryModal" hidden>
+
+    <div class="modal">
+
+        <div class="modal-header">
+
+            <div>
+                <span class="modal-eyebrow">GESTION</span>
+
+                <h2 id="categoryModalTitle">
+                    Ajouter une catégorie
+                </h2>
+            </div>
+
+            <button
+                type="button"
+                class="modal-close"
+                id="closeCategoryModalButton"
+                aria-label="Fermer"
+            >
+                <i class="fa-solid fa-xmark"></i>
+            </button>
+
+        </div>
+
+
+        <form id="categoryForm">
+
+            <input
+                type="hidden"
+                id="categoryId"
+            >
+
+
+            <div class="form-group">
+
+                <label for="categoryName">
+                    Nom
+                </label>
+
+                <input
+                    type="text"
+                    id="categoryName"
+                    name="nom"
+                    placeholder="Ex. Roman"
+                    required
+                >
+
+            </div>
+
+
+            <div class="form-group">
+
+                <label for="categoryDescription">
+                    Description
+                    <span>(optionnel)</span>
+                </label>
+
+                <textarea
+                    id="categoryDescription"
+                    name="description"
+                    rows="4"
+                    placeholder="Décrivez cette catégorie..."
+                ></textarea>
+
+            </div>
+
+
+            <div
+                class="form-message"
+                id="categoryFormMessage"
+            ></div>
+
+
+            <div class="modal-actions">
+
+                <button
+                    type="button"
+                    class="button-secondary"
+                    id="cancelCategoryButton"
+                >
+                    Annuler
+                </button>
+
+                <button
+                    type="submit"
+                    class="button-primary"
+                    id="saveCategoryButton"
+                >
+                    Enregistrer
+                </button>
+
+            </div>
+
+        </form>
+
+    </div>
+
+</div>
+
+
+<!-- =========================================================
+     MODAL : SUPPRESSION
+     ========================================================= -->
+
+<div
+    class="modal-overlay"
+    id="categoryDeleteModal"
+    hidden
+>
+
+    <div class="modal modal-small">
+
+        <div class="modal-header">
+
+            <div>
+                <span class="modal-eyebrow">
+                    ATTENTION
+                </span>
+
+                <h2>
+                    Supprimer la catégorie
+                </h2>
+            </div>
+
+            <button
+                type="button"
+                class="modal-close"
+                id="closeDeleteCategoryModalButton"
+                aria-label="Fermer"
+            >
+                <i class="fa-solid fa-xmark"></i>
+            </button>
+
+        </div>
+
+
+        <div class="delete-content">
+
+            <div class="delete-icon">
+                <i class="fa-solid fa-trash"></i>
+            </div>
+
+            <p>
+                Voulez-vous vraiment supprimer cette catégorie ?
+                Cette action est irréversible.
+            </p>
+
+        </div>
+
+
+        <div class="modal-actions">
+
+            <button
+                type="button"
+                class="button-secondary"
+                id="cancelDeleteCategoryButton"
+            >
+                Annuler
+            </button>
+
+            <button
+                type="button"
+                class="button-danger"
+                id="confirmDeleteCategoryButton"
+            >
+                Supprimer
+            </button>
+
+        </div>
+
+    </div>
+
+</div>
+
+
+
+        <!-- =====================================================
+             BOTTOM NAVIGATION MOBILE
+             ===================================================== -->
+
+        <nav
+            class="mobile-bottom-nav"
+            aria-label="Navigation mobile"
+        >
+
+            <ul class="mobile-bottom-nav-list">
+
+
+                <li class="mobile-bottom-nav-item active">
+
+                    <a
+                        href="../dashboard/dashboard.html"
+                        class="mobile-bottom-nav-button"
+                    >
+
+                        <i class="fa-solid fa-house"></i>
+
+                        <span>
+                            Accueil
+                        </span>
+
+                    </a>
+
+                </li>
+
+
+                <li class="mobile-bottom-nav-item">
+
+                    <a
+                        href="../livres/livres.html"
+                        class="mobile-bottom-nav-button"
+                    >
+
+                        <i class="fa-solid fa-book"></i>
+
+                        <span>
+                            Livres
+                        </span>
+
+                    </a>
+
+                </li>
+
+
+                <li class="mobile-bottom-nav-item">
+
+                    <a
+                        href="../emprunts/emprunts.html"
+                        class="mobile-bottom-nav-button"
+                    >
+
+                        <i class="fa-solid fa-arrow-right-arrow-left"></i>
+
+                        <span>
+                            Emprunts
+                        </span>
+
+                    </a>
+
+                </li>
+
+
+                <li class="mobile-bottom-nav-item">
+
+                    <a
+                        href="../adherents/adherents.html"
+                        class="mobile-bottom-nav-button"
+                    >
+
+                        <i class="fa-solid fa-users"></i>
+
+                        <span>
+                            Adhérents
+                        </span>
+
+                    </a>
+
+                </li>
+
+
+                <li class="mobile-bottom-nav-item">
+
+                    <button
+                        type="button"
+                        class="mobile-bottom-nav-button"
+                        id="mobileMoreButton"
+                    >
+
+                        <i class="fa-solid fa-ellipsis"></i>
+
+                        <span>
+                            Plus
+                        </span>
+
+                    </button>
+
+                </li>
+
+            </ul>
+
+        </nav>
+
+
+
+        <!-- =====================================================
+             BOTTOM SHEET
+             ===================================================== -->
+
+        <div
+            class="bottom-sheet-overlay"
+            id="bottomSheetOverlay"
+        ></div>
+
+
+        <section
+            class="bottom-sheet"
+            id="bottomSheet"
+            aria-hidden="true"
+            aria-labelledby="bottomSheetTitle"
+        >
+
+            <div class="bottom-sheet-handle"></div>
+
+
+            <div class="bottom-sheet-header">
+
+                <h2 id="bottomSheetTitle">
+                    Plus d'options
+                </h2>
+
+
+                <button
+                    type="button"
+                    class="bottom-sheet-close"
+                    id="bottomSheetClose"
+                    aria-label="Fermer"
+                >
+
+                    <i class="fa-solid fa-xmark"></i>
+
+                </button>
+
+            </div>
+
+
+            <ul class="bottom-sheet-list">
+
+
+                <li>
+
+                    <a href="../auteurs/auteurs.html">
+
+                        <i class="fa-solid fa-user-pen"></i>
+
+                        <span>
+                            Auteurs
+                        </span>
+
+                    </a>
+
+                </li>
+
+
+                <li>
+
+                    <a href="../categories/categories.html">
+
+                        <i class="fa-solid fa-tags"></i>
+
+                        <span>
+                            Catégories
+                        </span>
+
+                    </a>
+
+                </li>
+
+
+                <li>
+
+                    <button
+                        type="button"
+                        id="bottomSheetLogout"
+                    >
+
+                        <i class="fa-solid fa-right-from-bracket"></i>
+
+                        <span>
+                            Déconnexion
+                        </span>
+
+                    </button>
+
+                </li>
+
+            </ul>
+
+        </section>
+
+    </div>
+
+
+
+    <script src="../js/api.js"></script>
+    <script src="./categories.js"></script>
+
+</body>
+
+</html>

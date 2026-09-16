@@ -1,0 +1,772 @@
+<!-- dashboard.html -->
+<!DOCTYPE html>
+<html lang="fr">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <meta
+        name="description"
+        content="Page des livres de la bibliothèque"
+    >
+
+    <title>Livres — Bibliothèque</title>
+
+    <!-- CSS global -->
+    <link rel="stylesheet" href="../css/main.css">
+
+
+    <!-- CSS propre au Dashboard -->
+    <link rel="stylesheet" href="./livres.css">
+</head>
+
+
+<body>
+
+    <div class="app">
+
+        <!-- =====================================================
+             SIDEBAR
+             ===================================================== -->
+
+        <aside class="sidebar">
+
+            <!-- Logo -->
+            <div class="sidebar-logo">
+
+                <!--
+                    Remplace cette zone par ton logo.
+                    Tu peux mettre ton image dans asset/images/
+                -->
+                <a href="../dashboard/dashboard.html">
+
+                    <span class="sidebar-logo-icon">
+                        <i class="fa-solid fa-book-open"></i>
+                    </span>
+
+                    <span>Bibliothèque</span>
+
+                </a>
+
+            </div>
+
+
+            <!-- Navigation -->
+            <nav class="sidebar-nav">
+
+                <p class="sidebar-nav-title">
+                    Navigation
+                </p>
+
+
+                <ul class="sidebar-nav-list">
+
+                    <li class="sidebar-nav-item">
+
+                        <a href="../dashboard/dashboard.html">
+
+                            <i class="fa-solid fa-house"></i>
+
+                            <span>
+                                Tableau de bord
+                            </span>
+
+                        </a>
+
+                    </li>
+
+
+                    <li class="sidebar-nav-item active">
+
+                        <a href="../livres/livres.html">
+
+                            <i class="fa-solid fa-book"></i>
+
+                            <span>
+                                Livres
+                            </span>
+
+                        </a>
+
+                    </li>
+
+
+                    <li class="sidebar-nav-item">
+
+                        <a href="../adherents/adherents.html">
+
+                            <i class="fa-solid fa-users"></i>
+
+                            <span>
+                                Adhérents
+                            </span>
+
+                        </a>
+
+                    </li>
+
+
+                    <li class="sidebar-nav-item">
+
+                        <a href="../emprunts/emprunts.html">
+
+                            <i class="fa-solid fa-arrow-right-arrow-left"></i>
+
+                            <span>
+                                Emprunts
+                            </span>
+
+                        </a>
+
+                    </li>
+
+
+                    <li class="sidebar-nav-item">
+
+                        <a href="../auteurs/auteurs.html">
+
+                            <i class="fa-solid fa-user-pen"></i>
+
+                            <span>
+                                Auteurs
+                            </span>
+
+                        </a>
+
+                    </li>
+
+
+                    <li class="sidebar-nav-item">
+
+                        <a href="../categories/categories.html">
+
+                            <i class="fa-solid fa-tags"></i>
+
+                            <span>
+                                Catégories
+                            </span>
+
+                        </a>
+
+                    </li>
+
+                </ul>
+
+            </nav>
+
+
+            <!-- Illustration sidebar -->
+            <div class="sidebar-illustration">
+
+                <img
+                    src="../assets/img/ChatGPT Image 14 sept. 2026, 17_35_00.png"
+                    alt="Illustration d'une personne lisant"
+                >
+
+            </div>
+
+
+            <!-- Profil -->
+            <div class="sidebar-profile">
+
+                <div class="sidebar-profile-avatar">
+                    JD
+                </div>
+
+                <div class="sidebar-profile-info">
+
+                    <span class="sidebar-profile-name">
+                        Jean Dupont
+                    </span>
+
+                    <span class="sidebar-profile-role">
+                        Bibliothécaire
+                    </span>
+
+                </div>
+
+            </div>
+
+        </aside>
+
+
+
+        <!-- =====================================================
+             HEADER
+             ===================================================== -->
+
+        <header class="app-header">
+
+            <div class="header-left">
+
+                <h1 class="header-title">
+                    Tableau de bord
+                </h1>
+
+            </div>
+
+
+            <div class="header-actions">
+
+                <!-- Notifications -->
+                <button
+                    type="button"
+                    class="header-icon-button"
+                    aria-label="Notifications"
+                >
+
+                    <i class="fa-solid fa-bell"></i>
+
+                    <span class="header-notification-dot"></span>
+
+                </button>
+
+
+                <!-- Déconnexion -->
+                <button
+                    type="button"
+                    class="header-logout"
+                    id="logoutButton"
+                >
+
+                    <i class="fa-solid fa-right-from-bracket"></i>
+
+                    <span>
+                        Déconnexion
+                    </span>
+
+                </button>
+
+            </div>
+
+        </header>
+
+
+
+        <!-- =====================================================
+             CONTENU PRINCIPAL
+             ===================================================== -->
+
+        <main class="main-content">
+
+            <div class="main-content-inner">
+
+             <!-- EN-TÊTE DE LA PAGE -->
+            <section class="livres-header">
+
+                <div class="livres-header-content">
+
+                    <span class="livres-eyebrow">
+                        Gestion de la collection
+                    </span>
+
+                    <h1>Livres</h1>
+
+                    <p>
+                        Consultez et gérez l'ensemble des livres
+                        disponibles dans votre bibliothèque.
+                    </p>
+
+                </div>
+
+                <button
+                    type="button"
+                    class="livres-add-button"
+                    id="openAddBookButton"
+                >
+                    <i class="fa-solid fa-plus"></i>
+                    <span>Ajouter un livre</span>
+                </button>
+
+            </section>
+
+
+            <!-- =================================================
+                 STATISTIQUES
+            ================================================== -->
+
+            <section class="livres-stats">
+
+                <article class="livre-stat-card">
+
+                    <div class="livre-stat-icon purple">
+                        <i class="fa-solid fa-book"></i>
+                    </div>
+
+                    <div class="livre-stat-content">
+
+                        <span>Total des livres</span>
+
+                        <strong id="totalBooks">
+                            0
+                        </strong>
+
+                    </div>
+
+                </article>
+
+
+                <article class="livre-stat-card">
+
+                    <div class="livre-stat-icon green">
+                        <i class="fa-solid fa-book-open"></i>
+                    </div>
+
+                    <div class="livre-stat-content">
+
+                        <span>Disponibles</span>
+
+                        <strong id="availableBooks">
+                            0
+                        </strong>
+
+                    </div>
+
+                </article>
+
+
+                <article class="livre-stat-card">
+
+                    <div class="livre-stat-icon red">
+                        <i class="fa-solid fa-book-bookmark"></i>
+                    </div>
+
+                    <div class="livre-stat-content">
+
+                        <span>Empruntés</span>
+
+                        <strong id="borrowedBooks">
+                            0
+                        </strong>
+
+                    </div>
+
+                </article>
+
+            </section>
+
+
+            <!-- =================================================
+                 BARRE DE RECHERCHE ET FILTRES
+            ================================================== -->
+
+            <section class="livres-toolbar">
+
+                <div class="livres-search">
+
+                    <i class="fa-solid fa-magnifying-glass"></i>
+
+                    <input
+                        type="search"
+                        id="bookSearch"
+                        placeholder="Rechercher un livre, un auteur ou un ISBN..."
+                    >
+
+                </div>
+
+
+                <div class="livres-filters">
+
+                    <select id="categoryFilter">
+
+                        <option value="">
+                            Toutes les catégories
+                        </option>
+
+                        <option value="Roman">
+                            Roman
+                        </option>
+
+                        <option value="Jeunesse">
+                            Jeunesse
+                        </option>
+
+                        <option value="Littérature">
+                            Littérature
+                        </option>
+
+                        <option value="Classique">
+                            Classique
+                        </option>
+
+                    </select>
+
+
+                    <select id="authorFilter">
+
+                        <option value="">
+                            Tous les auteurs
+                        </option>
+
+                        <option value="Albert Camus">
+                            Albert Camus
+                        </option>
+
+                        <option value="Antoine de Saint-Exupéry">
+                            Antoine de Saint-Exupéry
+                        </option>
+
+                        <option value="Mariama Bâ">
+                            Mariama Bâ
+                        </option>
+
+                        <option value="Victor Hugo">
+                            Victor Hugo
+                        </option>
+
+                        <option value="Paulo Coelho">
+                            Paulo Coelho
+                        </option>
+
+                    </select>
+
+
+                    <select id="availabilityFilter">
+
+                        <option value="">
+                            Toutes les disponibilités
+                        </option>
+
+                        <option value="available">
+                            Disponible
+                        </option>
+
+                        <option value="borrowed">
+                            Emprunté
+                        </option>
+
+                        <option value="unavailable">
+                            Indisponible
+                        </option>
+
+                    </select>
+
+                </div>
+
+            </section>
+
+
+            <!-- =================================================
+                 LISTE DES LIVRES
+            ================================================== -->
+
+            <section class="livres-list-card">
+
+                <div class="livres-list-header">
+
+                    <div>
+
+                        <h2>
+                            Liste des livres
+                        </h2>
+
+                        <p>
+                            Retrouvez tous les ouvrages enregistrés.
+                        </p>
+
+                    </div>
+
+                    <span
+                        class="livres-result-count"
+                        id="booksResultCount"
+                    >
+                        0 livre
+                    </span>
+
+                </div>
+
+
+                <div class="livres-table-wrapper">
+
+                    <table class="livres-table">
+
+                        <thead>
+
+                            <tr>
+
+                                <th>
+                                    Livre
+                                </th>
+
+                                <th>
+                                    Auteur
+                                </th>
+
+                                <th>
+                                    Catégorie
+                                </th>
+
+                                <th>
+                                    ISBN
+                                </th>
+
+                                <th>
+                                    Exemplaires
+                                </th>
+
+                                <th>
+                                    Disponibilité
+                                </th>
+
+                                <th>
+                                    Actions
+                                </th>
+
+                            </tr>
+
+                        </thead>
+
+
+                        <tbody id="booksTableBody">
+                            <!-- Généré par JavaScript -->
+                        </tbody>
+
+                    </table>
+
+
+                    <div
+                        class="livres-empty-state"
+                        id="booksEmptyState"
+                        hidden
+                    >
+
+                        <div class="livres-empty-icon">
+                            <i class="fa-solid fa-book-open"></i>
+                        </div>
+
+                        <h3>
+                            Aucun livre trouvé
+                        </h3>
+
+                        <p>
+                            Aucun livre ne correspond aux critères
+                            de recherche actuels.
+                        </p>
+
+                    </div>
+
+                </div>
+
+            </section>
+
+
+
+            </div>
+
+        </main>
+
+
+
+        <!-- =====================================================
+             BOTTOM NAVIGATION MOBILE
+             ===================================================== -->
+
+        <nav
+            class="mobile-bottom-nav"
+            aria-label="Navigation mobile"
+        >
+
+            <ul class="mobile-bottom-nav-list">
+
+
+                <li class="mobile-bottom-nav-item active">
+
+                    <a
+                        href="../dashboard/dashboard.html"
+                        class="mobile-bottom-nav-button"
+                    >
+
+                        <i class="fa-solid fa-house"></i>
+
+                        <span>
+                            Accueil
+                        </span>
+
+                    </a>
+
+                </li>
+
+
+                <li class="mobile-bottom-nav-item">
+
+                    <a
+                        href="../adherents/adherents.html"
+                        class="mobile-bottom-nav-button"
+                    >
+
+                        <i class="fa-solid fa-book"></i>
+
+                        <span>
+                            Livres
+                        </span>
+
+                    </a>
+
+                </li>
+
+
+                <li class="mobile-bottom-nav-item">
+
+                    <a
+                        href="../emprunts/emprunts.html"
+                        class="mobile-bottom-nav-button"
+                    >
+
+                        <i class="fa-solid fa-arrow-right-arrow-left"></i>
+
+                        <span>
+                            Emprunts
+                        </span>
+
+                    </a>
+
+                </li>
+
+
+                <li class="mobile-bottom-nav-item">
+
+                    <a
+                        href="../livres/livres.html"
+                        class="mobile-bottom-nav-button"
+                    >
+
+                        <i class="fa-solid fa-users"></i>
+
+                        <span>
+                            Adhérents
+                        </span>
+
+                    </a>
+
+                </li>
+
+
+                <li class="mobile-bottom-nav-item">
+
+                    <button
+                        type="button"
+                        class="mobile-bottom-nav-button"
+                        id="mobileMoreButton"
+                    >
+
+                        <i class="fa-solid fa-ellipsis"></i>
+
+                        <span>
+                            Plus
+                        </span>
+
+                    </button>
+
+                </li>
+
+            </ul>
+
+        </nav>
+
+
+
+        <!-- =====================================================
+             BOTTOM SHEET
+             ===================================================== -->
+
+        <div
+            class="bottom-sheet-overlay"
+            id="bottomSheetOverlay"
+        ></div>
+
+
+        <section
+            class="bottom-sheet"
+            id="bottomSheet"
+            aria-hidden="true"
+            aria-labelledby="bottomSheetTitle"
+        >
+
+            <div class="bottom-sheet-handle"></div>
+
+
+            <div class="bottom-sheet-header">
+
+                <h2 id="bottomSheetTitle">
+                    Plus d'options
+                </h2>
+
+
+                <button
+                    type="button"
+                    class="bottom-sheet-close"
+                    id="bottomSheetClose"
+                    aria-label="Fermer"
+                >
+
+                    <i class="fa-solid fa-xmark"></i>
+
+                </button>
+
+            </div>
+
+
+            <ul class="bottom-sheet-list">
+
+
+                <li>
+
+                    <a href="../auteurs/auteurs.html">
+
+                        <i class="fa-solid fa-user-pen"></i>
+
+                        <span>
+                            Auteurs
+                        </span>
+
+                    </a>
+
+                </li>
+
+
+                <li>
+
+                    <a href="../categories/categories.html">
+
+                        <i class="fa-solid fa-tags"></i>
+
+                        <span>
+                            Catégories
+                        </span>
+
+                    </a>
+
+                </li>
+
+
+                <li>
+
+                    <button
+                        type="button"
+                        id="bottomSheetLogout"
+                    >
+
+                        <i class="fa-solid fa-right-from-bracket"></i>
+
+                        <span>
+                            Déconnexion
+                        </span>
+
+                    </button>
+
+                </li>
+
+            </ul>
+
+        </section>
+
+    </div>
+
+
+
+    <script src="./livres.js"></script>
+
+</body>
+
+</html>

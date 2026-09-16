@@ -1,134 +1,88 @@
-/* ========================================
-   MODALE DE CONNEXION
-   ======================================== */
+const API_BASE_URL = "http://localhost:3000/api";
+
+/* =========================================================
+   ÉLÉMENTS DU DOM
+   ========================================================= */
 
 const loginModal = document.querySelector("#loginModal");
-
 const openLoginButton = document.querySelector("#openLoginButton");
 const heroLoginButton = document.querySelector("#heroLoginButton");
 const closeLoginButton = document.querySelector("#closeLoginButton");
 
+const loginTabs = document.querySelectorAll(".login-tab");
+const loginForms = document.querySelectorAll(".login-form");
 
-/* ========================================
-   OUVRIR LA MODALE
-   ======================================== */
+const passwordToggles = document.querySelectorAll(".password-toggle");
+
+const librarianForm = document.querySelector("#librarianForm");
+const memberForm = document.querySelector("#memberForm");
+
+
+/* =========================================================
+   MODALE DE CONNEXION
+   ========================================================= */
 
 function openLoginModal() {
     loginModal.classList.add("open");
-
     loginModal.setAttribute("aria-hidden", "false");
 
     document.body.style.overflow = "hidden";
 }
 
-
-/* ========================================
-   FERMER LA MODALE
-   ======================================== */
-
 function closeLoginModal() {
     loginModal.classList.remove("open");
-
     loginModal.setAttribute("aria-hidden", "true");
 
     document.body.style.overflow = "";
 }
 
-
-/* Bouton connexion du header */
-
 openLoginButton.addEventListener("click", openLoginModal);
 
-
-/* Bouton connexion de la hero */
-
 heroLoginButton.addEventListener("click", openLoginModal);
-
-
-/* Bouton X */
 
 closeLoginButton.addEventListener("click", closeLoginModal);
 
 
-/* ========================================
-   FERMER EN CLIQUANT SUR L'OVERLAY
-   ======================================== */
+/* =========================================================
+   FERMETURE DE LA MODALE
+   ========================================================= */
 
 loginModal.addEventListener("click", (event) => {
-
     if (event.target === loginModal) {
         closeLoginModal();
     }
-
 });
 
-
-/* ========================================
-   FERMER AVEC LA TOUCHE ESC
-   ======================================== */
-
 document.addEventListener("keydown", (event) => {
-
     if (
         event.key === "Escape" &&
         loginModal.classList.contains("open")
     ) {
         closeLoginModal();
     }
-
 });
 
 
-/* ========================================
+/* =========================================================
    ONGLETS BIBLIOTHÉCAIRE / ADHÉRENT
-   ======================================== */
-
-const loginTabs = document.querySelectorAll(".login-tab");
-
-const loginForms = document.querySelectorAll(".login-form");
-
+   ========================================================= */
 
 loginTabs.forEach((tab) => {
-
     tab.addEventListener("click", () => {
 
         const selectedRole = tab.dataset.role;
 
-
-        /* Retirer active de tous les onglets */
-
         loginTabs.forEach((currentTab) => {
-
             currentTab.classList.remove("active");
-
-            currentTab.setAttribute(
-                "aria-selected",
-                "false"
-            );
-
+            currentTab.setAttribute("aria-selected", "false");
         });
-
-
-        /* Activer l'onglet sélectionné */
 
         tab.classList.add("active");
-
-        tab.setAttribute(
-            "aria-selected",
-            "true"
-        );
-
-
-        /* Masquer tous les formulaires */
+        tab.setAttribute("aria-selected", "true");
 
         loginForms.forEach((form) => {
-
             form.classList.remove("active");
-
         });
-
-
-        /* Afficher le formulaire correspondant */
 
         const selectedForm = document.querySelector(
             `.login-form[data-form="${selectedRole}"]`
@@ -137,20 +91,13 @@ loginTabs.forEach((tab) => {
         if (selectedForm) {
             selectedForm.classList.add("active");
         }
-
     });
-
 });
 
 
-/* ========================================
-   AFFICHER / MASQUER MOT DE PASSE
-   ======================================== */
-
-const passwordToggles = document.querySelectorAll(
-    ".password-toggle"
-);
-
+/* =========================================================
+   AFFICHER / MASQUER LE MOT DE PASSE
+   ========================================================= */
 
 passwordToggles.forEach((button) => {
 
@@ -164,6 +111,9 @@ passwordToggles.forEach((button) => {
 
         const icon = button.querySelector("i");
 
+        if (!passwordInput || !icon) {
+            return;
+        }
 
         if (passwordInput.type === "password") {
 
@@ -188,55 +138,170 @@ passwordToggles.forEach((button) => {
                 "aria-label",
                 "Afficher le mot de passe"
             );
-
         }
-
     });
-
 });
 
 
-/* ========================================
-   FORMULAIRE BIBLIOTHÉCAIRE
-   ======================================== */
+/* =========================================================
+   CONNEXION BIBLIOTHÉCAIRE
+   ========================================================= */
 
-const librarianForm = document.querySelector("#librarianForm");
-
-
-librarianForm.addEventListener("submit", (event) => {
+librarianForm.addEventListener("submit", async (event) => {
 
     event.preventDefault();
 
-    /*
-        L'AUTHENTIFICATION BACKEND
-        SERA AJOUTÉE PLUS TARD.
+    const emailInput = document.querySelector("#librarianEmail");
+    const passwordInput = document.querySelector("#librarianPassword");
 
-        Ici on empêche simplement
-        le rechargement de la page.
-    */
+    const email = emailInput.value.trim();
+    const password = passwordInput.value;
 
-    window.location.href = "./dashboard/dashboard.html";
+    console.log(email, password)
 
+    if (!email || !password) {
+        console.error("Veuillez remplir tous les champs.");
+
+        return;
+    }
+
+    try {
+
+        const response = await fetch(
+            `${API_BASE_URL}/auth/login`,
+            {
+                method: "POST",
+
+                headers: {
+                    "Content-Type": "application/json"
+                },
+
+                body: JSON.stringify({
+                    email: email,
+                    password: password
+                })
+            }
+        );
+
+        const data = await response.json();
+
+        /*
+         * L'API peut retourner :
+         *
+         * 200 → connexion réussie
+         * 400 → données invalides
+         * 401 → identifiants incorrects
+         */
+
+        if (!response.ok) {
+
+            throw new Error(
+                data.message ||
+                "Échec de la connexion."
+            );
+        }
+
+        /*
+         * Vérification de sécurité supplémentaire :
+         * nous vérifions que le backend nous a bien
+         * retourné un token.
+         */
+
+        if (!data.token) {
+
+            throw new Error(
+                "Le serveur n'a pas retourné de token."
+            );
+        }
+
+        /*
+         * Vérification du rôle retourné
+         * par le backend.
+         */
+
+        if (
+            !data.user ||
+            data.user.role !== "bibliothecaire"
+        ) {
+
+            throw new Error(
+                "Cet utilisateur n'est pas un bibliothécaire."
+            );
+        }
+
+        /* =================================================
+           STOCKAGE DU TOKEN
+           ================================================= */
+
+        localStorage.setItem(
+            "token",
+            data.token
+        );
+
+        /* =================================================
+           STOCKAGE DES INFORMATIONS UTILISATEUR
+           ================================================= */
+
+        localStorage.setItem(
+            "user",
+            JSON.stringify(data.user)
+        );
+
+        /*
+         * Pour vérifier dans la console :
+         *
+         * localStorage.getItem("token")
+         * localStorage.getItem("user")
+         */
+
+        console.log(
+            "Connexion réussie :",
+            data.user
+        );
+
+        /*
+         * Redirection vers le dashboard
+         */
+
+        window.location.href =
+            "./dashboard/dashboard.html";
+
+    } catch (error) {
+
+        console.error(
+            "Erreur de connexion :",
+            error
+        );
+
+        /*
+         * Pour le moment, on affiche l'erreur
+         * dans une alerte.
+         *
+         * Plus tard, on pourra remplacer cela
+         * par un message d'erreur intégré
+         * au design de la modale.
+         */
+
+        alert(error.message);
+    }
 });
 
 
-/* ========================================
-   FORMULAIRE ADHÉRENT
-   ======================================== */
+/* =========================================================
+   CONNEXION ADHÉRENT
+   ========================================================= */
 
-const memberForm = document.querySelector("#memberForm");
-
+/*
+ * Pour l'instant, on ne modifie pas le fonctionnement
+ * de la connexion adhérent.
+ *
+ * Elle sera branchée à l'API lorsque nous travaillerons
+ * sur le dashboard adhérent.
+ */
 
 memberForm.addEventListener("submit", (event) => {
 
     event.preventDefault();
 
-    /*
-        L'AUTHENTIFICATION BACKEND
-        SERA AJOUTÉE PLUS TARD.
-    */
-
     console.log("Connexion adhérent");
-    window.location.href = "./dashboard.html";
-
 });
