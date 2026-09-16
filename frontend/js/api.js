@@ -177,6 +177,36 @@ function setupCommonNavigation() {
             }
         });
     });
+
+    updateAuthenticatedProfile();
+}
+
+function updateAuthenticatedProfile() {
+    let user = null;
+    try {
+        user = JSON.parse(localStorage.getItem("user") || "null");
+    } catch {
+        user = null;
+    }
+
+    if (!user) {
+        return;
+    }
+
+    const firstName = user.prenom || user.firstName || "";
+    const lastName = user.nom || user.lastName || "";
+    const fullName = `${firstName} ${lastName}`.trim() || "Bibliothécaire";
+    const initials = `${firstName.charAt(0)}${lastName.charAt(0)}`.toUpperCase() || "B";
+
+    document.querySelectorAll(".sidebar-profile-name, #headerLibrarianName").forEach((element) => {
+        element.textContent = fullName;
+    });
+    document.querySelectorAll(".sidebar-profile-avatar, .profile-avatar, #headerAvatar").forEach((element) => {
+        element.textContent = initials;
+    });
+    document.querySelectorAll(".sidebar-profile-role").forEach((element) => {
+        element.textContent = user.role === "bibliothecaire" ? "Bibliothécaire" : "Adhérent";
+    });
 }
 
 function setupModal(modalId, openId, closeIds = []) {

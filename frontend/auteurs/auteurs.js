@@ -18,11 +18,23 @@ let authorPage = 1;
 async function getAuteurs() {
     showState(auteursContainer, "loading", "Chargement des auteurs…", "fa-spinner");
     try {
-        const data = await apiRequest(`${API_URL}?page=1&limit=1000`);
+        const [data, booksData] = await Promise.all([
+            apiRequest(`${API_URL}?page=1&limit=1000`),
+            apiRequest("/livres?page=1&limit=1000")
+        ]);
         allAuthors = extractCollection(data, "authors");
+        const books = extractCollection(booksData, "books");
         renderFilteredAuthors();
         const total = document.querySelector("#totalAuthors");
         if (total) total.textContent = allAuthors.length;
+        const used = new Set(books.flatMap((book) => {
+            const id = book.auteur_id ?? book.author_id;
+            return id ? [String(id)] : [];
+        })).size;
+        const usedElement = document.querySelector("#authorsWithBooks");
+        if (usedElement) usedElement.textContent = used;
+        const recent = document.querySelector("#recentAuthors");
+        if (recent) recent.textContent = allAuthors.length;
 
     } catch (error) {
         console.error("Erreur lors du chargement des auteurs :", error);

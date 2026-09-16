@@ -61,6 +61,12 @@ function renderFilteredAdherents() {
 function updateMemberStats() {
     const total = document.querySelector("#totalMembers");
     if (total) total.textContent = allAdherents.length;
+
+    const active = allAdherents.filter((adherent) => {
+        return !adherent.date_expiration || new Date(adherent.date_expiration) >= new Date();
+    }).length;
+    const activeElement = document.querySelector("#activeMembers");
+    if (activeElement) activeElement.textContent = active;
 }
 
 // ============================================================

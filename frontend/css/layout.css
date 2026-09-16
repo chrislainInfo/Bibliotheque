@@ -647,6 +647,13 @@
 
 }
 
+@media (min-width: 769px) {
+    .bottom-sheet,
+    .bottom-sheet-overlay {
+        display: none !important;
+    }
+}
+
 
 .bottom-sheet-handle {
 

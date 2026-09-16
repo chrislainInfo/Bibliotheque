@@ -18,11 +18,20 @@ let categoryPage = 1;
 async function getCategories() {
     showState(categoriesContainer, "loading", "Chargement des catégories…", "fa-spinner");
     try {
-        const data = await apiRequest(`${API_URL}?page=1&limit=1000`);
+        const [data, booksData] = await Promise.all([
+            apiRequest(`${API_URL}?page=1&limit=1000`),
+            apiRequest("/livres?page=1&limit=1000")
+        ]);
         allCategories = extractCollection(data, "categories");
+        const books = extractCollection(booksData, "books");
         renderFilteredCategories();
         const total = document.querySelector("#totalCategories");
         if (total) total.textContent = allCategories.length;
+        const used = new Set(books.map((book) => String(book.id_categorie ?? book.categorie_id ?? book.category_id)).filter(Boolean)).size;
+        const usedElement = document.querySelector("#usedCategories");
+        if (usedElement) usedElement.textContent = used;
+        const recent = document.querySelector("#recentCategories");
+        if (recent) recent.textContent = allCategories.length;
 
     } catch (error) {
         console.error(

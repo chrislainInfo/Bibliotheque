@@ -722,6 +722,10 @@ select.form-control {
     font-size: var(--font-size-sm);
 }
 
+[hidden] {
+    display: none !important;
+}
+
 .empty-state.loading i {
     animation: spin 1s linear infinite;
 }

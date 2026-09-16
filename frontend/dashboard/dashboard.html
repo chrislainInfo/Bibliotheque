@@ -357,9 +357,7 @@
                                 Collection
                             </span>
 
-                            <strong id="totalBooks">
-                                1 250
-                            </strong>
+                            <strong id="totalBooks">0</strong>
 
                             <span class="stat-card-description">
                                 livres
@@ -387,9 +385,7 @@
                                 Membres
                             </span>
 
-                            <strong id="totalMembers">
-                                384
-                            </strong>
+                            <strong id="totalMembers">0</strong>
 
                             <span class="stat-card-description">
                                 adhérents
@@ -417,9 +413,7 @@
                                 Emprunts
                             </span>
 
-                            <strong id="activeLoans">
-                                76
-                            </strong>
+                            <strong id="activeLoans">0</strong>
 
                             <span class="stat-card-description">
                                 en cours
@@ -447,9 +441,7 @@
                                 Attention
                             </span>
 
-                            <strong id="overdueLoans">
-                                8
-                            </strong>
+                            <strong id="overdueLoans">0</strong>
 
                             <span class="stat-card-description">
                                 en retard
@@ -505,10 +497,11 @@
                         </div>
 
 
-                        <div class="loan-list">
+                        <div class="loan-list" id="overdueList">
 
 
-                            <div class="loan-item">
+                            <!-- Données injectées par dashboard.js -->
+                            <div class="loan-item dashboard-placeholder" hidden>
 
                                 <div class="loan-avatar">
                                     AM
@@ -536,7 +529,7 @@
 
 
 
-                            <div class="loan-item">
+                            <div class="loan-item dashboard-placeholder" hidden>
 
                                 <div class="loan-avatar">
                                     CN
@@ -564,7 +557,7 @@
 
 
 
-                            <div class="loan-item">
+                            <div class="loan-item dashboard-placeholder" hidden>
 
                                 <div class="loan-avatar">
                                     JD
@@ -623,15 +616,13 @@
 
 
                             <div
-                                class="availability-circle"
+                                class="availability-circle availability-ring"
                                 id="availabilityCircle"
                             >
 
                                 <div class="availability-circle-inner">
 
-                                    <strong id="availabilityPercentage">
-                                        79%
-                                    </strong>
+                                    <strong id="availabilityPercentage">0%</strong>
 
                                     <span>
                                         disponible
@@ -656,9 +647,7 @@
                                     </span>
 
 
-                                    <strong id="availableBooks">
-                                        987
-                                    </strong>
+                                    <strong id="availableBooks">0</strong>
 
                                 </div>
 
@@ -674,9 +663,7 @@
                                     </span>
 
 
-                                    <strong id="borrowedBooks">
-                                        263
-                                    </strong>
+                                    <strong id="borrowedBooks">0</strong>
 
                                 </div>
 
@@ -711,10 +698,10 @@
                         </div>
 
 
-                        <div class="activity-list">
+                        <div class="activity-list" id="activityList">
 
 
-                            <div class="activity-item">
+                            <div class="activity-item dashboard-placeholder" hidden>
 
                                 <div class="activity-icon green">
 
@@ -744,7 +731,7 @@
 
 
 
-                            <div class="activity-item">
+                            <div class="activity-item dashboard-placeholder" hidden>
 
                                 <div class="activity-icon purple">
 
@@ -774,7 +761,7 @@
 
 
 
-                            <div class="activity-item">
+                            <div class="activity-item dashboard-placeholder" hidden>
 
                                 <div class="activity-icon blue">
 

@@ -10,7 +10,6 @@ const API_BASE_URL = "http://localhost:3000/api";
 ========================================================= */
 
 document.addEventListener("DOMContentLoaded", async () => {
-    setupMobileMenu();
     setupCommonNavigation();
 
     try {
@@ -241,10 +240,7 @@ function displayLibrarian() {
         );
 
 
-    const sidebarName =
-        document.querySelector(
-            "#sidebarLibrarianName"
-        );
+    const sidebarName = document.querySelector(".sidebar-profile-name");
 
 
     const headerAvatar =
@@ -255,7 +251,7 @@ function displayLibrarian() {
 
     const sidebarAvatar =
         document.querySelector(
-            ".profile-avatar"
+            ".sidebar-profile-avatar"
         );
 
 
@@ -494,9 +490,7 @@ function updateAvailability(
 function displayOverdueLoans(loans) {
 
     const container =
-        document.querySelector(
-            "#overdueList"
-        );
+        document.querySelector("#overdueList, .loan-list");
 
 
     if (!container) {
@@ -682,8 +676,7 @@ function displayRecentActivity(
 
     const container =
         document.querySelector(
-            "#activityList"
-        );
+            "#activityList, .activity-list");
 
 
     if (!container) {

@@ -28,7 +28,7 @@ async function getEmprunts() {
         const total = document.querySelector("#totalLoans");
         const active = document.querySelector("#activeLoans");
         const late = document.querySelector("#lateLoans");
-        if (total) total.textContent = allLoans.length;
+        if (total) total.textContent = data.pagination?.total ?? allLoans.length;
         if (active) active.textContent = allLoans.filter((loan) => loan.statut === "en_cours").length;
         if (late) late.textContent = allLoans.filter((loan) => loan.statut === "en_retard").length;
 
