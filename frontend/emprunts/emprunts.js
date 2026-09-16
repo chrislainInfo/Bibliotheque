@@ -8,8 +8,8 @@ const API_URL = "http://localhost:3000/api/emprunts";
 // ÉLÉMENTS HTML
 // ============================================================
 
-const empruntsContainer = document.querySelector("#emprunts-container");
-const empruntForm = document.querySelector("#emprunt-form");
+const empruntsContainer = document.querySelector("#loansTableBody");
+const empruntForm = document.querySelector("#loanForm");
 
 // ============================================================
 // RÉCUPÉRER TOUS LES EMPRUNTS
@@ -56,59 +56,19 @@ function afficherEmprunts(emprunts) {
 
     emprunts.forEach(emprunt => {
 
-        const element = document.createElement("div");
+        const element = document.createElement("tr");
 
         element.innerHTML = `
-            <div class="emprunt-item">
-
-                <div>
-                    <h3>
-                        ${emprunt.livre?.titre ?? "Livre inconnu"}
-                    </h3>
-
-                    <p>
-                        Adhérent :
-                        ${emprunt.adherent?.nom ?? "Inconnu"}
-                        ${emprunt.adherent?.prenom ?? ""}
-                    </p>
-
-                    <p>
-                        Date d'emprunt :
-                        ${emprunt.date_emprunt ?? "Non renseignée"}
-                    </p>
-
-                    <p>
-                        Date de retour :
-                        ${emprunt.date_retour ?? "Non renseignée"}
-                    </p>
-
-                    <p>
-                        Statut :
-                        ${emprunt.statut ?? "Non renseigné"}
-                    </p>
-                </div>
-
-                <div>
-
-                    <button
-                        type="button"
-                        class="btn-modifier-emprunt"
-                        data-id="${emprunt.id}"
-                    >
-                        Modifier
-                    </button>
-
-                    <button
-                        type="button"
-                        class="btn-supprimer-emprunt"
-                        data-id="${emprunt.id}"
-                    >
-                        Supprimer
-                    </button>
-
-                </div>
-
-            </div>
+            <td>${emprunt.livre_titre ?? emprunt.livre?.titre ?? "Livre inconnu"}</td>
+            <td>${emprunt.adherent_nom ?? emprunt.adherent?.nom ?? "Inconnu"} ${emprunt.adherent_prenom ?? emprunt.adherent?.prenom ?? ""}</td>
+            <td>${emprunt.date_emprunt ?? "Non renseignée"}</td>
+            <td>${emprunt.date_retour_prevue ?? "Non renseignée"}</td>
+            <td>${emprunt.date_retour ?? "Non renseignée"}</td>
+            <td>${emprunt.statut ?? "Non renseigné"}</td>
+            <td>
+                <button type="button" class="btn-modifier-emprunt" data-id="${emprunt.id}">Modifier</button>
+                <button type="button" class="btn-supprimer-emprunt" data-id="${emprunt.id}">Supprimer</button>
+            </td>
         `;
 
         empruntsContainer.appendChild(element);

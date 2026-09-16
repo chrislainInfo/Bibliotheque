@@ -4,8 +4,8 @@ const API_URL = "http://localhost:3000/api/auteurs";
 // ÉLÉMENTS HTML
 // ============================================================
 
-const auteursContainer = document.querySelector("#auteurs-container");
-const auteurForm = document.querySelector("#auteur-form");
+const auteursContainer = document.querySelector("#authorsTableBody");
+const auteurForm = document.querySelector("#authorForm");
 
 
 // ============================================================
@@ -54,49 +54,17 @@ function afficherAuteurs(auteurs) {
 
     auteurs.forEach(auteur => {
 
-        const element = document.createElement("div");
+        const element = document.createElement("tr");
 
         element.innerHTML = `
-            <div class="auteur-item">
-
-                <div>
-                    <h3>
-                        ${auteur.nom ?? ""}
-                        ${auteur.prenom ?? ""}
-                    </h3>
-
-                    <p>
-                        Nationalité :
-                        ${auteur.nationalite ?? "Non renseignée"}
-                    </p>
-
-                    <p>
-                        Date de naissance :
-                        ${auteur.date_naissance ?? "Non renseignée"}
-                    </p>
-                </div>
-
-                <div>
-
-                    <button
-                        type="button"
-                        class="btn-modifier-auteur"
-                        data-id="${auteur.id}"
-                    >
-                        Modifier
-                    </button>
-
-                    <button
-                        type="button"
-                        class="btn-supprimer-auteur"
-                        data-id="${auteur.id}"
-                    >
-                        Supprimer
-                    </button>
-
-                </div>
-
-            </div>
+            <td>${auteur.nom ?? ""}</td>
+            <td>${auteur.prenom ?? ""}</td>
+            <td>—</td>
+            <td>—</td>
+            <td>
+                <button type="button" class="btn-modifier-auteur" data-id="${auteur.id}">Modifier</button>
+                <button type="button" class="btn-supprimer-auteur" data-id="${auteur.id}">Supprimer</button>
+            </td>
         `;
 
         auteursContainer.appendChild(element);

@@ -4,8 +4,8 @@ const API_URL = "http://localhost:3000/api/categories";
 // ÉLÉMENTS HTML
 // ============================================================
 
-const categoriesContainer = document.querySelector("#categories-container");
-const categorieForm = document.querySelector("#categorie-form");
+const categoriesContainer = document.querySelector("#categoriesTableBody");
+const categorieForm = document.querySelector("#categoryForm");
 
 
 // ============================================================
@@ -57,42 +57,17 @@ function afficherCategories(categories) {
 
     categories.forEach(categorie => {
 
-        const element = document.createElement("div");
+        const element = document.createElement("tr");
 
         element.innerHTML = `
-            <div class="categorie-item">
-
-                <div>
-                    <h3>
-                        ${categorie.nom ?? ""}
-                    </h3>
-
-                    <p>
-                        ${categorie.description ?? "Aucune description"}
-                    </p>
-                </div>
-
-                <div>
-
-                    <button
-                        type="button"
-                        class="btn-modifier-categorie"
-                        data-id="${categorie.id}"
-                    >
-                        Modifier
-                    </button>
-
-                    <button
-                        type="button"
-                        class="btn-supprimer-categorie"
-                        data-id="${categorie.id}"
-                    >
-                        Supprimer
-                    </button>
-
-                </div>
-
-            </div>
+            <td>${categorie.designation ?? categorie.nom ?? ""}</td>
+            <td>${categorie.description ?? "Aucune description"}</td>
+            <td>—</td>
+            <td>${categorie.created_at ?? "—"}</td>
+            <td>
+                <button type="button" class="btn-modifier-categorie" data-id="${categorie.id}">Modifier</button>
+                <button type="button" class="btn-supprimer-categorie" data-id="${categorie.id}">Supprimer</button>
+            </td>
         `;
 
         categoriesContainer.appendChild(element);

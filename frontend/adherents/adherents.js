@@ -9,8 +9,8 @@ const API_URL = "http://localhost:3000/api/adherents";
 // ÉLÉMENTS HTML
 // ============================================================
 
-const adherentsContainer = document.querySelector("#adherents-container");
-const adherentForm = document.querySelector("#adherent-form");
+const adherentsContainer = document.querySelector("#membersTableBody");
+const adherentForm = document.querySelector("#memberForm");
 
 // ============================================================
 // CHARGER TOUS LES ADHÉRENTS
@@ -56,46 +56,19 @@ function afficherAdherents(adherents) {
 
     adherents.forEach(adherent => {
 
-        const element = document.createElement("div");
+        const element = document.createElement("tr");
 
         element.innerHTML = `
-            <div class="adherent-item">
-
-                <div>
-                    <h3>
-                        ${adherent.nom ?? ""} ${adherent.prenom ?? ""}
-                    </h3>
-
-                    <p>
-                        Email : ${adherent.email ?? "Non renseigné"}
-                    </p>
-
-                    <p>
-                        Téléphone : ${adherent.telephone ?? "Non renseigné"}
-                    </p>
-                </div>
-
-                <div>
-
-                    <button
-                        type="button"
-                        class="btn-modifier-adherent"
-                        data-id="${adherent.id}"
-                    >
-                        Modifier
-                    </button>
-
-                    <button
-                        type="button"
-                        class="btn-supprimer-adherent"
-                        data-id="${adherent.id}"
-                    >
-                        Supprimer
-                    </button>
-
-                </div>
-
-            </div>
+            <td>${adherent.nom ?? ""} ${adherent.prenom ?? ""}</td>
+            <td>${adherent.email ?? "Non renseigné"}</td>
+            <td>${adherent.telephone ?? "Non renseigné"}</td>
+            <td>${adherent.date_adhesion ?? "Non renseignée"}</td>
+            <td>—</td>
+            <td><span class="badge badge-active">Actif</span></td>
+            <td>
+                <button type="button" class="btn-modifier-adherent" data-id="${adherent.id}">Modifier</button>
+                <button type="button" class="btn-supprimer-adherent" data-id="${adherent.id}">Supprimer</button>
+            </td>
         `;
 
         adherentsContainer.appendChild(element);

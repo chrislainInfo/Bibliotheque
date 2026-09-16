@@ -137,9 +137,11 @@ async function loadDashboard() {
         Endpoint prévu spécialement pour le dashboard
     */
 
-    const dashboard = await apiRequest(
+    const response = await apiRequest(
         "/dashboard/bibliothecaire"
     );
+
+    const dashboard = response?.dashboard || response || {};
 
 
     console.log(
@@ -169,7 +171,7 @@ async function loadDashboard() {
     */
 
     displayOverdueLoans(
-        dashboard.empruntsEnRetard || []
+        dashboard.emprunts_en_retard || dashboard.empruntsEnRetard || []
     );
 
 
@@ -178,8 +180,8 @@ async function loadDashboard() {
     */
 
     displayRecentActivity(
-        dashboard.empruntsRecents || [],
-        dashboard.livresPopulaires || []
+        dashboard.emprunts_recents || dashboard.empruntsRecents || [],
+        dashboard.livres_plus_empruntes || dashboard.livresPopulaires || []
     );
 
 
@@ -314,25 +316,25 @@ function displayStatistics(statistiques = {}) {
 
     const totalBooks =
         Number(
-            statistiques.totalLivres || 0
+            statistiques.livres || statistiques.totalLivres || 0
         );
 
 
     const totalMembers =
         Number(
-            statistiques.totalAdherents || 0
+            statistiques.adherents || statistiques.totalAdherents || 0
         );
 
 
     const activeLoans =
         Number(
-            statistiques.empruntsActifs || 0
+            statistiques.emprunts_actifs || statistiques.empruntsActifs || 0
         );
 
 
     const overdueLoans =
         Number(
-            statistiques.empruntsEnRetard || 0
+            statistiques.emprunts_en_retard || statistiques.empruntsEnRetard || 0
         );
 
 
@@ -545,12 +547,14 @@ function displayOverdueLoans(loans) {
 function createOverdueLoanHTML(loan) {
 
     const firstName =
+        loan.adherent_prenom ||
         loan.prenom ||
         loan.adherent?.prenom ||
         "";
 
 
     const lastName =
+        loan.adherent_nom ||
         loan.nom ||
         loan.adherent?.nom ||
         "";
@@ -562,6 +566,7 @@ function createOverdueLoanHTML(loan) {
 
 
     const bookTitle =
+        loan.livre_titre ||
         loan.titre ||
         loan.livre?.titre ||
         "Livre";
@@ -699,12 +704,13 @@ function displayRecentActivity(
     ) {
 
         const memberName =
-            `${loan.prenom || ""} ${loan.nom || ""}`
+            `${loan.adherent_prenom || loan.prenom || ""} ${loan.adherent_nom || loan.nom || ""}`
                 .trim()
             || "Un adhérent";
 
 
         const bookTitle =
+            loan.livre_titre ||
             loan.titre ||
             loan.livre?.titre ||
             "Un livre";
