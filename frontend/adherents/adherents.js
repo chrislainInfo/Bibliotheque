@@ -11,28 +11,56 @@ const API_URL = "http://localhost:3000/api/adherents";
 
 const adherentsContainer = document.querySelector("#membersTableBody");
 const adherentForm = document.querySelector("#memberForm");
+const memberSearch = document.querySelector("#memberSearch");
+const memberStatusFilter = document.querySelector("#memberStatusFilter");
+let allAdherents = [];
+let adherentPage = 1;
 
 // ============================================================
 // CHARGER TOUS LES ADHÉRENTS
 // ============================================================
 
 async function getAdherents() {
+    showState(adherentsContainer, "loading", "Chargement des adhérents…", "fa-spinner");
     try {
-        const data = await apiRequest(API_URL, {
-            method: "GET",
-        });
+        const data = await apiRequest(`${API_URL}?page=1&limit=1000`);
+        allAdherents = extractCollection(data, "adherents");
+        renderFilteredAdherents();
+        updateMemberStats();
 
-        afficherAdherents(extractCollection(data, "adherents"));
+        if (data.pagination) {
+            updatePagination(document.querySelector("#membersPagination"), data.pagination, (page) => {
+                adherentPage = page;
+                renderFilteredAdherents();
+            });
+        }
 
     } catch (error) {
         console.error("Erreur :", error);
 
-        if (adherentsContainer) {
-            adherentsContainer.innerHTML = `
-                <p>Impossible de charger les adhérents.</p>
-            `;
-        }
+        showState(adherentsContainer, "error", error.message, "fa-triangle-exclamation");
     }
+}
+
+function renderFilteredAdherents() {
+    const search = memberSearch?.value.trim().toLowerCase() || "";
+    const filtered = allAdherents.filter((adherent) => {
+        const text = `${adherent.nom} ${adherent.prenom} ${adherent.telephone || ""}`.toLowerCase();
+        return !search || text.includes(search);
+    });
+    const result = paginateItems(filtered, adherentPage);
+    afficherAdherents(result.items);
+    updatePagination(document.querySelector("#membersPagination"), result.pagination, (page) => {
+        adherentPage = page;
+        renderFilteredAdherents();
+    });
+    const count = document.querySelector("#membersResultCount");
+    if (count) count.textContent = `${filtered.length} adhérent${filtered.length > 1 ? "s" : ""}`;
+}
+
+function updateMemberStats() {
+    const total = document.querySelector("#totalMembers");
+    if (total) total.textContent = allAdherents.length;
 }
 
 // ============================================================
@@ -46,11 +74,15 @@ function afficherAdherents(adherents) {
     }
 
     if (!adherents || adherents.length === 0) {
+        const empty = document.querySelector("#membersEmptyState");
+        if (empty) empty.hidden = false;
         adherentsContainer.innerHTML = `
-            <p>Aucun adhérent trouvé.</p>
         `;
         return;
     }
+
+    const empty = document.querySelector("#membersEmptyState");
+    if (empty) empty.hidden = true;
 
     adherentsContainer.innerHTML = "";
 
@@ -138,11 +170,7 @@ async function modifierAdherent(id, adherent) {
 
 async function supprimerAdherent(id) {
 
-    const confirmation = confirm(
-        "Voulez-vous vraiment supprimer cet adhérent ?"
-    );
-
-    if (!confirmation) {
+    if (!await confirmAction("Voulez-vous vraiment supprimer cet adhérent ?")) {
         return;
     }
 
@@ -180,13 +208,28 @@ if (adherentForm) {
         const adherent = {
             nom: formData.get("nom"),
             prenom: formData.get("prenom"),
-            email: formData.get("email"),
-            telephone: formData.get("telephone")
+            telephone: formData.get("telephone"),
+            adresse: "",
+            date_adhesion: formData.get("date_inscription") || new Date().toISOString().slice(0, 10),
+            date_expiration: new Date(new Date(formData.get("date_inscription") || Date.now()).setFullYear(new Date().getFullYear() + 1)).toISOString().slice(0, 10)
         };
 
-        await ajouterAdherent(adherent);
+        if (adherentForm.dataset.id) {
+            await modifierAdherent(adherentForm.dataset.id, adherent);
+        } else {
+            await ajouterAdherent(adherent);
+        }
     });
 }
+
+memberSearch?.addEventListener("input", () => {
+    adherentPage = 1;
+    renderFilteredAdherents();
+});
+memberStatusFilter?.addEventListener("change", () => {
+    adherentPage = 1;
+    renderFilteredAdherents();
+});
 
 
 // ============================================================
@@ -225,14 +268,9 @@ if (adherentsContainer) {
 
             const id = event.target.dataset.id;
 
-            console.log(
-                "Modifier l'adhérent avec l'id :",
-                id
-            );
-
-            // La logique du formulaire de modification
-            // sera connectée lorsque nous aurons
-            // le HTML exact de la page.
+            adherentForm.dataset.id = id;
+            document.querySelector("#memberModal")?.classList.add("open");
+            document.querySelector("#memberModal")?.removeAttribute("hidden");
         }
 
     });
@@ -243,4 +281,12 @@ if (adherentsContainer) {
 // INITIALISATION
 // ============================================================
 
-getAdherents();
+document.addEventListener("DOMContentLoaded", () => {
+    setupCommonNavigation();
+    setupModal("memberModal", "openAddMemberButton", ["closeMemberModalButton", "cancelMemberButton"]);
+    const pagination = document.createElement("div");
+    pagination.id = "membersPagination";
+    pagination.className = "pagination-controls";
+    document.querySelector(".adherents-list-card")?.appendChild(pagination);
+    getAdherents();
+});

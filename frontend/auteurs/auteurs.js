@@ -6,6 +6,9 @@ const API_URL = "http://localhost:3000/api/auteurs";
 
 const auteursContainer = document.querySelector("#authorsTableBody");
 const auteurForm = document.querySelector("#authorForm");
+const authorSearch = document.querySelector("#authorSearch");
+let allAuthors = [];
+let authorPage = 1;
 
 
 // ============================================================
@@ -13,22 +16,32 @@ const auteurForm = document.querySelector("#authorForm");
 // ============================================================
 
 async function getAuteurs() {
+    showState(auteursContainer, "loading", "Chargement des auteurs…", "fa-spinner");
     try {
-        const data = await apiRequest(API_URL, {
-            method: "GET",
-        });
-
-        afficherAuteurs(extractCollection(data, "authors"));
+        const data = await apiRequest(`${API_URL}?page=1&limit=1000`);
+        allAuthors = extractCollection(data, "authors");
+        renderFilteredAuthors();
+        const total = document.querySelector("#totalAuthors");
+        if (total) total.textContent = allAuthors.length;
 
     } catch (error) {
         console.error("Erreur lors du chargement des auteurs :", error);
 
-        if (auteursContainer) {
-            auteursContainer.innerHTML = `
-                <p>Impossible de charger les auteurs.</p>
-            `;
-        }
+        showState(auteursContainer, "error", error.message, "fa-triangle-exclamation");
     }
+}
+
+function renderFilteredAuthors() {
+    const search = authorSearch?.value.trim().toLowerCase() || "";
+    const filtered = allAuthors.filter((author) => `${author.nom} ${author.prenom}`.toLowerCase().includes(search));
+    const result = paginateItems(filtered, authorPage);
+    afficherAuteurs(result.items);
+    updatePagination(document.querySelector("#authorsPagination"), result.pagination, (page) => {
+        authorPage = page;
+        renderFilteredAuthors();
+    });
+    const count = document.querySelector("#authorsResultCount");
+    if (count) count.textContent = filtered.length;
 }
 
 
@@ -43,12 +56,13 @@ function afficherAuteurs(auteurs) {
     }
 
     if (!auteurs || auteurs.length === 0) {
-        auteursContainer.innerHTML = `
-            <p>Aucun auteur trouvé.</p>
-        `;
+        document.querySelector("#authorsEmptyState")?.removeAttribute("hidden");
+        auteursContainer.innerHTML = "";
 
         return;
     }
+
+    document.querySelector("#authorsEmptyState")?.setAttribute("hidden", "");
 
     auteursContainer.innerHTML = "";
 
@@ -101,6 +115,15 @@ async function ajouterAuteur(auteur) {
     }
 }
 
+async function enregistrerAuteur(auteur) {
+    const id = document.querySelector("#authorId")?.value;
+    if (id) {
+        await modifierAuteur(id, auteur);
+        return;
+    }
+    await ajouterAuteur(auteur);
+}
+
 
 // ============================================================
 // MODIFIER UN AUTEUR
@@ -137,11 +160,7 @@ async function modifierAuteur(id, auteur) {
 
 async function supprimerAuteur(id) {
 
-    const confirmation = confirm(
-        "Voulez-vous vraiment supprimer cet auteur ?"
-    );
-
-    if (!confirmation) {
+    if (!await confirmAction("Voulez-vous vraiment supprimer cet auteur ?")) {
         return;
     }
 
@@ -186,9 +205,14 @@ if (auteurForm) {
             date_naissance: formData.get("date_naissance")
         };
 
-        await ajouterAuteur(auteur);
+        await enregistrerAuteur(auteur);
     });
 }
+
+authorSearch?.addEventListener("input", () => {
+    authorPage = 1;
+    renderFilteredAuthors();
+});
 
 
 // ============================================================
@@ -226,14 +250,15 @@ if (auteursContainer) {
         ) {
 
             const id = event.target.dataset.id;
-
-            console.log(
-                "Modifier l'auteur avec l'id :",
-                id
-            );
-
-            // Le formulaire de modification
-            // sera connecté avec le HTML.
+            const auteur = allAuthors.find((item) => String(item.id) === String(id));
+            const modal = document.querySelector("#authorModal");
+            if (auteur && modal) {
+                document.querySelector("#authorId").value = auteur.id;
+                document.querySelector("#authorFirstName").value = auteur.prenom || "";
+                document.querySelector("#authorLastName").value = auteur.nom || "";
+                modal.hidden = false;
+                modal.classList.add("open");
+            }
         }
     });
 }
@@ -243,4 +268,12 @@ if (auteursContainer) {
 // INITIALISATION
 // ============================================================
 
-getAuteurs();
+document.addEventListener("DOMContentLoaded", () => {
+    setupCommonNavigation();
+    setupModal("authorModal", "openAddAuthorButton", ["closeAuthorModalButton", "cancelAuthorButton"]);
+    const pagination = document.createElement("div");
+    pagination.id = "authorsPagination";
+    pagination.className = "pagination-controls";
+    document.querySelector(".auteurs-list-card")?.appendChild(pagination);
+    getAuteurs();
+});

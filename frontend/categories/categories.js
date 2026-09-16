@@ -6,6 +6,9 @@ const API_URL = "http://localhost:3000/api/categories";
 
 const categoriesContainer = document.querySelector("#categoriesTableBody");
 const categorieForm = document.querySelector("#categoryForm");
+const categorySearch = document.querySelector("#categorySearch");
+let allCategories = [];
+let categoryPage = 1;
 
 
 // ============================================================
@@ -13,12 +16,13 @@ const categorieForm = document.querySelector("#categoryForm");
 // ============================================================
 
 async function getCategories() {
+    showState(categoriesContainer, "loading", "Chargement des catégories…", "fa-spinner");
     try {
-        const data = await apiRequest(API_URL, {
-            method: "GET",
-        });
-
-        afficherCategories(extractCollection(data, "categories"));
+        const data = await apiRequest(`${API_URL}?page=1&limit=1000`);
+        allCategories = extractCollection(data, "categories");
+        renderFilteredCategories();
+        const total = document.querySelector("#totalCategories");
+        if (total) total.textContent = allCategories.length;
 
     } catch (error) {
         console.error(
@@ -26,12 +30,21 @@ async function getCategories() {
             error
         );
 
-        if (categoriesContainer) {
-            categoriesContainer.innerHTML = `
-                <p>Impossible de charger les catégories.</p>
-            `;
-        }
+        showState(categoriesContainer, "error", error.message, "fa-triangle-exclamation");
     }
+}
+
+function renderFilteredCategories() {
+    const search = categorySearch?.value.trim().toLowerCase() || "";
+    const filtered = allCategories.filter((category) => (category.designation || category.nom || "").toLowerCase().includes(search));
+    const result = paginateItems(filtered, categoryPage);
+    afficherCategories(result.items);
+    updatePagination(document.querySelector("#categoriesPagination"), result.pagination, (page) => {
+        categoryPage = page;
+        renderFilteredCategories();
+    });
+    const count = document.querySelector("#categoriesResultCount");
+    if (count) count.textContent = filtered.length;
 }
 
 
@@ -46,12 +59,13 @@ function afficherCategories(categories) {
     }
 
     if (!categories || categories.length === 0) {
-        categoriesContainer.innerHTML = `
-            <p>Aucune catégorie trouvée.</p>
-        `;
+        document.querySelector("#categoriesEmptyState")?.removeAttribute("hidden");
+        categoriesContainer.innerHTML = "";
 
         return;
     }
+
+    document.querySelector("#categoriesEmptyState")?.setAttribute("hidden", "");
 
     categoriesContainer.innerHTML = "";
 
@@ -112,6 +126,15 @@ async function ajouterCategorie(categorie) {
     }
 }
 
+async function enregistrerCategorie(categorie) {
+    const id = document.querySelector("#categoryId")?.value;
+    if (id) {
+        await modifierCategorie(id, categorie);
+        return;
+    }
+    await ajouterCategorie(categorie);
+}
+
 
 // ============================================================
 // MODIFIER UNE CATÉGORIE
@@ -153,11 +176,7 @@ async function modifierCategorie(id, categorie) {
 
 async function supprimerCategorie(id) {
 
-    const confirmation = confirm(
-        "Voulez-vous vraiment supprimer cette catégorie ?"
-    );
-
-    if (!confirmation) {
+    if (!await confirmAction("Voulez-vous vraiment supprimer cette catégorie ?")) {
         return;
     }
 
@@ -203,9 +222,14 @@ if (categorieForm) {
             description: formData.get("description")
         };
 
-        await ajouterCategorie(categorie);
+        await enregistrerCategorie(categorie);
     });
 }
+
+categorySearch?.addEventListener("input", () => {
+    categoryPage = 1;
+    renderFilteredCategories();
+});
 
 
 // ============================================================
@@ -243,14 +267,14 @@ if (categoriesContainer) {
         ) {
 
             const id = event.target.dataset.id;
-
-            console.log(
-                "Modifier la catégorie avec l'id :",
-                id
-            );
-
-            // Le formulaire de modification
-            // sera connecté avec le HTML.
+            const categorie = allCategories.find((item) => String(item.id) === String(id));
+            const modal = document.querySelector("#categoryModal");
+            if (categorie && modal) {
+                document.querySelector("#categoryId").value = categorie.id;
+                document.querySelector("#categoryName").value = categorie.designation || categorie.nom || "";
+                modal.hidden = false;
+                modal.classList.add("open");
+            }
         }
     });
 }
@@ -260,4 +284,12 @@ if (categoriesContainer) {
 // INITIALISATION
 // ============================================================
 
-getCategories();
+document.addEventListener("DOMContentLoaded", () => {
+    setupCommonNavigation();
+    setupModal("categoryModal", "openAddCategoryButton", ["closeCategoryModalButton", "cancelCategoryButton"]);
+    const pagination = document.createElement("div");
+    pagination.id = "categoriesPagination";
+    pagination.className = "pagination-controls";
+    document.querySelector(".categories-list-card")?.appendChild(pagination);
+    getCategories();
+});
