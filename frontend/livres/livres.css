@@ -1,0 +1,956 @@
+/* =========================================================
+   PAGE LIVRES
+   Ce fichier concerne uniquement le contenu de la page Livres.
+   Ne pas modifier la sidebar, le header ou layout.css.
+========================================================= */
+
+
+/* =========================================================
+   CONTAINER PRINCIPAL
+========================================================= */
+
+.livres-container {
+    width: 100%;
+    max-width: var(--content-max-width);
+    margin: 0 auto;
+}
+
+
+/* =========================================================
+   HEADER DE LA PAGE
+========================================================= */
+
+.livres-header {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: var(--space-6);
+
+    margin-bottom: var(--space-8);
+}
+
+.livres-header-content {
+    min-width: 0;
+}
+
+.livres-eyebrow {
+    display: inline-block;
+
+    margin-bottom: var(--space-2);
+
+    color: var(--color-primary);
+
+    font-size: var(--font-size-sm);
+    font-weight: var(--font-weight-semibold);
+}
+
+.livres-header h1 {
+    margin: 0 0 var(--space-2);
+
+    color: var(--color-text);
+
+    font-size: var(--font-size-2xl);
+    font-weight: var(--font-weight-bold);
+}
+
+.livres-header p {
+    margin: 0;
+
+    color: var(--color-text-secondary);
+
+    font-size: var(--font-size-md);
+    line-height: 1.6;
+}
+
+
+/* =========================================================
+   BOUTON AJOUT
+========================================================= */
+
+.livres-add-button {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    gap: var(--space-2);
+
+    min-height: 44px;
+    padding: 0 var(--space-5);
+
+    border: 0;
+    border-radius: var(--radius-md);
+
+    background: var(--color-primary);
+    color: var(--color-white);
+
+    font-family: inherit;
+    font-size: var(--font-size-sm);
+    font-weight: var(--font-weight-semibold);
+
+    cursor: pointer;
+
+    transition:
+        background var(--transition-fast),
+        transform var(--transition-fast),
+        box-shadow var(--transition-fast);
+}
+
+.livres-add-button:hover {
+    background: var(--color-primary-dark);
+
+    transform: translateY(-1px);
+
+    box-shadow: var(--shadow-hover);
+}
+
+
+/* =========================================================
+   STATISTIQUES
+========================================================= */
+
+.livres-stats {
+    display: grid;
+
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+
+    gap: var(--space-4);
+
+    margin-bottom: var(--space-6);
+}
+
+.livre-stat-card {
+    display: flex;
+    align-items: center;
+    gap: var(--space-4);
+
+    padding: var(--space-5);
+
+    background: var(--color-white);
+
+    border: 1px solid var(--color-border);
+    border-radius: var(--radius-lg);
+
+    box-shadow: var(--shadow-card);
+}
+
+.livre-stat-icon {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+
+    width: 48px;
+    height: 48px;
+
+    flex-shrink: 0;
+
+    border-radius: var(--radius-md);
+
+    font-size: 18px;
+}
+
+.livre-stat-icon.purple {
+    background: var(--color-primary-light);
+    color: var(--color-primary);
+}
+
+.livre-stat-icon.green {
+    background: var(--color-green-light);
+    color: var(--color-green);
+}
+
+.livre-stat-icon.red {
+    background: var(--color-danger-light);
+    color: var(--color-danger);
+}
+
+.livre-stat-content {
+    display: flex;
+    flex-direction: column;
+
+    gap: var(--space-1);
+}
+
+.livre-stat-content span {
+    color: var(--color-text-secondary);
+
+    font-size: var(--font-size-sm);
+}
+
+.livre-stat-content strong {
+    color: var(--color-text);
+
+    font-size: var(--font-size-xl);
+    font-weight: var(--font-weight-bold);
+}
+
+
+/* =========================================================
+   TOOLBAR
+========================================================= */
+
+.livres-toolbar {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+
+    gap: var(--space-4);
+
+    margin-bottom: var(--space-6);
+}
+
+.livres-search {
+    position: relative;
+
+    flex: 1;
+}
+
+.livres-search i {
+    position: absolute;
+
+    top: 50%;
+    left: var(--space-4);
+
+    color: var(--color-text-secondary);
+
+    transform: translateY(-50%);
+}
+
+.livres-search input {
+    width: 100%;
+    height: 46px;
+
+    padding: 0 var(--space-4) 0 44px;
+
+    border: 1px solid var(--color-border);
+    border-radius: var(--radius-md);
+
+    outline: none;
+
+    background: var(--color-white);
+    color: var(--color-text);
+
+    font-family: inherit;
+    font-size: var(--font-size-sm);
+
+    transition:
+        border-color var(--transition-fast),
+        box-shadow var(--transition-fast);
+}
+
+.livres-search input:focus {
+    border-color: var(--color-primary);
+
+    box-shadow: 0 0 0 3px var(--color-primary-light);
+}
+
+.livres-filters {
+    display: flex;
+
+    gap: var(--space-3);
+}
+
+.livres-filters select {
+    min-width: 180px;
+    height: 46px;
+
+    padding: 0 var(--space-4);
+
+    border: 1px solid var(--color-border);
+    border-radius: var(--radius-md);
+
+    outline: none;
+
+    background: var(--color-white);
+    color: var(--color-text);
+
+    font-family: inherit;
+    font-size: var(--font-size-sm);
+
+    cursor: pointer;
+}
+
+
+/* =========================================================
+   CARTE LISTE
+========================================================= */
+
+.livres-list-card {
+    overflow: hidden;
+
+    background: var(--color-white);
+
+    border: 1px solid var(--color-border);
+    border-radius: var(--radius-lg);
+
+    box-shadow: var(--shadow-card);
+}
+
+.livres-list-header {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+
+    gap: var(--space-4);
+
+    padding: var(--space-6);
+
+    border-bottom: 1px solid var(--color-border);
+}
+
+.livres-list-header h2 {
+    margin: 0 0 var(--space-1);
+
+    color: var(--color-text);
+
+    font-size: var(--font-size-lg);
+    font-weight: var(--font-weight-semibold);
+}
+
+.livres-list-header p {
+    margin: 0;
+
+    color: var(--color-text-secondary);
+
+    font-size: var(--font-size-sm);
+}
+
+.livres-result-count {
+    flex-shrink: 0;
+
+    color: var(--color-text-secondary);
+
+    font-size: var(--font-size-sm);
+}
+
+
+/* =========================================================
+   TABLE
+========================================================= */
+
+.livres-table-wrapper {
+    width: 100%;
+
+    overflow-x: auto;
+}
+
+.livres-table {
+    width: 100%;
+
+    border-collapse: collapse;
+
+    min-width: 900px;
+}
+
+.livres-table th {
+    padding: var(--space-4) var(--space-5);
+
+    background: var(--color-background);
+
+    color: var(--color-text-secondary);
+
+    text-align: left;
+
+    font-size: var(--font-size-xs);
+    font-weight: var(--font-weight-semibold);
+
+    white-space: nowrap;
+}
+
+.livres-table td {
+    padding: var(--space-5);
+
+    border-top: 1px solid var(--color-border);
+
+    color: var(--color-text);
+
+    font-size: var(--font-size-sm);
+
+    vertical-align: middle;
+}
+
+.livres-table tbody tr {
+    transition: background var(--transition-fast);
+}
+
+.livres-table tbody tr:hover {
+    background: #FAF9FB;
+}
+
+
+/* =========================================================
+   LIVRE DANS LE TABLEAU
+========================================================= */
+
+.book-title-cell {
+    display: flex;
+    align-items: center;
+    gap: var(--space-3);
+
+    min-width: 220px;
+}
+
+.book-cover-placeholder {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+
+    width: 40px;
+    height: 52px;
+
+    flex-shrink: 0;
+
+    border-radius: var(--radius-sm);
+
+    background: var(--color-primary-light);
+    color: var(--color-primary);
+
+    font-size: 16px;
+}
+
+.book-title-info {
+    display: flex;
+    flex-direction: column;
+
+    gap: 3px;
+}
+
+.book-title {
+    color: var(--color-text);
+
+    font-weight: var(--font-weight-semibold);
+}
+
+.book-isbn {
+    color: var(--color-text-secondary);
+
+    font-size: var(--font-size-xs);
+}
+
+
+/* =========================================================
+   BADGES DE DISPONIBILITÉ
+========================================================= */
+
+.book-status {
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+
+    padding: 6px 10px;
+
+    border-radius: var(--radius-full);
+
+    font-size: var(--font-size-xs);
+    font-weight: var(--font-weight-semibold);
+}
+
+.book-status.available {
+    background: var(--color-green-light);
+    color: var(--color-green);
+}
+
+.book-status.borrowed {
+    background: var(--color-warning-light);
+    color: var(--color-warning);
+}
+
+.book-status.unavailable {
+    background: var(--color-danger-light);
+    color: var(--color-danger);
+}
+
+
+/* =========================================================
+   ACTIONS
+========================================================= */
+
+.book-actions {
+    display: flex;
+    align-items: center;
+
+    gap: var(--space-2);
+}
+
+.book-action-button {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+
+    width: 36px;
+    height: 36px;
+
+    border: 0;
+    border-radius: var(--radius-sm);
+
+    background: transparent;
+
+    color: var(--color-text-secondary);
+
+    cursor: pointer;
+
+    transition:
+        background var(--transition-fast),
+        color var(--transition-fast);
+}
+
+.book-action-button:hover {
+    background: var(--color-primary-light);
+    color: var(--color-primary);
+}
+
+.book-action-button.delete:hover {
+    background: var(--color-danger-light);
+    color: var(--color-danger);
+}
+
+
+/* =========================================================
+   EMPTY STATE
+========================================================= */
+
+.livres-empty-state {
+    display: flex;
+    align-items: center;
+    flex-direction: column;
+
+    padding: 64px var(--space-6);
+
+    text-align: center;
+}
+
+.livres-empty-icon {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+
+    width: 64px;
+    height: 64px;
+
+    margin-bottom: var(--space-4);
+
+    border-radius: 50%;
+
+    background: var(--color-primary-light);
+    color: var(--color-primary);
+
+    font-size: 24px;
+}
+
+.livres-empty-state h3 {
+    margin: 0 0 var(--space-2);
+
+    color: var(--color-text);
+
+    font-size: var(--font-size-lg);
+}
+
+.livres-empty-state p {
+    max-width: 420px;
+
+    margin: 0;
+
+    color: var(--color-text-secondary);
+
+    font-size: var(--font-size-sm);
+    line-height: 1.6;
+}
+
+
+/* =========================================================
+   MODALE LIVRE
+========================================================= */
+
+.book-modal-overlay,
+.delete-modal-overlay {
+    position: fixed;
+
+    inset: 0;
+
+    z-index: var(--z-modal);
+
+    display: flex;
+    align-items: center;
+    justify-content: center;
+
+    padding: var(--space-6);
+
+    background: rgba(43, 35, 56, 0.45);
+}
+
+.book-modal-overlay[hidden],
+.delete-modal-overlay[hidden] {
+    display: none;
+}
+
+.book-modal {
+    width: 100%;
+    max-width: 680px;
+    max-height: calc(100vh - 48px);
+
+    overflow-y: auto;
+
+    background: var(--color-white);
+
+    border-radius: var(--radius-xl);
+
+    box-shadow: var(--shadow-modal);
+}
+
+.book-modal-header {
+    display: flex;
+    align-items: flex-start;
+    justify-content: space-between;
+
+    gap: var(--space-4);
+
+    padding: var(--space-6);
+
+    border-bottom: 1px solid var(--color-border);
+}
+
+.book-modal-eyebrow {
+    display: block;
+
+    margin-bottom: var(--space-1);
+
+    color: var(--color-primary);
+
+    font-size: var(--font-size-xs);
+    font-weight: var(--font-weight-semibold);
+}
+
+.book-modal-header h2 {
+    margin: 0;
+
+    color: var(--color-text);
+
+    font-size: var(--font-size-xl);
+}
+
+.book-modal-close {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+
+    width: 36px;
+    height: 36px;
+
+    border: 0;
+    border-radius: var(--radius-sm);
+
+    background: transparent;
+
+    color: var(--color-text-secondary);
+
+    cursor: pointer;
+}
+
+.book-modal-close:hover {
+    background: var(--color-background);
+    color: var(--color-text);
+}
+
+
+/* =========================================================
+   FORMULAIRE
+========================================================= */
+
+#bookForm {
+    padding: var(--space-6);
+}
+
+.book-form-grid {
+    display: grid;
+
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+
+    gap: var(--space-5);
+}
+
+.book-form-group {
+    display: flex;
+    flex-direction: column;
+
+    gap: var(--space-2);
+}
+
+.book-form-group label {
+    color: var(--color-text);
+
+    font-size: var(--font-size-sm);
+    font-weight: var(--font-weight-semibold);
+}
+
+.book-form-group input,
+.book-form-group select {
+    width: 100%;
+    height: 44px;
+
+    padding: 0 var(--space-3);
+
+    border: 1px solid var(--color-border);
+    border-radius: var(--radius-md);
+
+    outline: none;
+
+    background: var(--color-white);
+    color: var(--color-text);
+
+    font-family: inherit;
+    font-size: var(--font-size-sm);
+}
+
+.book-form-group input:focus,
+.book-form-group select:focus {
+    border-color: var(--color-primary);
+
+    box-shadow: 0 0 0 3px var(--color-primary-light);
+}
+
+.book-form-message {
+    margin-bottom: var(--space-5);
+
+    padding: var(--space-3) var(--space-4);
+
+    border-radius: var(--radius-md);
+
+    background: var(--color-danger-light);
+    color: var(--color-danger);
+
+    font-size: var(--font-size-sm);
+}
+
+
+/* =========================================================
+   ACTIONS MODALE
+========================================================= */
+
+.book-modal-actions,
+.delete-modal-actions {
+    display: flex;
+    justify-content: flex-end;
+
+    gap: var(--space-3);
+
+    margin-top: var(--space-6);
+}
+
+.book-button-primary,
+.book-button-secondary,
+.book-button-danger {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    gap: var(--space-2);
+
+    min-height: 42px;
+
+    padding: 0 var(--space-5);
+
+    border-radius: var(--radius-md);
+
+    font-family: inherit;
+    font-size: var(--font-size-sm);
+    font-weight: var(--font-weight-semibold);
+
+    cursor: pointer;
+
+    transition:
+        background var(--transition-fast),
+        color var(--transition-fast);
+}
+
+.book-button-primary {
+    border: 1px solid var(--color-primary);
+
+    background: var(--color-primary);
+    color: var(--color-white);
+}
+
+.book-button-primary:hover {
+    background: var(--color-primary-dark);
+}
+
+.book-button-secondary {
+    border: 1px solid var(--color-border);
+
+    background: var(--color-white);
+    color: var(--color-text);
+}
+
+.book-button-secondary:hover {
+    background: var(--color-background);
+}
+
+.book-button-danger {
+    border: 1px solid var(--color-danger);
+
+    background: var(--color-danger);
+    color: var(--color-white);
+}
+
+.book-button-danger:hover {
+    opacity: 0.9;
+}
+
+
+/* =========================================================
+   MODALE SUPPRESSION
+========================================================= */
+
+.delete-modal {
+    width: 100%;
+    max-width: 420px;
+
+    padding: var(--space-8);
+
+    background: var(--color-white);
+
+    border-radius: var(--radius-xl);
+
+    box-shadow: var(--shadow-modal);
+
+    text-align: center;
+}
+
+.delete-modal-icon {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+
+    width: 56px;
+    height: 56px;
+
+    margin: 0 auto var(--space-5);
+
+    border-radius: 50%;
+
+    background: var(--color-danger-light);
+    color: var(--color-danger);
+
+    font-size: 20px;
+}
+
+.delete-modal h2 {
+    margin: 0 0 var(--space-3);
+
+    color: var(--color-text);
+
+    font-size: var(--font-size-xl);
+}
+
+.delete-modal p {
+    margin: 0;
+
+    color: var(--color-text-secondary);
+
+    font-size: var(--font-size-sm);
+    line-height: 1.6;
+}
+
+
+/* =========================================================
+   RESPONSIVE
+========================================================= */
+
+@media (max-width: 1100px) {
+
+    .livres-toolbar {
+        align-items: stretch;
+        flex-direction: column;
+    }
+
+    .livres-filters {
+        display: grid;
+
+        grid-template-columns: repeat(3, minmax(0, 1fr));
+    }
+
+    .livres-filters select {
+        width: 100%;
+        min-width: 0;
+    }
+
+}
+
+
+@media (max-width: 768px) {
+
+    .livres-header {
+        align-items: flex-start;
+        flex-direction: column;
+    }
+
+    .livres-add-button {
+        width: 100%;
+    }
+
+    .livres-stats {
+        grid-template-columns: 1fr;
+    }
+
+    .livres-filters {
+        grid-template-columns: 1fr;
+    }
+
+    .livres-list-header {
+        align-items: flex-start;
+        flex-direction: column;
+    }
+
+    .book-form-grid {
+        grid-template-columns: 1fr;
+    }
+
+    .book-modal-overlay,
+    .delete-modal-overlay {
+        align-items: flex-end;
+
+        padding: 0;
+    }
+
+    .book-modal {
+        max-width: none;
+        max-height: 90vh;
+
+        border-radius: var(--radius-xl) var(--radius-xl) 0 0;
+    }
+
+    .delete-modal {
+        max-width: none;
+
+        border-radius: var(--radius-xl) var(--radius-xl) 0 0;
+    }
+
+}
+
+
+@media (max-width: 480px) {
+
+    .livres-header h1 {
+        font-size: var(--font-size-xl);
+    }
+
+    .livre-stat-card {
+        padding: var(--space-4);
+    }
+
+    #bookForm {
+        padding: var(--space-5);
+    }
+
+    .book-modal-header {
+        padding: var(--space-5);
+    }
+
+    .book-modal-actions,
+    .delete-modal-actions {
+        flex-direction: column-reverse;
+    }
+
+    .book-button-primary,
+    .book-button-secondary,
+    .book-button-danger {
+        width: 100%;
+    }
+
+}

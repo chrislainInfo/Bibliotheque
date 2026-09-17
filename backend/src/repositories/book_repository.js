@@ -14,10 +14,29 @@ export async function findAllBooks(limit, offset) {
             c.designation AS categorie,
             l.cree_par,
             l.total_exemplaires,
-            l.exemplaires_disponibles
+            l.exemplaires_disponibles,
+            COALESCE(
+                JSON_AGG(
+                    JSON_BUILD_OBJECT(
+                        'id', a.id,
+                        'prenom', a.prenom,
+                        'nom', a.nom,
+                        'nationalite', a.nationalite
+                    ) ORDER BY a.nom ASC, a.prenom ASC
+                ) FILTER (WHERE a.id IS NOT NULL),
+                '[]'::json
+            ) AS auteurs
         FROM livres l
         INNER JOIN categories c
             ON c.id = l.id_categorie
+        LEFT JOIN livres_auteurs la
+            ON la.id_livre = l.id
+        LEFT JOIN auteurs a
+            ON a.id = la.id_auteur
+        GROUP BY
+            l.id, l.titre, l.isbn, l.date_publication, l.description,
+            l.id_categorie, c.designation, l.cree_par,
+            l.total_exemplaires, l.exemplaires_disponibles
         ORDER BY l.titre ASC
         LIMIT $1
         OFFSET $2`,

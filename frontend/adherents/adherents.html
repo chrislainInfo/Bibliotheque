@@ -1,0 +1,982 @@
+<!-- dashboard.html -->
+<!DOCTYPE html>
+<html lang="fr">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <meta
+        name="description"
+        content="Page des adherents de la bibliothèque"
+    >
+    
+    <title>Adherents — Bibliothèque</title>
+
+    <link rel="icon" type="image/png" href="../assets/favicon/favicon-96x96.png" sizes="96x96" />
+    <link rel="icon" type="image/svg+xml" href="../assets/favicon/favicon.svg" />
+    <link rel="shortcut icon" href="../assets/favicon/favicon.ico" />
+    <link rel="apple-touch-icon" sizes="180x180" href="../assets/favicon/apple-touch-icon.png" />
+    <link rel="manifest" href="../assets/favicon    /site.webmanifest" />
+
+    <link rel="stylesheet" href="../css/main.css">
+    <link rel="stylesheet" href="./adherents.css">
+</head>
+
+
+<body>
+
+    <div class="app">
+
+        <!-- =====================================================
+             SIDEBAR
+             ===================================================== -->
+
+        <aside class="sidebar">
+
+            <!-- Logo -->
+            <div class="sidebar-logo">
+
+                <a href="../dashboard/dashboard.html">
+
+                    <span class="sidebar-logo-icon">
+                        <i class="fa-solid fa-book-open"></i>
+                    </span>
+
+                    <span>Bibliothèque</span>
+
+                </a>
+
+            </div>
+
+
+            <!-- Navigation -->
+            <nav class="sidebar-nav">
+
+                <p class="sidebar-nav-title">
+                    Navigation
+                </p>
+
+
+                <ul class="sidebar-nav-list">
+
+                    <li class="sidebar-nav-item">
+
+                        <a href="../dashboard/dashboard.html">
+
+                            <i class="fa-solid fa-house"></i>
+
+                            <span>
+                                Tableau de bord
+                            </span>
+
+                        </a>
+
+                    </li>
+
+
+                    <li class="sidebar-nav-item">
+
+                        <a href="../livres/livres.html">
+
+                            <i class="fa-solid fa-book"></i>
+
+                            <span>
+                                Livres
+                            </span>
+
+                        </a>
+
+                    </li>
+
+
+                    <li class="sidebar-nav-item active">
+
+                        <a href="../adherents/adherents.html">
+
+                            <i class="fa-solid fa-users"></i>
+
+                            <span>
+                                Adhérents
+                            </span>
+
+                        </a>
+
+                    </li>
+
+
+                    <li class="sidebar-nav-item">
+
+                        <a href="../emprunts/emprunts.html">
+
+                            <i class="fa-solid fa-arrow-right-arrow-left"></i>
+
+                            <span>
+                                Emprunts
+                            </span>
+
+                        </a>
+
+                    </li>
+
+
+                    <li class="sidebar-nav-item">
+
+                        <a href="../auteurs/auteurs.html">
+
+                            <i class="fa-solid fa-user-pen"></i>
+
+                            <span>
+                                Auteurs
+                            </span>
+
+                        </a>
+
+                    </li>
+
+
+                    <li class="sidebar-nav-item">
+
+                        <a href="../categories/categories.html">
+
+                            <i class="fa-solid fa-tags"></i>
+
+                            <span>
+                                Catégories
+                            </span>
+
+                        </a>
+
+                    </li>
+
+                </ul>
+
+            </nav>
+
+
+            <!-- Illustration sidebar -->
+            <div class="sidebar-illustration">
+
+                <img
+                    src="../assets/img/ChatGPT Image 14 sept. 2026, 17_35_00.png"
+                    alt="Illustration d'une personne lisant"
+                >
+
+            </div>
+
+
+            <!-- Profil -->
+            <div class="sidebar-profile">
+
+                <div class="sidebar-profile-avatar">
+                    JD
+                </div>
+
+                <div class="sidebar-profile-info">
+
+                    <span class="sidebar-profile-name">
+                        Jean Dupont
+                    </span>
+
+                    <span class="sidebar-profile-role">
+                        Bibliothécaire
+                    </span>
+
+                </div>
+
+            </div>
+
+        </aside>
+
+
+
+
+        <!-- =====================================================
+             HEADER
+             ===================================================== -->
+
+        <header class="app-header">
+
+            <div class="header-left">
+
+                <h1 class="header-title">
+                    Adherents
+                </h1>
+
+            </div>
+
+
+            <div class="header-actions">
+
+                <!-- Notifications -->
+                <button
+                    type="button"
+                    class="header-icon-button"
+                    aria-label="Notifications"
+                >
+
+                    <i class="fa-solid fa-bell"></i>
+
+                    <span class="header-notification-dot"></span>
+
+                </button>
+
+
+                <!-- Déconnexion -->
+                <button
+                    type="button"
+                    class="header-logout"
+                    id="logoutButton"
+                >
+
+                    <i class="fa-solid fa-right-from-bracket"></i>
+
+                    <span>
+                        Déconnexion
+                    </span>
+
+                </button>
+
+            </div>
+
+        </header>
+
+
+
+        <!-- =====================================================
+             CONTENU PRINCIPAL
+             ===================================================== -->
+
+        <main class="main-content">
+
+            <div class="main-content-inner">
+
+                <!-- =================================================
+                    EN-TÊTE DE LA PAGE
+                ================================================== -->
+
+                <section class="adherents-header">
+
+                    <div class="adherents-header-content">
+
+                        <span class="adherents-eyebrow">
+                            Gestion des adhérents
+                        </span>
+
+                        <h1>Adhérents</h1>
+
+                        <p>
+                            Consultez et gérez l'ensemble des adhérents
+                            inscrits dans votre bibliothèque.
+                        </p>
+
+                    </div>
+
+                    <button
+                        type="button"
+                        class="adherents-add-button"
+                        id="openAddMemberButton"
+                    >
+                        <i class="fa-solid fa-plus"></i>
+                        <span>Ajouter un adhérent</span>
+                    </button>
+
+                </section>
+
+
+                <!-- =================================================
+                    STATISTIQUES
+                ================================================== -->
+
+                <section class="adherents-stats">
+
+                    <article class="adherent-stat-card">
+
+                        <div class="adherent-stat-icon purple">
+                            <i class="fa-solid fa-users"></i>
+                        </div>
+
+                        <div class="adherent-stat-content">
+
+                            <span>Total des adhérents</span>
+
+                            <strong id="totalMembers">
+                                0
+                            </strong>
+
+                        </div>
+
+                    </article>
+
+
+                    <article class="adherent-stat-card">
+
+                        <div class="adherent-stat-icon green">
+                            <i class="fa-solid fa-user-check"></i>
+                        </div>
+
+                        <div class="adherent-stat-content">
+
+                            <span>Adhérents actifs</span>
+
+                            <strong id="activeMembers">
+                                0
+                            </strong>
+
+                        </div>
+
+                    </article>
+
+
+                    <article class="adherent-stat-card">
+
+                        <div class="adherent-stat-icon red">
+                            <i class="fa-solid fa-user-clock"></i>
+                        </div>
+
+                        <div class="adherent-stat-content">
+
+                            <span>Emprunts en cours</span>
+
+                            <strong id="membersWithLoans">
+                                0
+                            </strong>
+
+                        </div>
+
+                    </article>
+
+                </section>
+
+
+                <!-- =================================================
+                    BARRE DE RECHERCHE ET FILTRES
+                ================================================== -->
+
+                <section class="adherents-toolbar">
+
+                    <div class="adherents-search">
+
+                        <i class="fa-solid fa-magnifying-glass"></i>
+
+                        <input
+                            type="search"
+                            id="memberSearch"
+                            placeholder="Rechercher un adhérent, un email ou un téléphone..."
+                        >
+
+                    </div>
+
+
+                    <div class="adherents-filters">
+
+                        <select id="memberStatusFilter">
+
+                            <option value="">
+                                Tous les adhérents
+                            </option>
+
+                            <option value="active">
+                                Actifs
+                            </option>
+
+                            <option value="inactive">
+                                Inactifs
+                            </option>
+
+                        </select>
+
+                    </div>
+
+                </section>
+
+
+                <!-- =================================================
+                    LISTE DES ADHÉRENTS
+                ================================================== -->
+
+                <section class="adherents-list-card">
+
+                    <div class="adherents-list-header">
+
+                        <div>
+
+                            <h2>
+                                Liste des adhérents
+                            </h2>
+
+                            <p>
+                                Retrouvez toutes les personnes inscrites
+                                dans la bibliothèque.
+                            </p>
+
+                        </div>
+
+                        <span
+                            class="adherents-result-count"
+                            id="membersResultCount"
+                        >
+                            0 adhérent
+                        </span>
+
+                    </div>
+
+
+                    <div class="adherents-table-wrapper">
+
+                        <table class="adherents-table">
+
+                            <thead>
+
+                                <tr>
+
+                                    <th>
+                                        Adhérent
+                                    </th>
+
+                                    <th>
+                                        Email
+                                    </th>
+
+                                    <th>
+                                        Téléphone
+                                    </th>
+
+                                    <th>
+                                        Inscription
+                                    </th>
+
+                                    <th>
+                                        Emprunts
+                                    </th>
+
+                                    <th>
+                                        Statut
+                                    </th>
+
+                                    <th>
+                                        Actions
+                                    </th>
+
+                                </tr>
+
+                            </thead>
+
+
+                            <tbody id="membersTableBody">
+                                <!-- Généré par JavaScript -->
+                            </tbody>
+
+                        </table>
+
+
+                        <!-- =================================================
+                            ÉTAT VIDE
+                        ================================================== -->
+
+                        <div
+                            class="adherents-empty-state"
+                            id="membersEmptyState"
+                            hidden
+                        >
+
+                            <div class="adherents-empty-icon">
+                                <i class="fa-solid fa-users"></i>
+                            </div>
+
+                            <h3>
+                                Aucun adhérent trouvé
+                            </h3>
+
+                            <p>
+                                Aucun adhérent ne correspond aux critères
+                                de recherche actuels.
+                            </p>
+
+                        </div>
+
+                    </div>
+
+                </section>
+
+            </div>
+
+        </main>
+
+
+        <!-- =====================================================
+            MODALE AJOUT / MODIFICATION ADHÉRENT
+            ===================================================== -->
+
+        <div
+            class="member-modal-overlay"
+            id="memberModal"
+            hidden
+        >
+
+            <div
+                class="member-modal"
+                role="dialog"
+                aria-modal="true"
+                aria-labelledby="memberModalTitle"
+            >
+
+                <div class="member-modal-header">
+
+                    <div>
+
+                        <span class="member-modal-eyebrow">
+                            Gestion d'un adhérent
+                        </span>
+
+                        <h2 id="memberModalTitle">
+                            Ajouter un adhérent
+                        </h2>
+
+                    </div>
+
+                    <button
+                        type="button"
+                        class="member-modal-close"
+                        id="closeMemberModalButton"
+                        aria-label="Fermer"
+                    >
+                        <i class="fa-solid fa-xmark"></i>
+                    </button>
+
+                </div>
+
+
+                <form id="memberForm">
+
+                    <div
+                        class="member-form-message"
+                        id="memberFormMessage"
+                        hidden
+                    ></div>
+
+
+                    <div class="member-form-grid">
+
+                        <!-- Nom -->
+
+                        <div class="member-form-group">
+
+                            <label for="memberLastName">
+                                Nom
+                            </label>
+
+                            <input
+                                type="text"
+                                id="memberLastName"
+                                name="nom"
+                                placeholder="Ex. Mavoungou"
+                                required
+                            >
+
+                        </div>
+
+
+                        <!-- Prénom -->
+
+                        <div class="member-form-group">
+
+                            <label for="memberFirstName">
+                                Prénom
+                            </label>
+
+                            <input
+                                type="text"
+                                id="memberFirstName"
+                                name="prenom"
+                                placeholder="Ex. Jean"
+                                required
+                            >
+
+                        </div>
+
+
+                        <!-- Email -->
+
+                        <div class="member-form-group">
+
+                            <label for="memberEmail">
+                                Adresse e-mail
+                            </label>
+
+                            <input
+                                type="email"
+                                id="memberEmail"
+                                name="email"
+                                placeholder="exemple@email.com"
+                                required
+                            >
+
+                        </div>
+
+
+                        <!-- Téléphone -->
+
+                        <div class="member-form-group">
+
+                            <label for="memberPhone">
+                                Téléphone
+                            </label>
+
+                            <input
+                                type="tel"
+                                id="memberPhone"
+                                name="telephone"
+                                placeholder="Ex. 06 000 00 00"
+                            >
+
+                        </div>
+
+
+                        <!-- Date d'inscription -->
+
+                        <div class="member-form-group">
+
+                            <label for="memberRegistrationDate">
+                                Date d'inscription
+                            </label>
+
+                            <input
+                                type="date"
+                                id="memberRegistrationDate"
+                                name="date_inscription"
+                            >
+
+                        </div>
+
+
+                        <!-- Statut -->
+
+                        <div class="member-form-group">
+
+                            <label for="memberStatus">
+                                Statut
+                            </label>
+
+                            <select
+                                id="memberStatus"
+                                name="statut"
+                            >
+
+                                <option value="active">
+                                    Actif
+                                </option>
+
+                                <option value="inactive">
+                                    Inactif
+                                </option>
+
+                            </select>
+
+                        </div>
+
+                    </div>
+
+
+                    <div class="member-modal-actions">
+
+                        <button
+                            type="button"
+                            class="member-button-secondary"
+                            id="cancelMemberButton"
+                        >
+                            Annuler
+                        </button>
+
+                        <button
+                            type="submit"
+                            class="member-button-primary"
+                            id="saveMemberButton"
+                        >
+                            <i class="fa-solid fa-check"></i>
+                            <span>Enregistrer</span>
+                        </button>
+
+                    </div>
+
+                </form>
+
+            </div>
+
+        </div>
+
+
+        <!-- =====================================================
+            MODALE DE SUPPRESSION
+            ===================================================== -->
+
+        <div
+            class="modal-overlay"
+            id="memberDeleteModal"
+            hidden
+        >
+
+            <div
+                class="modal modal-small"
+                role="dialog"
+                aria-modal="true"
+                aria-labelledby="deleteMemberTitle"
+            >
+
+                <div class="modal-header">
+                    <div>
+                        <span class="modal-eyebrow">ATTENTION</span>
+                        <h2 id="deleteMemberTitle">Supprimer cet adhérent ?</h2>
+                    </div>
+                    <button type="button" class="modal-close" aria-label="Fermer">
+                        <i class="fa-solid fa-xmark"></i>
+                    </button>
+                </div>
+
+                <div class="delete-content">
+                    <div class="delete-icon"><i class="fa-solid fa-trash"></i></div>
+                    <p>Cette action supprimera définitivement cet adhérent de la bibliothèque.</p>
+                </div>
+
+
+                <div class="modal-actions">
+
+                    <button
+                        type="button"
+                        class="button-secondary"
+                        id="cancelDeleteMemberButton"
+                    >
+                        Annuler
+                    </button>
+
+                    <button
+                        type="button"
+                        class="button-danger"
+                        id="confirmDeleteMemberButton"
+                    >
+                        <i class="fa-solid fa-trash"></i>
+                        Supprimer
+                    </button>
+
+                </div>
+
+            </div>
+
+        </div>
+
+
+
+        <!-- =====================================================
+             BOTTOM NAVIGATION MOBILE
+             ===================================================== -->
+
+        <nav
+            class="mobile-bottom-nav"
+            aria-label="Navigation mobile"
+        >
+
+            <ul class="mobile-bottom-nav-list">
+
+
+                <li class="mobile-bottom-nav-item">
+
+                    <a
+                        href="../dashboard/dashboard.html"
+                        class="mobile-bottom-nav-button"
+                    >
+
+                        <i class="fa-solid fa-house"></i>
+
+                        <span>
+                            Accueil
+                        </span>
+
+                    </a>
+
+                </li>
+
+
+                <li class="mobile-bottom-nav-item">
+
+                    <a
+                        href="../livres/livres.html"
+                        class="mobile-bottom-nav-button"
+                    >
+
+                        <i class="fa-solid fa-book"></i>
+
+                        <span>
+                            Livres
+                        </span>
+
+                    </a>
+
+                </li>
+
+
+                <li class="mobile-bottom-nav-item">
+
+                    <a
+                        href="../emprunts/emprunts.html"
+                        class="mobile-bottom-nav-button"
+                    >
+
+                        <i class="fa-solid fa-arrow-right-arrow-left"></i>
+
+                        <span>
+                            Emprunts
+                        </span>
+
+                    </a>
+
+                </li>
+
+
+                <li class="mobile-bottom-nav-item active">
+
+                    <a
+                        href="../adherents/adherents.html"
+                        class="mobile-bottom-nav-button"
+                    >
+
+                        <i class="fa-solid fa-users"></i>
+
+                        <span>
+                            Adhérents
+                        </span>
+
+                    </a>
+
+                </li>
+
+
+                <li class="mobile-bottom-nav-item">
+
+                    <button
+                        type="button"
+                        class="mobile-bottom-nav-button"
+                        id="mobileMoreButton"
+                    >
+
+                        <i class="fa-solid fa-ellipsis"></i>
+
+                        <span>
+                            Plus
+                        </span>
+
+                    </button>
+
+                </li>
+
+            </ul>
+
+        </nav>
+
+
+
+        <!-- =====================================================
+             BOTTOM SHEET
+             ===================================================== -->
+
+        <div
+            class="bottom-sheet-overlay"
+            id="bottomSheetOverlay"
+        ></div>
+
+
+        <section
+            class="bottom-sheet"
+            id="bottomSheet"
+            aria-hidden="true"
+            aria-labelledby="bottomSheetTitle"
+        >
+
+            <div class="bottom-sheet-handle"></div>
+
+
+            <div class="bottom-sheet-header">
+
+                <h2 id="bottomSheetTitle">
+                    Plus d'options
+                </h2>
+
+
+                <button
+                    type="button"
+                    class="bottom-sheet-close"
+                    id="bottomSheetClose"
+                    aria-label="Fermer"
+                >
+
+                    <i class="fa-solid fa-xmark"></i>
+
+                </button>
+
+            </div>
+
+
+            <ul class="bottom-sheet-list">
+
+
+                <li>
+
+                    <a href="../auteurs/auteurs.html">
+
+                        <i class="fa-solid fa-user-pen"></i>
+
+                        <span>
+                            Auteurs
+                        </span>
+
+                    </a>
+
+                </li>
+
+
+                <li>
+
+                    <a href="../categories/categories.html">
+
+                        <i class="fa-solid fa-tags"></i>
+
+                        <span>
+                            Catégories
+                        </span>
+
+                    </a>
+
+                </li>
+
+
+                <li>
+
+                    <button
+                        type="button"
+                        id="bottomSheetLogout"
+                    >
+
+                        <i class="fa-solid fa-right-from-bracket"></i>
+
+                        <span>
+                            Déconnexion
+                        </span>
+
+                    </button>
+
+                </li>
+
+            </ul>
+
+        </section>
+
+    </div>
+
+
+
+    <script src="../js/api.js"></script>
+    <script src="../js/toast.js"></script>
+    <script src="./adherents.js"></script>
+
+</body>
+
+</html>
