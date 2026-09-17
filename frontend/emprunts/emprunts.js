@@ -15,6 +15,43 @@ const loanStatusFilter = document.querySelector("#loanStatusFilter");
 let allLoans = [];
 let loanPage = 1;
 
+function populateLoanOptions(books, adherents) {
+    const bookSelect = document.querySelector("#loanBook");
+    const memberSelect = document.querySelector("#loanMember");
+
+    if (bookSelect) {
+        bookSelect.innerHTML = '<option value="">Sélectionner un livre</option>';
+        books.forEach((book) => {
+            const option = document.createElement("option");
+            option.value = book.id;
+            option.textContent = `${book.titre} (${book.exemplaires_disponibles} disponible(s))`;
+            option.disabled = Number(book.exemplaires_disponibles || 0) <= 1;
+            bookSelect.appendChild(option);
+        });
+    }
+
+    if (memberSelect) {
+        memberSelect.innerHTML = '<option value="">Sélectionner un adhérent</option>';
+        adherents.forEach((adherent) => {
+            const option = document.createElement("option");
+            option.value = adherent.id;
+            option.textContent = `${adherent.prenom} ${adherent.nom}`;
+            memberSelect.appendChild(option);
+        });
+    }
+}
+
+async function loadLoanOptions() {
+    const [booksResponse, adherentsResponse] = await Promise.all([
+        apiRequest("/livres?page=1&limit=1000"),
+        apiRequest("/adherents?page=1&limit=1000")
+    ]);
+    populateLoanOptions(
+        extractCollection(booksResponse, "books"),
+        extractCollection(adherentsResponse, "adherents")
+    );
+}
+
 // ============================================================
 // RÉCUPÉRER TOUS LES EMPRUNTS
 // ============================================================
@@ -42,10 +79,21 @@ async function getEmprunts() {
 function renderFilteredLoans() {
     const search = loanSearch?.value.trim().toLowerCase() || "";
     const status = loanStatusFilter?.value || "";
+    const period = document.querySelector("#loanPeriodFilter")?.value || "";
+    const now = new Date();
+    const periodStart = period === "today"
+        ? new Date(now.getFullYear(), now.getMonth(), now.getDate())
+        : period === "week"
+            ? new Date(now.getFullYear(), now.getMonth(), now.getDate() - 7)
+            : period === "month"
+                ? new Date(now.getFullYear(), now.getMonth(), now.getDate() - 30)
+                : null;
     const filtered = allLoans.filter((loan) => {
         const text = `${loan.livre_titre || ""} ${loan.adherent_nom || ""} ${loan.adherent_prenom || ""}`.toLowerCase();
         const matchesStatus = !status || status === loan.statut || (status === "active" && loan.statut === "en_cours") || (status === "late" && loan.statut === "en_retard") || (status === "returned" && loan.statut === "retourne");
-        return (!search || text.includes(search)) && matchesStatus;
+        const loanDate = new Date(loan.date_emprunt);
+        const matchesPeriod = !periodStart || loanDate >= periodStart;
+        return (!search || text.includes(search)) && matchesStatus && matchesPeriod;
     });
     const result = paginateItems(filtered, loanPage);
     afficherEmprunts(result.items);
@@ -83,15 +131,18 @@ function afficherEmprunts(emprunts) {
         const element = document.createElement("tr");
 
         element.innerHTML = `
-            <td>${emprunt.livre_titre ?? emprunt.livre?.titre ?? "Livre inconnu"}</td>
-            <td>${emprunt.adherent_nom ?? emprunt.adherent?.nom ?? "Inconnu"} ${emprunt.adherent_prenom ?? emprunt.adherent?.prenom ?? ""}</td>
-            <td>${emprunt.date_emprunt ?? "Non renseignée"}</td>
-            <td>${emprunt.date_retour_prevue ?? "Non renseignée"}</td>
-            <td>${emprunt.date_retour ?? "Non renseignée"}</td>
-            <td>${emprunt.statut ?? "Non renseigné"}</td>
+            <td>${escapeHtml(emprunt.livre_titre ?? emprunt.livre?.titre ?? "Livre inconnu")}</td>
+            <td>${escapeHtml(`${emprunt.adherent_nom ?? emprunt.adherent?.nom ?? "Inconnu"} ${emprunt.adherent_prenom ?? emprunt.adherent?.prenom ?? ""}`)}</td>
+            <td>${escapeHtml(formatDate(emprunt.date_emprunt))}</td>
+            <td>${escapeHtml(formatDate(emprunt.date_retour_prevue))}</td>
+            <td>${escapeHtml(formatDate(emprunt.date_retour))}</td>
+            <td>${escapeHtml(emprunt.statut ?? "Non renseigné")}</td>
             <td>
-                <button type="button" class="btn-modifier-emprunt" data-id="${emprunt.id}">Modifier</button>
-                <button type="button" class="btn-supprimer-emprunt" data-id="${emprunt.id}">Supprimer</button>
+                ${emprunt.statut !== "retourne" ? `
+                    <button type="button" class="table-action-button" data-action="edit" data-id="${emprunt.id}" aria-label="Modifier"><i class="fa-solid fa-pen"></i></button>
+                    <button type="button" class="table-action-button" data-action="return" data-id="${emprunt.id}" aria-label="Retourner"><i class="fa-solid fa-rotate-left"></i></button>
+                    <button type="button" class="table-action-button delete" data-action="delete" data-id="${emprunt.id}" aria-label="Supprimer"><i class="fa-solid fa-trash"></i></button>
+                ` : `<span class="table-action-empty">Aucune action</span>`}
             </td>
         `;
 
@@ -115,6 +166,7 @@ async function ajouterEmprunt(emprunt) {
         console.log("Emprunt créé :", nouvelEmprunt);
 
         await getEmprunts();
+        showToast("Emprunt créé avec succès");
 
         if (empruntForm) {
             empruntForm.reset();
@@ -124,7 +176,7 @@ async function ajouterEmprunt(emprunt) {
 
         console.error("Erreur lors de la création :", error);
 
-        alert(error.message);
+        showFormMessage("#loanFormMessage", error.message);
     }
 }
 
@@ -144,12 +196,13 @@ async function modifierEmprunt(id, emprunt) {
         console.log("Emprunt modifié :", empruntModifie);
 
         await getEmprunts();
+        showToast("Emprunt modifié avec succès");
 
     } catch (error) {
 
         console.error("Erreur lors de la modification :", error);
 
-        alert(error.message);
+        showFormMessage("#loanFormMessage", error.message);
     }
 }
 
@@ -172,12 +225,31 @@ async function supprimerEmprunt(id) {
         console.log("Emprunt supprimé :", id);
 
         await getEmprunts();
+        showToast("Emprunt supprimé avec succès");
 
     } catch (error) {
 
         console.error("Erreur lors de la suppression :", error);
 
-        alert(error.message);
+        showToast(error.message, "error");
+    }
+}
+
+async function retournerEmprunt(id) {
+    if (!await confirmAction("Confirmer le retour de ce livre ?")) return;
+
+    try {
+        const today = new Date();
+        const localDate = `${today.getFullYear()}-${String(today.getMonth() + 1).padStart(2, "0")}-${String(today.getDate()).padStart(2, "0")}`;
+        await apiRequest(`${API_URL}/${id}/retour`, {
+            method: "PUT",
+            body: JSON.stringify({ date_retour: localDate })
+        });
+        await getEmprunts();
+        await loadLoanOptions();
+        showToast("Livre retourné avec succès");
+    } catch (error) {
+        showFormMessage("#loanFormMessage", error.message);
     }
 }
 
@@ -216,6 +288,19 @@ loanStatusFilter?.addEventListener("change", () => {
     loanPage = 1;
     renderFilteredLoans();
 });
+document.querySelector("#loanPeriodFilter")?.addEventListener("change", () => {
+    loanPage = 1;
+    renderFilteredLoans();
+});
+
+document.querySelector("#exportOverdueLoansButton")?.addEventListener("click", () => {
+    if (allLoans.length === 0) {
+        showToast("Aucun emprunt à exporter", "error");
+        return;
+    }
+    exportLoansToCsv(allLoans, "emprunts.csv");
+    showToast("Export CSV généré avec succès");
+});
 
 // ============================================================
 // ACTIONS MODIFIER / SUPPRIMER
@@ -229,13 +314,12 @@ if (empruntsContainer) {
         // SUPPRIMER
         // -----------------------------
 
-        if (
-            event.target.classList.contains(
-                "btn-supprimer-emprunt"
-            )
-        ) {
+        const button = event.target.closest("[data-action]");
+        if (!button) return;
 
-            const id = event.target.dataset.id;
+        if (button.dataset.action === "delete") {
+
+            const id = button.dataset.id;
 
             await supprimerEmprunt(id);
         }
@@ -244,15 +328,23 @@ if (empruntsContainer) {
         // MODIFIER
         // -----------------------------
 
-        if (
-            event.target.classList.contains(
-                "btn-modifier-emprunt"
-            )
-        ) {
+        if (button.dataset.action === "return") {
+            await retournerEmprunt(button.dataset.id);
+            return;
+        }
 
-            const id = event.target.dataset.id;
+        if (button.dataset.action === "edit") {
+
+            const id = button.dataset.id;
+            const emprunt = allLoans.find((item) => String(item.id) === String(id));
 
             empruntForm.dataset.id = id;
+            if (emprunt) {
+                document.querySelector("#loanBook").value = emprunt.id_livre || "";
+                document.querySelector("#loanMember").value = emprunt.id_adherent || "";
+                document.querySelector("#loanStartDate").value = emprunt.date_emprunt || "";
+                document.querySelector("#loanDueDate").value = emprunt.date_retour_prevue || "";
+            }
             document.querySelector("#loanModal")?.classList.add("open");
             document.querySelector("#loanModal")?.removeAttribute("hidden");
         }
@@ -271,5 +363,7 @@ document.addEventListener("DOMContentLoaded", () => {
     pagination.id = "loansPagination";
     pagination.className = "pagination-controls";
     document.querySelector(".emprunts-list-card")?.appendChild(pagination);
-    getEmprunts();
+    Promise.all([loadLoanOptions(), getEmprunts()]).catch((error) => {
+        showFormMessage("#loanFormMessage", error.message);
+    });
 });

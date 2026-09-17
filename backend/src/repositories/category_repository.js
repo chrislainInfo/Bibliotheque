@@ -4,12 +4,15 @@ import pool from '../config/database.js';
 export async function findAllCategories(limit, offset) {
     const result = await pool.query(
         `SELECT
-            id,
-            designation,
-            created_at,
-            updated_at
-        FROM categories
-        ORDER BY designation ASC
+            c.id,
+            c.designation,
+            c.created_at,
+            c.updated_at,
+            COUNT(l.id)::integer AS nombre_livres
+        FROM categories c
+        LEFT JOIN livres l ON l.id_categorie = c.id
+        GROUP BY c.id, c.designation, c.created_at, c.updated_at
+        ORDER BY c.designation ASC
         LIMIT $1
         OFFSET $2`,
         [limit, offset]

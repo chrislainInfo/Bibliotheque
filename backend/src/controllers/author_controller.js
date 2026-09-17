@@ -81,6 +81,10 @@ export async function getAuthorById(req, res) {
 export async function createAuthorController(req, res) {
     const { prenom, nom, nationalite } = req.body
 
+    if (typeof prenom !== 'string' || typeof nom !== 'string') {
+        throw new AppError('Le prénom et le nom sont obligatoires', 400)
+    }
+
     const cleanPrenom = prenom.trim();
     const cleanNom = nom.trim();
 
@@ -91,11 +95,6 @@ export async function createAuthorController(req, res) {
     if (!cleanNom) {
         throw new AppError('Le nom est obligatoire', 400)
     }
-
-    if (typeof prenom !== 'string' || typeof nom !== 'string') {
-        throw new AppError('Toutes les données doivent être une chaîne de caractères', 400)
-    }
-
 
     // Nationalité facultative
     let cleanNationalite = null;

@@ -60,7 +60,21 @@ function formatDate(value) {
         return "—";
     }
 
-    return new Intl.DateTimeFormat("fr-FR").format(new Date(value));
+    const date = new Date(value);
+    return Number.isNaN(date.getTime())
+        ? "—"
+        : new Intl.DateTimeFormat("fr-FR").format(date);
+}
+
+function showFormMessage(selector, message, type = "error") {
+    const element = document.querySelector(selector);
+    if (!element) {
+        return;
+    }
+
+    element.textContent = message;
+    element.classList.toggle("success", type === "success");
+    element.hidden = false;
 }
 
 function showState(container, type, message, icon = "fa-circle-info") {
@@ -120,8 +134,16 @@ function confirmAction(message) {
         overlay.className = "modal-overlay open confirmation-overlay";
         overlay.innerHTML = `
             <div class="modal modal-small" role="dialog" aria-modal="true">
-                <div class="modal-header"><h2>Confirmation</h2></div>
-                <div class="delete-content"><p>${escapeHtml(message)}</p></div>
+                <div class="modal-header">
+                    <div>
+                        <span class="modal-eyebrow">ATTENTION</span>
+                        <h2>Confirmation</h2>
+                    </div>
+                </div>
+                <div class="delete-content">
+                    <div class="delete-icon"><i class="fa-solid fa-triangle-exclamation"></i></div>
+                    <p>${escapeHtml(message)}</p>
+                </div>
                 <div class="modal-actions">
                     <button type="button" class="button-secondary" data-confirm="false">Annuler</button>
                     <button type="button" class="button-danger" data-confirm="true">Confirmer</button>

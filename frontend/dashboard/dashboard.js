@@ -2,9 +2,6 @@
    CONFIGURATION
 ========================================================= */
 
-const API_BASE_URL = "http://localhost:3000/api";
-
-
 /* =========================================================
    INITIALISATION
 ========================================================= */
@@ -22,111 +19,6 @@ document.addEventListener("DOMContentLoaded", async () => {
 
 
 /* =========================================================
-   AUTHENTIFICATION
-========================================================= */
-
-function getToken() {
-    return localStorage.getItem("token");
-}
-
-
-function getUser() {
-    const user = localStorage.getItem("user");
-
-    if (!user) {
-        return null;
-    }
-
-    try {
-        return JSON.parse(user);
-    } catch {
-        return null;
-    }
-}
-
-
-/* =========================================================
-   REQUÊTES API
-========================================================= */
-
-async function apiRequest(endpoint, options = {}) {
-
-    const token = getToken();
-
-    if (!token) {
-        redirectToLogin();
-        return;
-    }
-
-    const response = await fetch(
-        `${API_BASE_URL}${endpoint}`,
-        {
-            ...options,
-
-            headers: {
-                "Content-Type": "application/json",
-
-                ...(token
-                    ? {
-                        Authorization: `Bearer ${token}`
-                    }
-                    : {}),
-
-                ...(options.headers || {})
-            }
-        }
-    );
-
-
-    /*
-        Si le JWT est invalide ou expiré
-    */
-
-    if (response.status === 401) {
-
-        localStorage.removeItem("token");
-        localStorage.removeItem("user");
-
-        redirectToLogin();
-
-        throw new Error(
-            "Votre session a expiré."
-        );
-    }
-
-
-    /*
-        Lecture de la réponse
-    */
-
-    let data = null;
-
-    try {
-        data = await response.json();
-    } catch {
-        data = null;
-    }
-
-
-    /*
-        Gestion des erreurs API
-    */
-
-    if (!response.ok) {
-
-        throw new Error(
-            data?.message ||
-            data?.error ||
-            "Une erreur est survenue."
-        );
-    }
-
-
-    return data;
-}
-
-
-/* =========================================================
    CHARGEMENT DU DASHBOARD
 ========================================================= */
 
@@ -136,17 +28,8 @@ async function loadDashboard() {
         Endpoint prévu spécialement pour le dashboard
     */
 
-    const response = await apiRequest(
-        "/dashboard/bibliothecaire"
-    );
-
+    const response = await apiRequest("/dashboard/bibliothecaire");
     const dashboard = response?.dashboard || response || {};
-
-
-    console.log(
-        "Données dashboard :",
-        dashboard
-    );
 
 
     /*
@@ -160,9 +43,9 @@ async function loadDashboard() {
         Statistiques
     */
 
-    displayStatistics(
-        dashboard.statistiques
-    );
+    const statistiques = dashboard.statistiques || {};
+
+    displayStatistics(statistiques);
 
 
     /*
@@ -179,22 +62,19 @@ async function loadDashboard() {
     */
 
     displayRecentActivity(
-        dashboard.emprunts_recents || dashboard.empruntsRecents || [],
-        dashboard.livres_plus_empruntes || dashboard.livresPopulaires || []
+        dashboard.emprunts_recents || dashboard.empruntsRecents || []
     );
 
-
-    /*
-        Disponibilité des livres
-
-        L'endpoint dashboard ne retourne pas directement
-        les exemplaires disponibles.
-
-        On récupère donc les livres pour calculer
-        la disponibilité réelle.
-    */
-
-    await loadBookAvailability();
+    updateAvailability(
+        Number(statistiques.exemplaires_disponibles || 0),
+        Number(statistiques.exemplaires_empruntes || 0),
+        Number(statistiques.total_exemplaires || 0)
+            ? Math.round(
+                (Number(statistiques.exemplaires_disponibles || 0)
+                    / Number(statistiques.total_exemplaires)) * 100
+            )
+            : 0
+    );
 }
 
 
@@ -203,80 +83,7 @@ async function loadDashboard() {
 ========================================================= */
 
 function displayLibrarian() {
-
-    const user = getUser();
-
-    if (!user) {
-        return;
-    }
-
-
-    const firstName =
-        user.prenom ||
-        user.firstName ||
-        "";
-
-
-    const lastName =
-        user.nom ||
-        user.lastName ||
-        "";
-
-
-    const fullName =
-        `${firstName} ${lastName}`.trim();
-
-
-    const initials =
-        getInitials(
-            firstName,
-            lastName
-        );
-
-
-    const headerName =
-        document.querySelector(
-            "#headerLibrarianName"
-        );
-
-
-    const sidebarName = document.querySelector(".sidebar-profile-name");
-
-
-    const headerAvatar =
-        document.querySelector(
-            "#headerAvatar"
-        );
-
-
-    const sidebarAvatar =
-        document.querySelector(
-            ".sidebar-profile-avatar"
-        );
-
-
-    if (headerName) {
-        headerName.textContent =
-            fullName || "Bibliothécaire";
-    }
-
-
-    if (sidebarName) {
-        sidebarName.textContent =
-            fullName || "Bibliothécaire";
-    }
-
-
-    if (headerAvatar) {
-        headerAvatar.textContent =
-            initials || "B";
-    }
-
-
-    if (sidebarAvatar) {
-        sidebarAvatar.textContent =
-            initials || "B";
-    }
+    updateAuthenticatedProfile();
 }
 
 
@@ -355,83 +162,6 @@ function displayStatistics(statistiques = {}) {
     setText(
         "#overdueLoans",
         overdueLoans
-    );
-}
-
-
-/* =========================================================
-   DISPONIBILITÉ DES LIVRES
-========================================================= */
-
-async function loadBookAvailability() {
-
-    /*
-        On demande une grande page afin de calculer
-        les exemplaires disponibles.
-
-        Le backend utilise une pagination :
-        ?page=1&limit=10
-    */
-
-    const response = await apiRequest(
-        "/livres?page=1&limit=1000"
-    );
-
-
-    const books =
-        response?.books || [];
-
-
-    let totalCopies = 0;
-    let availableCopies = 0;
-
-
-    for (const book of books) {
-
-        totalCopies += Number(
-            book.total_exemplaires || 0
-        );
-
-
-        availableCopies += Number(
-            book.exemplaires_disponibles || 0
-        );
-    }
-
-
-    /*
-        Si aucun livre n'est présent
-    */
-
-    if (totalCopies === 0) {
-
-        updateAvailability(
-            0,
-            0,
-            0
-        );
-
-        return;
-    }
-
-
-    const borrowedCopies =
-        Math.max(
-            totalCopies - availableCopies,
-            0
-        );
-
-
-    const percentage =
-        Math.round(
-            (availableCopies / totalCopies) * 100
-        );
-
-
-    updateAvailability(
-        availableCopies,
-        borrowedCopies,
-        percentage
     );
 }
 
@@ -669,10 +399,7 @@ function calculateDaysLate(dateString) {
    ACTIVITÉ RÉCENTE
 ========================================================= */
 
-function displayRecentActivity(
-    recentLoans = [],
-    popularBooks = []
-) {
+function displayRecentActivity(recentLoans = []) {
 
     const container =
         document.querySelector(
@@ -716,40 +443,6 @@ function displayRecentActivity(
                 `${bookTitle} — ${memberName}`,
             date:
                 loan.date_emprunt
-        });
-    }
-
-
-    /*
-        Livres populaires
-
-        Cette partie permet de profiter
-        des données retournées par l'API
-        sans inventer d'activité.
-    */
-
-    for (
-        const book
-        of popularBooks.slice(0, 2)
-    ) {
-
-        const title =
-            book.titre ||
-            book.livre?.titre;
-
-
-        if (!title) {
-            continue;
-        }
-
-
-        activities.push({
-            type: "book",
-            title: "Livre populaire",
-            description: title,
-            date:
-                book.created_at ||
-                book.date_emprunt
         });
     }
 

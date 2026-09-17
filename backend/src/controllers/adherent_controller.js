@@ -7,6 +7,7 @@ import {
     countAdherents,
     findAdherentById,
     findUserByCode,
+    findUserByEmail,
     createAdherent,
     updateAdherent,
     deleteAdherent
@@ -116,6 +117,7 @@ export async function createAdherentController(
     const {
         prenom,
         nom,
+        email,
         telephone,
         adresse,
         date_adhesion,
@@ -179,6 +181,11 @@ export async function createAdherentController(
     const cleanPrenom = prenom.trim();
     const cleanNom = nom.trim();
 
+    const cleanEmail =
+        typeof email === 'string'
+            ? email.trim() || null
+            : null;
+
     const cleanTelephone =
         typeof telephone === 'string'
             ? telephone.trim() || null
@@ -188,6 +195,13 @@ export async function createAdherentController(
         typeof adresse === 'string'
             ? adresse.trim() || null
             : null;
+
+    if (cleanEmail && await findUserByEmail(cleanEmail)) {
+        throw new AppError(
+            'Cette adresse e-mail est déjà utilisée',
+            409
+        );
+    }
 
 
     //Générer le code / mot de passe
@@ -217,6 +231,7 @@ export async function createAdherentController(
     const result = await createAdherent(
         cleanPrenom,
         cleanNom,
+        cleanEmail,
         cleanTelephone,
         cleanAdresse,
         date_adhesion,
@@ -285,6 +300,7 @@ export async function updateAdherentController(
     const {
         prenom,
         nom,
+        email,
         telephone,
         adresse,
         date_adhesion,
@@ -346,6 +362,11 @@ export async function updateAdherentController(
     const cleanPrenom = prenom.trim();
     const cleanNom = nom.trim();
 
+    const cleanEmail =
+        typeof email === 'string'
+            ? email.trim() || null
+            : null;
+
     const cleanTelephone =
         typeof telephone === 'string'
             ? telephone.trim() || null
@@ -356,12 +377,20 @@ export async function updateAdherentController(
             ? adresse.trim() || null
             : null;
 
+    if (cleanEmail && await findUserByEmail(cleanEmail, existingAdherent.id_utilisateur)) {
+        throw new AppError(
+            'Cette adresse e-mail est déjà utilisée',
+            409
+        );
+    }
+
 
 
     const adherent = await updateAdherent(
         id,
         cleanPrenom,
         cleanNom,
+        cleanEmail,
         cleanTelephone,
         cleanAdresse,
         date_adhesion,

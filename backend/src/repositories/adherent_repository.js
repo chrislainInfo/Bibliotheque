@@ -16,7 +16,14 @@ export async function findAllAdherents(limit, offset) {
             a.date_adhesion,
             a.date_expiration,
             a.cree_par,
-            u.code
+            u.code,
+            u.email,
+            (
+                SELECT COUNT(*)
+                FROM emprunts e
+                WHERE e.id_adherent = a.id
+                AND e.date_retour IS NULL
+            ) AS emprunts_actifs
         FROM adherents a
         INNER JOIN utilisateurs u
             ON u.id = a.id_utilisateur
@@ -56,7 +63,14 @@ export async function findAdherentById(id) {
             a.date_adhesion,
             a.date_expiration,
             a.cree_par,
-            u.code
+            u.code,
+            u.email,
+            (
+                SELECT COUNT(*)
+                FROM emprunts e
+                WHERE e.id_adherent = a.id
+                AND e.date_retour IS NULL
+            ) AS emprunts_actifs
         FROM adherents a
         INNER JOIN utilisateurs u
             ON u.id = a.id_utilisateur
@@ -83,6 +97,18 @@ export async function findUserByCode(code) {
     return result.rows[0] || null;
 }
 
+export async function findUserByEmail(email, excludedUserId = null) {
+    const result = await pool.query(
+        `SELECT id, email
+        FROM utilisateurs
+        WHERE LOWER(email) = LOWER($1)
+        AND ($2::integer IS NULL OR id <> $2)`,
+        [email, excludedUserId]
+    );
+
+    return result.rows[0] || null;
+}
+
 
 /*
 |--------------------------------------------------------------------------
@@ -101,6 +127,7 @@ export async function findUserByCode(code) {
 export async function createAdherent(
     prenom,
     nom,
+    email,
     telephone,
     adresse,
     dateAdhesion,
@@ -121,17 +148,20 @@ export async function createAdherent(
         const userResult = await client.query(
             `INSERT INTO utilisateurs (
                 code,
+                email,
                 mot_de_passe,
                 role
             )
             VALUES (
                 $1,
                 $2,
+                $3,
                 'adherent'
             )
             RETURNING id, code, role`,
             [
                 code,
+                email,
                 passwordHash
             ]
         );
@@ -223,14 +253,31 @@ export async function updateAdherent(
     id,
     prenom,
     nom,
+    email,
     telephone,
     adresse,
     dateAdhesion,
     dateExpiration
 ) {
+    const client = await pool.connect();
 
-    const result = await pool.query(
-        `UPDATE adherents
+    try {
+        await client.query('BEGIN');
+
+        await client.query(
+            `UPDATE utilisateurs
+            SET email = $1,
+                updated_at = CURRENT_TIMESTAMP
+            WHERE id = (
+                SELECT id_utilisateur
+                FROM adherents
+                WHERE id = $2
+            )`,
+            [email, id]
+        );
+
+        const result = await client.query(
+            `UPDATE adherents
         SET
             prenom = $1,
             nom = $2,
@@ -252,7 +299,7 @@ export async function updateAdherent(
             date_expiration,
             created_at,
             updated_at`,
-        [
+            [
             prenom,
             nom,
             telephone,
@@ -260,10 +307,17 @@ export async function updateAdherent(
             dateAdhesion,
             dateExpiration,
             id
-        ]
-    );
+            ]
+        );
 
-    return result.rows[0] || null;
+        await client.query('COMMIT');
+        return result.rows[0] || null;
+    } catch (error) {
+        await client.query('ROLLBACK');
+        throw error;
+    } finally {
+        client.release();
+    }
 }
 
 
@@ -286,17 +340,52 @@ export async function updateAdherent(
 */
 
 export async function deleteAdherent(id) {
+    const client = await pool.connect();
 
-    const result = await pool.query(
-        `DELETE FROM utilisateurs
-        WHERE id = (
-            SELECT id_utilisateur
-            FROM adherents
-            WHERE id = $1
-        )
-        RETURNING id`,
-        [id]
-    );
+    try {
+        await client.query('BEGIN');
 
-    return result.rows[0] || null;
+        const adherentResult = await client.query(
+            `SELECT id_utilisateur
+             FROM adherents
+             WHERE id = $1
+             FOR UPDATE`,
+            [id]
+        );
+        const adherent = adherentResult.rows[0];
+
+        if (!adherent) {
+            await client.query('ROLLBACK');
+            return null;
+        }
+
+        const loansResult = await client.query(
+            `SELECT 1
+             FROM emprunts
+             WHERE id_adherent = $1
+             LIMIT 1`,
+            [id]
+        );
+
+        if (loansResult.rowCount > 0) {
+            throw new AppError(
+                'Cet adhérent ne peut pas être supprimé car il possède un historique d’emprunts',
+                409
+            );
+        }
+
+        await client.query('DELETE FROM adherents WHERE id = $1', [id]);
+        const userResult = await client.query(
+            'DELETE FROM utilisateurs WHERE id = $1 RETURNING id',
+            [adherent.id_utilisateur]
+        );
+
+        await client.query('COMMIT');
+        return userResult.rows[0] || null;
+    } catch (error) {
+        await client.query('ROLLBACK');
+        throw error;
+    } finally {
+        client.release();
+    }
 }

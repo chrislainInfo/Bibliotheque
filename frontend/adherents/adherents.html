@@ -717,37 +717,39 @@
      ===================================================== -->
 
 <div
-    class="member-delete-modal-overlay"
+    class="modal-overlay"
     id="memberDeleteModal"
     hidden
 >
 
     <div
-        class="member-delete-modal"
+        class="modal modal-small"
         role="dialog"
         aria-modal="true"
         aria-labelledby="deleteMemberTitle"
     >
 
-        <div class="member-delete-modal-icon">
-            <i class="fa-solid fa-trash"></i>
+        <div class="modal-header">
+            <div>
+                <span class="modal-eyebrow">ATTENTION</span>
+                <h2 id="deleteMemberTitle">Supprimer cet adhérent ?</h2>
+            </div>
+            <button type="button" class="modal-close" aria-label="Fermer">
+                <i class="fa-solid fa-xmark"></i>
+            </button>
         </div>
 
-        <h2 id="deleteMemberTitle">
-            Supprimer cet adhérent ?
-        </h2>
-
-        <p>
-            Cette action supprimera définitivement cet adhérent
-            de la bibliothèque.
-        </p>
+        <div class="delete-content">
+            <div class="delete-icon"><i class="fa-solid fa-trash"></i></div>
+            <p>Cette action supprimera définitivement cet adhérent de la bibliothèque.</p>
+        </div>
 
 
-        <div class="member-delete-modal-actions">
+        <div class="modal-actions">
 
             <button
                 type="button"
-                class="member-button-secondary"
+                class="button-secondary"
                 id="cancelDeleteMemberButton"
             >
                 Annuler
@@ -755,7 +757,7 @@
 
             <button
                 type="button"
-                class="member-button-danger"
+                class="button-danger"
                 id="confirmDeleteMemberButton"
             >
                 <i class="fa-solid fa-trash"></i>
@@ -978,6 +980,7 @@
 
 
     <script src="../js/api.js"></script>
+    <script src="../js/toast.js"></script>
     <script src="./adherents.js"></script>
 
 </body>

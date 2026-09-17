@@ -28,13 +28,6 @@ async function getAdherents() {
         renderFilteredAdherents();
         updateMemberStats();
 
-        if (data.pagination) {
-            updatePagination(document.querySelector("#membersPagination"), data.pagination, (page) => {
-                adherentPage = page;
-                renderFilteredAdherents();
-            });
-        }
-
     } catch (error) {
         console.error("Erreur :", error);
 
@@ -46,7 +39,11 @@ function renderFilteredAdherents() {
     const search = memberSearch?.value.trim().toLowerCase() || "";
     const filtered = allAdherents.filter((adherent) => {
         const text = `${adherent.nom} ${adherent.prenom} ${adherent.telephone || ""}`.toLowerCase();
-        return !search || text.includes(search);
+        const active = !adherent.date_expiration || new Date(adherent.date_expiration) >= new Date();
+        const matchesStatus = !memberStatusFilter?.value
+            || (memberStatusFilter.value === "active" && active)
+            || (memberStatusFilter.value === "inactive" && !active);
+        return (!search || text.includes(search)) && matchesStatus;
     });
     const result = paginateItems(filtered, adherentPage);
     afficherAdherents(result.items);
@@ -97,15 +94,15 @@ function afficherAdherents(adherents) {
         const element = document.createElement("tr");
 
         element.innerHTML = `
-            <td>${adherent.nom ?? ""} ${adherent.prenom ?? ""}</td>
-            <td>${adherent.email ?? "Non renseigné"}</td>
-            <td>${adherent.telephone ?? "Non renseigné"}</td>
-            <td>${adherent.date_adhesion ?? "Non renseignée"}</td>
-            <td>—</td>
-            <td><span class="badge badge-active">Actif</span></td>
+            <td>${escapeHtml(`${adherent.nom ?? ""} ${adherent.prenom ?? ""}`)}</td>
+            <td>${escapeHtml(adherent.email ?? "Non renseigné")}</td>
+            <td>${escapeHtml(adherent.telephone ?? "Non renseigné")}</td>
+            <td>${escapeHtml(formatDate(adherent.date_adhesion))}</td>
+            <td>${Number(adherent.emprunts_actifs || 0) || "—"}</td>
+            <td><span class="badge ${new Date(adherent.date_expiration) >= new Date() ? "badge-active" : "badge-inactive"}">${new Date(adherent.date_expiration) >= new Date() ? "Actif" : "Inactif"}</span></td>
             <td>
-                <button type="button" class="btn-modifier-adherent" data-id="${adherent.id}">Modifier</button>
-                <button type="button" class="btn-supprimer-adherent" data-id="${adherent.id}">Supprimer</button>
+                <button type="button" class="table-action-button" data-action="edit" data-id="${adherent.id}" aria-label="Modifier"><i class="fa-solid fa-pen"></i></button>
+                <button type="button" class="table-action-button delete" data-action="delete" data-id="${adherent.id}" aria-label="Supprimer"><i class="fa-solid fa-trash"></i></button>
             </td>
         `;
 
@@ -130,6 +127,7 @@ async function ajouterAdherent(adherent) {
         console.log("Adhérent ajouté :", nouvelAdherent);
 
         await getAdherents();
+        showToast("Adhérent ajouté avec succès");
 
         if (adherentForm) {
             adherentForm.reset();
@@ -139,7 +137,7 @@ async function ajouterAdherent(adherent) {
 
         console.error("Erreur :", error);
 
-        alert(error.message);
+        showFormMessage("#memberFormMessage", error.message);
     }
 }
 
@@ -160,12 +158,13 @@ async function modifierAdherent(id, adherent) {
         console.log("Adhérent modifié :", adherentModifie);
 
         await getAdherents();
+        showToast("Adhérent modifié avec succès");
 
     } catch (error) {
 
         console.error("Erreur :", error);
 
-        alert(error.message);
+        showFormMessage("#memberFormMessage", error.message);
     }
 }
 
@@ -189,12 +188,13 @@ async function supprimerAdherent(id) {
         console.log("Adhérent supprimé :", id);
 
         await getAdherents();
+        showToast("Adhérent supprimé avec succès");
 
     } catch (error) {
 
         console.error("Erreur :", error);
 
-        alert(error.message);
+        showToast(error.message, "error");
     }
 }
 
@@ -217,6 +217,7 @@ if (adherentForm) {
             telephone: formData.get("telephone"),
             adresse: "",
             date_adhesion: formData.get("date_inscription") || new Date().toISOString().slice(0, 10),
+            email: formData.get("email"),
             date_expiration: new Date(new Date(formData.get("date_inscription") || Date.now()).setFullYear(new Date().getFullYear() + 1)).toISOString().slice(0, 10)
         };
 
@@ -250,13 +251,12 @@ if (adherentsContainer) {
         // SUPPRIMER
         // -----------------------------
 
-        if (
-            event.target.classList.contains(
-                "btn-supprimer-adherent"
-            )
-        ) {
+        const button = event.target.closest("[data-action]");
+        if (!button) return;
 
-            const id = event.target.dataset.id;
+        if (button.dataset.action === "delete") {
+
+            const id = button.dataset.id;
 
             await supprimerAdherent(id);
         }
@@ -266,15 +266,19 @@ if (adherentsContainer) {
         // MODIFIER
         // -----------------------------
 
-        if (
-            event.target.classList.contains(
-                "btn-modifier-adherent"
-            )
-        ) {
+        if (button.dataset.action === "edit") {
 
-            const id = event.target.dataset.id;
+            const id = button.dataset.id;
+            const adherent = allAdherents.find((item) => String(item.id) === String(id));
 
             adherentForm.dataset.id = id;
+            if (adherent) {
+                document.querySelector("#memberLastName").value = adherent.nom || "";
+                document.querySelector("#memberFirstName").value = adherent.prenom || "";
+                document.querySelector("#memberEmail").value = adherent.email || "";
+                document.querySelector("#memberPhone").value = adherent.telephone || "";
+                document.querySelector("#memberRegistrationDate").value = adherent.date_adhesion || "";
+            }
             document.querySelector("#memberModal")?.classList.add("open");
             document.querySelector("#memberModal")?.removeAttribute("hidden");
         }

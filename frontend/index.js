@@ -17,6 +17,13 @@ const passwordToggles = document.querySelectorAll(".password-toggle");
 const librarianForm = document.querySelector("#librarianForm");
 const memberForm = document.querySelector("#memberForm");
 
+function showLoginMessage(message) {
+    const element = document.querySelector("#librarianLoginMessage");
+    if (!element) return;
+    element.textContent = message;
+    element.hidden = false;
+}
+
 
 /* =========================================================
    MODALE DE CONNEXION
@@ -157,8 +164,6 @@ librarianForm.addEventListener("submit", async (event) => {
     const email = emailInput.value.trim();
     const password = passwordInput.value;
 
-    console.log(email, password)
-
     if (!email || !password) {
         console.error("Veuillez remplir tous les champs.");
 
@@ -185,13 +190,6 @@ librarianForm.addEventListener("submit", async (event) => {
 
         const data = await response.json();
 
-        /*
-         * L'API peut retourner :
-         *
-         * 200 → connexion réussie
-         * 400 → données invalides
-         * 401 → identifiants incorrects
-         */
 
         if (!response.ok) {
 
@@ -201,11 +199,6 @@ librarianForm.addEventListener("submit", async (event) => {
             );
         }
 
-        /*
-         * Vérification de sécurité supplémentaire :
-         * nous vérifions que le backend nous a bien
-         * retourné un token.
-         */
 
         if (!data.token) {
 
@@ -247,12 +240,6 @@ librarianForm.addEventListener("submit", async (event) => {
             JSON.stringify(data.user)
         );
 
-        /*
-         * Pour vérifier dans la console :
-         *
-         * localStorage.getItem("token")
-         * localStorage.getItem("user")
-         */
 
         console.log(
             "Connexion réussie :",
@@ -263,8 +250,7 @@ librarianForm.addEventListener("submit", async (event) => {
          * Redirection vers le dashboard
          */
 
-        window.location.href =
-            "./dashboard/dashboard.html";
+        window.location.href = "./dashboard/dashboard.html";
 
     } catch (error) {
 
@@ -282,7 +268,7 @@ librarianForm.addEventListener("submit", async (event) => {
          * au design de la modale.
          */
 
-        alert(error.message);
+        showLoginMessage(error.message);
     }
 });
 

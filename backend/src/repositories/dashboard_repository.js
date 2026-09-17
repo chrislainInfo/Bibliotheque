@@ -7,6 +7,8 @@ export async function getBibliothecaireDashboard() {
     const statisticsResult = await pool.query(
         `SELECT
             (SELECT COUNT(*) FROM livres) AS livres,
+            (SELECT COALESCE(SUM(total_exemplaires), 0) FROM livres) AS total_exemplaires,
+            (SELECT COALESCE(SUM(exemplaires_disponibles), 0) FROM livres) AS exemplaires_disponibles,
             (SELECT COUNT(*) FROM adherents) AS adherents,
             (SELECT COUNT(*) FROM auteurs) AS auteurs,
             (SELECT COUNT(*)
@@ -89,6 +91,16 @@ export async function getBibliothecaireDashboard() {
         statistiques: {
             livres: Number(
                 statisticsResult.rows[0].livres
+            ),
+            total_exemplaires: Number(
+                statisticsResult.rows[0].total_exemplaires
+            ),
+            exemplaires_disponibles: Number(
+                statisticsResult.rows[0].exemplaires_disponibles
+            ),
+            exemplaires_empruntes: Number(
+                statisticsResult.rows[0].total_exemplaires
+                - statisticsResult.rows[0].exemplaires_disponibles
             ),
             adherents: Number(
                 statisticsResult.rows[0].adherents

@@ -286,6 +286,15 @@
                 <span>Nouvel emprunt</span>
             </button>
 
+            <button
+                type="button"
+                class="emprunts-add-button"
+                id="exportOverdueLoansButton"
+            >
+                <i class="fa-solid fa-file-csv"></i>
+                <span>Exporter CSV</span>
+            </button>
+
         </section>
 
 
@@ -752,37 +761,39 @@
      ===================================================== -->
 
 <div
-    class="loan-delete-modal-overlay"
+    class="modal-overlay"
     id="loanDeleteModal"
     hidden
 >
 
     <div
-        class="loan-delete-modal"
+        class="modal modal-small"
         role="dialog"
         aria-modal="true"
         aria-labelledby="deleteLoanTitle"
     >
 
-        <div class="loan-delete-modal-icon">
-            <i class="fa-solid fa-trash"></i>
+        <div class="modal-header">
+            <div>
+                <span class="modal-eyebrow">ATTENTION</span>
+                <h2 id="deleteLoanTitle">Supprimer cet emprunt ?</h2>
+            </div>
+            <button type="button" class="modal-close" aria-label="Fermer">
+                <i class="fa-solid fa-xmark"></i>
+            </button>
         </div>
 
-        <h2 id="deleteLoanTitle">
-            Supprimer cet emprunt ?
-        </h2>
-
-        <p>
-            Cette action supprimera définitivement cet emprunt
-            de la bibliothèque.
-        </p>
+        <div class="delete-content">
+            <div class="delete-icon"><i class="fa-solid fa-trash"></i></div>
+            <p>Cette action supprimera définitivement cet emprunt de la bibliothèque.</p>
+        </div>
 
 
-        <div class="loan-delete-modal-actions">
+        <div class="modal-actions">
 
             <button
                 type="button"
-                class="loan-button-secondary"
+                class="button-secondary"
                 id="cancelDeleteLoanButton"
             >
                 Annuler
@@ -790,7 +801,7 @@
 
             <button
                 type="button"
-                class="loan-button-danger"
+                class="button-danger"
                 id="confirmDeleteLoanButton"
             >
                 <i class="fa-solid fa-trash"></i>
@@ -856,7 +867,7 @@
                 <li class="mobile-bottom-nav-item active">
 
                     <a
-                        href="../adherents/adherents.html"
+                        href="../emprunts/emprunts.html"
                         class="mobile-bottom-nav-button"
                     >
 
@@ -874,7 +885,7 @@
                 <li class="mobile-bottom-nav-item">
 
                     <a
-                        href="../emprunts/emprunts.html"
+                        href="../adherents/adherents.html"
                         class="mobile-bottom-nav-button"
                     >
 
@@ -1013,6 +1024,8 @@
 
 
     <script src="../js/api.js"></script>
+    <script src="../js/toast.js"></script>
+    <script src="../js/csv.js"></script>
     <script src="./emprunts.js"></script>
 
 </body>

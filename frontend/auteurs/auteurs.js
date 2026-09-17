@@ -18,19 +18,12 @@ let authorPage = 1;
 async function getAuteurs() {
     showState(auteursContainer, "loading", "Chargement des auteurs…", "fa-spinner");
     try {
-        const [data, booksData] = await Promise.all([
-            apiRequest(`${API_URL}?page=1&limit=1000`),
-            apiRequest("/livres?page=1&limit=1000")
-        ]);
+        const data = await apiRequest(`${API_URL}?page=1&limit=1000`);
         allAuthors = extractCollection(data, "authors");
-        const books = extractCollection(booksData, "books");
         renderFilteredAuthors();
         const total = document.querySelector("#totalAuthors");
         if (total) total.textContent = allAuthors.length;
-        const used = new Set(books.flatMap((book) => {
-            const id = book.auteur_id ?? book.author_id;
-            return id ? [String(id)] : [];
-        })).size;
+        const used = allAuthors.filter((author) => Number(author.nombre_livres || 0) > 0).length;
         const usedElement = document.querySelector("#authorsWithBooks");
         if (usedElement) usedElement.textContent = used;
         const recent = document.querySelector("#recentAuthors");
@@ -83,13 +76,13 @@ function afficherAuteurs(auteurs) {
         const element = document.createElement("tr");
 
         element.innerHTML = `
-            <td>${auteur.nom ?? ""}</td>
-            <td>${auteur.prenom ?? ""}</td>
-            <td>—</td>
-            <td>—</td>
+            <td>${escapeHtml(auteur.nom ?? "")}</td>
+            <td>${escapeHtml(auteur.prenom ?? "")}</td>
+            <td>${Number(auteur.nombre_livres || 0)}</td>
+            <td>${escapeHtml(formatDate(auteur.created_at))}</td>
             <td>
-                <button type="button" class="btn-modifier-auteur" data-id="${auteur.id}">Modifier</button>
-                <button type="button" class="btn-supprimer-auteur" data-id="${auteur.id}">Supprimer</button>
+                <button type="button" class="table-action-button" data-action="edit" data-id="${auteur.id}" aria-label="Modifier"><i class="fa-solid fa-pen"></i></button>
+                <button type="button" class="table-action-button delete" data-action="delete" data-id="${auteur.id}" aria-label="Supprimer"><i class="fa-solid fa-trash"></i></button>
             </td>
         `;
 
@@ -114,6 +107,7 @@ async function ajouterAuteur(auteur) {
         console.log("Auteur ajouté :", nouvelAuteur);
 
         await getAuteurs();
+        showToast("Auteur ajouté avec succès");
 
         if (auteurForm) {
             auteurForm.reset();
@@ -123,7 +117,7 @@ async function ajouterAuteur(auteur) {
 
         console.error("Erreur lors de l'ajout :", error);
 
-        alert(error.message);
+        showFormMessage("#authorFormMessage", error.message);
     }
 }
 
@@ -153,6 +147,7 @@ async function modifierAuteur(id, auteur) {
         console.log("Auteur modifié :", auteurModifie);
 
         await getAuteurs();
+        showToast("Auteur modifié avec succès");
 
     } catch (error) {
 
@@ -161,7 +156,7 @@ async function modifierAuteur(id, auteur) {
             error
         );
 
-        alert(error.message);
+        showFormMessage("#authorFormMessage", error.message);
     }
 }
 
@@ -185,6 +180,7 @@ async function supprimerAuteur(id) {
         console.log("Auteur supprimé :", id);
 
         await getAuteurs();
+        showToast("Auteur supprimé avec succès");
 
     } catch (error) {
 
@@ -193,7 +189,7 @@ async function supprimerAuteur(id) {
             error
         );
 
-        alert(error.message);
+        showToast(error.message, "error");
     }
 }
 
@@ -239,13 +235,12 @@ if (auteursContainer) {
         // SUPPRIMER
         // -----------------------------
 
-        if (
-            event.target.classList.contains(
-                "btn-supprimer-auteur"
-            )
-        ) {
+        const button = event.target.closest("[data-action]");
+        if (!button) return;
 
-            const id = event.target.dataset.id;
+        if (button.dataset.action === "delete") {
+
+            const id = button.dataset.id;
 
             await supprimerAuteur(id);
         }
@@ -255,13 +250,9 @@ if (auteursContainer) {
         // MODIFIER
         // -----------------------------
 
-        if (
-            event.target.classList.contains(
-                "btn-modifier-auteur"
-            )
-        ) {
+        if (button.dataset.action === "edit") {
 
-            const id = event.target.dataset.id;
+            const id = button.dataset.id;
             const auteur = allAuthors.find((item) => String(item.id) === String(id));
             const modal = document.querySelector("#authorModal");
             if (auteur && modal) {

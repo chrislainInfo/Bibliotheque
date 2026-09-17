@@ -84,12 +84,11 @@ function afficherCategories(categories) {
 
         element.innerHTML = `
             <td>${categorie.designation ?? categorie.nom ?? ""}</td>
-            <td>${categorie.description ?? "Aucune description"}</td>
-            <td>—</td>
-            <td>${categorie.created_at ?? "—"}</td>
+            <td>${Number(categorie.nombre_livres || 0)}</td>
+            <td>${escapeHtml(formatDate(categorie.created_at))}</td>
             <td>
-                <button type="button" class="btn-modifier-categorie" data-id="${categorie.id}">Modifier</button>
-                <button type="button" class="btn-supprimer-categorie" data-id="${categorie.id}">Supprimer</button>
+                <button type="button" class="table-action-button" data-action="edit" data-id="${categorie.id}" aria-label="Modifier"><i class="fa-solid fa-pen"></i></button>
+                <button type="button" class="table-action-button delete" data-action="delete" data-id="${categorie.id}" aria-label="Supprimer"><i class="fa-solid fa-trash"></i></button>
             </td>
         `;
 
@@ -119,6 +118,7 @@ async function ajouterCategorie(categorie) {
         );
 
         await getCategories();
+        showToast("Catégorie ajoutée avec succès");
 
         if (categorieForm) {
             categorieForm.reset();
@@ -131,7 +131,7 @@ async function ajouterCategorie(categorie) {
             error
         );
 
-        alert(error.message);
+        showFormMessage("#categoryFormMessage", error.message);
     }
 }
 
@@ -166,6 +166,7 @@ async function modifierCategorie(id, categorie) {
         );
 
         await getCategories();
+        showToast("Catégorie modifiée avec succès");
 
     } catch (error) {
 
@@ -174,7 +175,7 @@ async function modifierCategorie(id, categorie) {
             error
         );
 
-        alert(error.message);
+        showFormMessage("#categoryFormMessage", error.message);
     }
 }
 
@@ -201,6 +202,7 @@ async function supprimerCategorie(id) {
         );
 
         await getCategories();
+        showToast("Catégorie supprimée avec succès");
 
     } catch (error) {
 
@@ -209,7 +211,7 @@ async function supprimerCategorie(id) {
             error
         );
 
-        alert(error.message);
+        showToast(error.message, "error");
     }
 }
 
@@ -253,13 +255,12 @@ if (categoriesContainer) {
         // SUPPRIMER
         // -----------------------------
 
-        if (
-            event.target.classList.contains(
-                "btn-supprimer-categorie"
-            )
-        ) {
+        const button = event.target.closest("[data-action]");
+        if (!button) return;
 
-            const id = event.target.dataset.id;
+        if (button.dataset.action === "delete") {
+
+            const id = button.dataset.id;
 
             await supprimerCategorie(id);
         }
@@ -269,13 +270,9 @@ if (categoriesContainer) {
         // MODIFIER
         // -----------------------------
 
-        if (
-            event.target.classList.contains(
-                "btn-modifier-categorie"
-            )
-        ) {
+        if (button.dataset.action === "edit") {
 
-            const id = event.target.dataset.id;
+            const id = button.dataset.id;
             const categorie = allCategories.find((item) => String(item.id) === String(id));
             const modal = document.querySelector("#categoryModal");
             if (categorie && modal) {

@@ -249,284 +249,283 @@
              ===================================================== -->
 
         <main class="main-content">
-    <div class="main-content-inner">
+            <div class="main-content-inner">
 
-        <!-- En-tête -->
-        <header class="auteurs-header">
-            <div class="auteurs-header-content">
-                <span class="auteurs-eyebrow">GESTION</span>
+                <!-- En-tête -->
+                <header class="auteurs-header">
+                    <div class="auteurs-header-content">
+                        <span class="auteurs-eyebrow">GESTION</span>
 
-                <h1>Auteurs</h1>
+                        <h1>Auteurs</h1>
 
-                <p>
-                    Gérez les auteurs référencés dans votre bibliothèque
-                    et consultez les livres qui leur sont associés.
-                </p>
+                        <p>
+                            Gérez les auteurs référencés dans votre bibliothèque
+                            et consultez les livres qui leur sont associés.
+                        </p>
+                    </div>
+
+                    <button class="auteurs-add-button" id="openAddAuthorButton">
+                        <i class="fa-solid fa-plus"></i>
+                        <span>Ajouter un auteur</span>
+                    </button>
+                </header>
+
+                <!-- Statistiques -->
+                <section class="auteurs-stats">
+
+                    <article class="auteur-stat-card">
+                        <div class="auteur-stat-icon">
+                            <i class="fa-solid fa-users"></i>
+                        </div>
+
+                        <div class="auteur-stat-content">
+                            <span class="auteur-stat-label">Total auteurs</span>
+                            <strong id="totalAuthors">0</strong>
+                        </div>
+                    </article>
+
+                    <article class="auteur-stat-card">
+                        <div class="auteur-stat-icon">
+                            <i class="fa-solid fa-book"></i>
+                        </div>
+
+                        <div class="auteur-stat-content">
+                            <span class="auteur-stat-label">Auteurs avec livres</span>
+                            <strong id="authorsWithBooks">0</strong>
+                        </div>
+                    </article>
+
+                    <article class="auteur-stat-card">
+                        <div class="auteur-stat-icon">
+                            <i class="fa-solid fa-user-plus"></i>
+                        </div>
+
+                        <div class="auteur-stat-content">
+                            <span class="auteur-stat-label">Ajoutés récemment</span>
+                            <strong id="recentAuthors">0</strong>
+                        </div>
+                    </article>
+
+                </section>
+
+                <!-- Barre d'outils -->
+                <section class="auteurs-toolbar">
+
+                    <div class="auteurs-search">
+                        <i class="fa-solid fa-magnifying-glass"></i>
+
+                        <input
+                            type="search"
+                            id="authorSearch"
+                            placeholder="Rechercher un auteur..."
+                            autocomplete="off"
+                        >
+                    </div>
+
+                </section>
+
+                <!-- Liste -->
+                <section class="auteurs-list-card">
+
+                    <div class="auteurs-list-header">
+                        <div>
+                            <h2>Liste des auteurs</h2>
+
+                            <p>
+                                <span id="authorsResultCount">0</span> auteur(s)
+                            </p>
+                        </div>
+                    </div>
+
+                    <div class="auteurs-table-wrapper">
+                        <table class="auteurs-table">
+
+                            <thead>
+                                <tr>
+                                    <th>Nom</th>
+                                    <th>Prénom</th>
+                                    <th>Livres</th>
+                                    <th>Date d'ajout</th>
+                                    <th>Actions</th>
+                                </tr>
+                            </thead>
+
+                            <tbody id="authorsTableBody">
+                                <!-- Les auteurs seront injectés ici -->
+                            </tbody>
+
+                        </table>
+                    </div>
+
+                    <!-- État vide -->
+                    <div class="auteurs-empty-state" id="authorsEmptyState" hidden>
+                        <div class="auteurs-empty-icon">
+                            <i class="fa-solid fa-user-pen"></i>
+                        </div>
+
+                        <h3>Aucun auteur trouvé</h3>
+
+                        <p>
+                            Aucun auteur ne correspond à votre recherche.
+                        </p>
+                    </div>
+
+                </section>
+
             </div>
+        </main>
 
-            <button class="auteurs-add-button" id="openAddAuthorButton">
-                <i class="fa-solid fa-plus"></i>
-                <span>Ajouter un auteur</span>
-            </button>
-        </header>
 
-        <!-- Statistiques -->
-        <section class="auteurs-stats">
+        <!-- Modal : Ajouter / Modifier un auteur -->
+        <div class="modal-overlay" id="authorModal" hidden>
 
-            <article class="auteur-stat-card">
-                <div class="auteur-stat-icon">
-                    <i class="fa-solid fa-users"></i>
+            <div class="modal">
+
+                <div class="modal-header">
+                    <div>
+                        <span class="modal-eyebrow">GESTION</span>
+                        <h2 id="authorModalTitle">Ajouter un auteur</h2>
+                    </div>
+
+                    <button
+                        type="button"
+                        class="modal-close"
+                        id="closeAuthorModalButton"
+                        aria-label="Fermer"
+                    >
+                        <i class="fa-solid fa-xmark"></i>
+                    </button>
                 </div>
 
-                <div class="auteur-stat-content">
-                    <span class="auteur-stat-label">Total auteurs</span>
-                    <strong id="totalAuthors">0</strong>
-                </div>
-            </article>
+                <form id="authorForm">
 
-            <article class="auteur-stat-card">
-                <div class="auteur-stat-icon">
-                    <i class="fa-solid fa-book"></i>
-                </div>
+                    <input type="hidden" id="authorId">
 
-                <div class="auteur-stat-content">
-                    <span class="auteur-stat-label">Auteurs avec livres</span>
-                    <strong id="authorsWithBooks">0</strong>
-                </div>
-            </article>
+                    <div class="form-group">
+                        <label for="authorFirstName">
+                            Prénom
+                        </label>
 
-            <article class="auteur-stat-card">
-                <div class="auteur-stat-icon">
-                    <i class="fa-solid fa-user-plus"></i>
-                </div>
+                        <input
+                            type="text"
+                            id="authorFirstName"
+                            name="prenom"
+                            placeholder="Ex. Victor"
+                            required
+                        >
+                    </div>
 
-                <div class="auteur-stat-content">
-                    <span class="auteur-stat-label">Ajoutés récemment</span>
-                    <strong id="recentAuthors">0</strong>
-                </div>
-            </article>
+                    <div class="form-group">
+                        <label for="authorLastName">
+                            Nom
+                        </label>
 
-        </section>
+                        <input
+                            type="text"
+                            id="authorLastName"
+                            name="nom"
+                            placeholder="Ex. Hugo"
+                            required
+                        >
+                    </div>
 
-        <!-- Barre d'outils -->
-        <section class="auteurs-toolbar">
+                    <div class="form-group">
+                        <label for="authorBiography">
+                            Biographie
+                            <span>(optionnel)</span>
+                        </label>
 
-            <div class="auteurs-search">
-                <i class="fa-solid fa-magnifying-glass"></i>
+                        <textarea
+                            id="authorBiography"
+                            name="biographie"
+                            rows="4"
+                            placeholder="Présentez brièvement l'auteur..."
+                        ></textarea>
+                    </div>
 
-                <input
-                    type="search"
-                    id="authorSearch"
-                    placeholder="Rechercher un auteur..."
-                    autocomplete="off"
-                >
+                    <div class="form-message" id="authorFormMessage"></div>
+
+                    <div class="modal-actions">
+
+                        <button
+                            type="button"
+                            class="button-secondary"
+                            id="cancelAuthorButton"
+                        >
+                            Annuler
+                        </button>
+
+                        <button
+                            type="submit"
+                            class="button-primary"
+                            id="saveAuthorButton"
+                        >
+                            Enregistrer
+                        </button>
+
+                    </div>
+
+                </form>
+
             </div>
+        </div>
 
-        </section>
 
-        <!-- Liste -->
-        <section class="auteurs-list-card">
+        <!-- Modal : Suppression -->
+        <div class="modal-overlay" id="authorDeleteModal" hidden>
 
-            <div class="auteurs-list-header">
-                <div>
-                    <h2>Liste des auteurs</h2>
+            <div class="modal modal-small">
+
+                <div class="modal-header">
+                    <div>
+                        <span class="modal-eyebrow">ATTENTION</span>
+                        <h2>Supprimer l'auteur</h2>
+                    </div>
+
+                    <button
+                        type="button"
+                        class="modal-close"
+                        id="closeDeleteAuthorModalButton"
+                        aria-label="Fermer"
+                    >
+                        <i class="fa-solid fa-xmark"></i>
+                    </button>
+                </div>
+
+                <div class="delete-content">
+
+                    <div class="delete-icon">
+                        <i class="fa-solid fa-trash"></i>
+                    </div>
 
                     <p>
-                        <span id="authorsResultCount">0</span> auteur(s)
+                        Voulez-vous vraiment supprimer cet auteur ?
                     </p>
-                </div>
-            </div>
 
-            <div class="auteurs-table-wrapper">
-                <table class="auteurs-table">
-
-                    <thead>
-                        <tr>
-                            <th>Nom</th>
-                            <th>Prénom</th>
-                            <th>Livres</th>
-                            <th>Date d'ajout</th>
-                            <th>Actions</th>
-                        </tr>
-                    </thead>
-
-                    <tbody id="authorsTableBody">
-                        <!-- Les auteurs seront injectés ici -->
-                    </tbody>
-
-                </table>
-            </div>
-
-            <!-- État vide -->
-            <div class="auteurs-empty-state" id="authorsEmptyState" hidden>
-                <div class="auteurs-empty-icon">
-                    <i class="fa-solid fa-user-pen"></i>
                 </div>
 
-                <h3>Aucun auteur trouvé</h3>
+                <div class="modal-actions">
 
-                <p>
-                    Aucun auteur ne correspond à votre recherche.
-                </p>
+                    <button
+                        type="button"
+                        class="button-secondary"
+                        id="cancelDeleteAuthorButton"
+                    >
+                        Annuler
+                    </button>
+
+                    <button
+                        type="button"
+                        class="button-danger"
+                        id="confirmDeleteAuthorButton"
+                    >
+                        Supprimer
+                    </button>
+
+                </div>
+
             </div>
-
-        </section>
-
-    </div>
-</main>
-
-
-<!-- Modal : Ajouter / Modifier un auteur -->
-<div class="modal-overlay" id="authorModal" hidden>
-
-    <div class="modal">
-
-        <div class="modal-header">
-            <div>
-                <span class="modal-eyebrow">GESTION</span>
-                <h2 id="authorModalTitle">Ajouter un auteur</h2>
-            </div>
-
-            <button
-                type="button"
-                class="modal-close"
-                id="closeAuthorModalButton"
-                aria-label="Fermer"
-            >
-                <i class="fa-solid fa-xmark"></i>
-            </button>
         </div>
-
-        <form id="authorForm">
-
-            <input type="hidden" id="authorId">
-
-            <div class="form-group">
-                <label for="authorFirstName">
-                    Prénom
-                </label>
-
-                <input
-                    type="text"
-                    id="authorFirstName"
-                    name="prenom"
-                    placeholder="Ex. Victor"
-                    required
-                >
-            </div>
-
-            <div class="form-group">
-                <label for="authorLastName">
-                    Nom
-                </label>
-
-                <input
-                    type="text"
-                    id="authorLastName"
-                    name="nom"
-                    placeholder="Ex. Hugo"
-                    required
-                >
-            </div>
-
-            <div class="form-group">
-                <label for="authorBiography">
-                    Biographie
-                    <span>(optionnel)</span>
-                </label>
-
-                <textarea
-                    id="authorBiography"
-                    name="biographie"
-                    rows="4"
-                    placeholder="Présentez brièvement l'auteur..."
-                ></textarea>
-            </div>
-
-            <div class="form-message" id="authorFormMessage"></div>
-
-            <div class="modal-actions">
-
-                <button
-                    type="button"
-                    class="button-secondary"
-                    id="cancelAuthorButton"
-                >
-                    Annuler
-                </button>
-
-                <button
-                    type="submit"
-                    class="button-primary"
-                    id="saveAuthorButton"
-                >
-                    Enregistrer
-                </button>
-
-            </div>
-
-        </form>
-
-    </div>
-</div>
-
-
-<!-- Modal : Suppression -->
-<div class="modal-overlay" id="authorDeleteModal" hidden>
-
-    <div class="modal modal-small">
-
-        <div class="modal-header">
-            <div>
-                <span class="modal-eyebrow">ATTENTION</span>
-                <h2>Supprimer l'auteur</h2>
-            </div>
-
-            <button
-                type="button"
-                class="modal-close"
-                id="closeDeleteAuthorModalButton"
-                aria-label="Fermer"
-            >
-                <i class="fa-solid fa-xmark"></i>
-            </button>
-        </div>
-
-        <div class="delete-content">
-
-            <div class="delete-icon">
-                <i class="fa-solid fa-trash"></i>
-            </div>
-
-            <p>
-                Voulez-vous vraiment supprimer cet auteur ?
-                Cette action est irréversible.
-            </p>
-
-        </div>
-
-        <div class="modal-actions">
-
-            <button
-                type="button"
-                class="button-secondary"
-                id="cancelDeleteAuthorButton"
-            >
-                Annuler
-            </button>
-
-            <button
-                type="button"
-                class="button-danger"
-                id="confirmDeleteAuthorButton"
-            >
-                Supprimer
-            </button>
-
-        </div>
-
-    </div>
-</div>
 
 
 
@@ -738,6 +737,7 @@
 
 
     <script src="../js/api.js"></script>
+    <script src="../js/toast.js"></script>
     <script src="./auteurs.js"></script>
 
 </body>
