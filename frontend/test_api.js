@@ -32,18 +32,19 @@ async function request(url, options = {}) {
 // AUTHENTIFICATION
 // ================================
 // Connexion bibliothécaire
-async function loginBibliothecaire() {
+async function loginBibliothecaire(email, password) {
     const data = await request('/auth/login', {
         method: 'POST',
         body: JSON.stringify({
-            email: 'adelininfo08@gmail.com',
-            password: 'chrislain'
+            email,
+            password
         })
     });
     bibliothecaireToken = data.token;
     bibliothecaireUser = data.user;
     return data;
 }
+
 // Connexion adhérent
 async function loginAdherent(code) {
     const data = await request('/auth/login-adherent', {
@@ -542,4 +543,4 @@ async function runTests() {
     }
 }
 // Lancement
-runTests();
+// runTests();

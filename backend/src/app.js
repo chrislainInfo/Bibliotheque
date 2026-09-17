@@ -6,11 +6,13 @@ import bookRouter from './routes/book_routes.js'
 import adherentRouter from './routes/adherent_routes.js'
 import empruntRouter from './routes/emprunt_routes.js'
 import dashboardRouter from './routes/dashboard_routes.js'
+import cors from 'cors'
 
 
 
 const app = express()
 
+app.use(cors());
 
 app.use(express.json())
 

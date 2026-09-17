@@ -4,12 +4,17 @@ import pool from '../config/database.js';
 export async function findAllAuthors(limit, offset) {
     const result = await pool.query(
         `SELECT
-            id,
-            prenom,
-            nom,
-            nationalite
-        FROM auteurs
-        ORDER BY nom ASC, prenom ASC
+            a.id,
+            a.prenom,
+            a.nom,
+            a.nationalite,
+            a.created_at,
+            COUNT(la.id_livre)::integer AS nombre_livres
+        FROM auteurs a
+        LEFT JOIN livres_auteurs la
+            ON la.id_auteur = a.id
+        GROUP BY a.id, a.prenom, a.nom, a.nationalite, a.created_at
+        ORDER BY a.nom ASC, a.prenom ASC
         LIMIT $1
         OFFSET $2`,
         [limit, offset]
@@ -120,7 +125,7 @@ export async function updateAuthor(
             id,
             prenom,
             nom,
-            nationalite,`,
+            nationalite`,
         [
             prenom,
             nom,

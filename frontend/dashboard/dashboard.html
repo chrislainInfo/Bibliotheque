@@ -1,0 +1,1128 @@
+<!-- dashboard.html -->
+<!DOCTYPE html>
+<html lang="fr">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <meta
+        name="description"
+        content="Tableau de bord de gestion de la bibliothèque"
+    >
+
+    <title>Tableau de bord — Bibliothèque</title>
+
+    <link rel="icon" type="image/png" href="../assets/favicon/favicon-96x96.png" sizes="96x96" />
+    <link rel="icon" type="image/svg+xml" href="../assets/favicon/favicon.svg" />
+    <link rel="shortcut icon" href="../assets/favicon/favicon.ico" />
+    <link rel="apple-touch-icon" sizes="180x180" href="../assets/favicon/apple-touch-icon.png" />
+    <link rel="manifest" href="../assets/favicon    /site.webmanifest" />
+
+    <link rel="stylesheet" href="../css/main.css">
+    <link rel="stylesheet" href="./dashboard.css">
+</head>
+
+
+<body>
+
+    <div class="app">
+
+        <!-- =====================================================
+             SIDEBAR
+             ===================================================== -->
+
+        <aside class="sidebar">
+
+            <!-- Logo -->
+            <div class="sidebar-logo">
+
+                <a href="../dashboard/dashboard.html">
+
+                    <span class="sidebar-logo-icon">
+                        <i class="fa-solid fa-book-open"></i>
+                    </span>
+
+                    <span>Bibliothèque</span>
+
+                </a>
+
+            </div>
+
+
+            <!-- Navigation -->
+            <nav class="sidebar-nav">
+
+                <p class="sidebar-nav-title">
+                    Navigation
+                </p>
+
+
+                <ul class="sidebar-nav-list">
+
+                    <li class="sidebar-nav-item active">
+
+                        <a href="../dashboard/dashboard.html">
+
+                            <i class="fa-solid fa-house"></i>
+
+                            <span>
+                                Tableau de bord
+                            </span>
+
+                        </a>
+
+                    </li>
+
+
+                    <li class="sidebar-nav-item">
+
+                        <a href="../livres/livres.html">
+
+                            <i class="fa-solid fa-book"></i>
+
+                            <span>
+                                Livres
+                            </span>
+
+                        </a>
+
+                    </li>
+
+
+                    <li class="sidebar-nav-item">
+
+                        <a href="../adherents/adherents.html">
+
+                            <i class="fa-solid fa-users"></i>
+
+                            <span>
+                                Adhérents
+                            </span>
+
+                        </a>
+
+                    </li>
+
+
+                    <li class="sidebar-nav-item">
+
+                        <a href="../emprunts/emprunts.html">
+
+                            <i class="fa-solid fa-arrow-right-arrow-left"></i>
+
+                            <span>
+                                Emprunts
+                            </span>
+
+                        </a>
+
+                    </li>
+
+
+                    <li class="sidebar-nav-item">
+
+                        <a href="../auteurs/auteurs.html">
+
+                            <i class="fa-solid fa-user-pen"></i>
+
+                            <span>
+                                Auteurs
+                            </span>
+
+                        </a>
+
+                    </li>
+
+
+                    <li class="sidebar-nav-item">
+
+                        <a href="../categories/categories.html">
+
+                            <i class="fa-solid fa-tags"></i>
+
+                            <span>
+                                Catégories
+                            </span>
+
+                        </a>
+
+                    </li>
+
+                </ul>
+
+            </nav>
+
+
+            <!-- Illustration sidebar -->
+            <div class="sidebar-illustration">
+
+                <img
+                    src="../assets/img/ChatGPT Image 14 sept. 2026, 17_35_00.png"
+                    alt="Illustration d'une personne lisant"
+                >
+
+            </div>
+
+
+            <!-- Profil -->
+            <div class="sidebar-profile">
+
+                <div class="sidebar-profile-avatar">
+                    JD
+                </div>
+
+                <div class="sidebar-profile-info">
+
+                    <span class="sidebar-profile-name">
+                        Jean Dupont
+                    </span>
+
+                    <span class="sidebar-profile-role">
+                        Bibliothécaire
+                    </span>
+
+                </div>
+
+            </div>
+
+        </aside>
+
+
+
+        <!-- =====================================================
+             HEADER
+             ===================================================== -->
+
+        <header class="app-header">
+
+            <div class="header-left">
+
+                <h1 class="header-title">
+                    Tableau de bord
+                </h1>
+
+            </div>
+
+
+            <div class="header-actions">
+
+                <!-- Notifications -->
+                <button
+                    type="button"
+                    class="header-icon-button"
+                    aria-label="Notifications"
+                >
+
+                    <i class="fa-solid fa-bell"></i>
+
+                    <span class="header-notification-dot"></span>
+
+                </button>
+
+
+                <!-- Déconnexion -->
+                <button
+                    type="button"
+                    class="header-logout"
+                    id="logoutButton"
+                >
+
+                    <i class="fa-solid fa-right-from-bracket"></i>
+
+                    <span>
+                        Déconnexion
+                    </span>
+
+                </button>
+
+            </div>
+
+        </header>
+
+
+
+        <!-- =====================================================
+             CONTENU PRINCIPAL
+             ===================================================== -->
+
+        <main class="main-content">
+
+            <div class="main-content-inner">
+
+
+                <!-- =================================================
+                     HERO
+                     ================================================= -->
+
+                <section class="dashboard-hero">
+
+                    <div class="dashboard-hero-content">
+
+                        <span class="dashboard-hero-badge">
+
+                            <i class="fa-solid fa-book-open"></i>
+
+                            Gestion de la bibliothèque
+
+                        </span>
+
+
+                        <h2>
+                            Votre bibliothèque,<br>
+                            en un seul endroit.
+                        </h2>
+
+
+                        <p>
+                            Gérez facilement vos livres, vos adhérents
+                            et vos emprunts depuis votre espace de gestion.
+                        </p>
+
+
+                        <div class="dashboard-hero-actions">
+
+                            <a
+                                href="../livres/livres.html"
+                                class="btn btn-hero-light"
+                            >
+
+                                <i class="fa-solid fa-book"></i>
+
+                                Voir les livres
+
+                            </a>
+
+
+                            <a
+                                href="../emprunts/emprunts.html"
+                                class="btn btn-hero-outline"
+                            >
+
+                                <i class="fa-solid fa-arrow-right-arrow-left"></i>
+
+                                Voir les emprunts
+
+                            </a>
+
+                        </div>
+
+                    </div>
+
+                    <div class="dashboard-hero-image">
+
+                        <img
+                            src="../assets/img/ChatGPT Image 14 sept. 2026, 17_35_14.png"
+                            alt="Personne lisant un livre"
+                        >
+
+                    </div>
+
+                </section>
+
+
+
+                <!-- =================================================
+                     STATISTIQUES
+                     ================================================= -->
+
+                <section class="dashboard-stats">
+
+
+                    <!-- Collection -->
+                    <article class="stat-card">
+
+                        <div class="stat-card-icon purple">
+
+                            <i class="fa-solid fa-book"></i>
+
+                        </div>
+
+
+                        <div class="stat-card-content">
+
+                            <span class="stat-card-label">
+                                Collection
+                            </span>
+
+                            <strong id="totalBooks">0</strong>
+
+                            <span class="stat-card-description">
+                                livres
+                            </span>
+
+                        </div>
+
+                    </article>
+
+
+
+                    <!-- Membres -->
+                    <article class="stat-card">
+
+                        <div class="stat-card-icon green">
+
+                            <i class="fa-solid fa-users"></i>
+
+                        </div>
+
+
+                        <div class="stat-card-content">
+
+                            <span class="stat-card-label">
+                                Membres
+                            </span>
+
+                            <strong id="totalMembers">0</strong>
+
+                            <span class="stat-card-description">
+                                adhérents
+                            </span>
+
+                        </div>
+
+                    </article>
+
+
+
+                    <!-- Emprunts -->
+                    <article class="stat-card">
+
+                        <div class="stat-card-icon blue">
+
+                            <i class="fa-solid fa-arrow-right-arrow-left"></i>
+
+                        </div>
+
+
+                        <div class="stat-card-content">
+
+                            <span class="stat-card-label">
+                                Emprunts
+                            </span>
+
+                            <strong id="activeLoans">0</strong>
+
+                            <span class="stat-card-description">
+                                en cours
+                            </span>
+
+                        </div>
+
+                    </article>
+
+
+
+                    <!-- Retards -->
+                    <article class="stat-card">
+
+                        <div class="stat-card-icon red">
+
+                            <i class="fa-solid fa-triangle-exclamation"></i>
+
+                        </div>
+
+
+                        <div class="stat-card-content">
+
+                            <span class="stat-card-label">
+                                Attention
+                            </span>
+
+                            <strong id="overdueLoans">0</strong>
+
+                            <span class="stat-card-description">
+                                en retard
+                            </span>
+
+                        </div>
+
+                    </article>
+
+                </section>
+
+
+
+                <!-- =================================================
+                     GRILLE DASHBOARD
+                     ================================================= -->
+
+                <section class="dashboard-grid">
+
+
+                    <!-- =================================================
+                         EMPRUNTS EN RETARD
+                         ================================================= -->
+
+                    <article class="dashboard-card overdue-card">
+
+                        <div class="dashboard-card-header">
+
+                            <div>
+
+                                <h2>
+                                    Emprunts en retard
+                                </h2>
+
+                                <p>
+                                    Les retours qui nécessitent votre attention
+                                </p>
+
+                            </div>
+
+
+                            <a
+                                href="../emprunts/emprunts.html"
+                                class="dashboard-card-link"
+                            >
+
+                                Voir tout
+
+                                <i class="fa-solid fa-arrow-right"></i>
+
+                            </a>
+
+                        </div>
+
+
+                        <div class="loan-list" id="overdueList">
+
+
+                            <!-- Données injectées par dashboard.js -->
+                            <div class="loan-item dashboard-placeholder" hidden>
+
+                                <div class="loan-avatar">
+                                    AM
+                                </div>
+
+
+                                <div class="loan-info">
+
+                                    <strong>
+                                        Albert M.
+                                    </strong>
+
+                                    <span>
+                                        Les Misérables
+                                    </span>
+
+                                </div>
+
+
+                                <span class="status-badge overdue">
+                                    5 jours
+                                </span>
+
+                            </div>
+
+
+
+                            <div class="loan-item dashboard-placeholder" hidden>
+
+                                <div class="loan-avatar">
+                                    CN
+                                </div>
+
+
+                                <div class="loan-info">
+
+                                    <strong>
+                                        Claire N.
+                                    </strong>
+
+                                    <span>
+                                        Le Petit Prince
+                                    </span>
+
+                                </div>
+
+
+                                <span class="status-badge overdue">
+                                    3 jours
+                                </span>
+
+                            </div>
+
+
+
+                            <div class="loan-item dashboard-placeholder" hidden>
+
+                                <div class="loan-avatar">
+                                    JD
+                                </div>
+
+
+                                <div class="loan-info">
+
+                                    <strong>
+                                        Jean D.
+                                    </strong>
+
+                                    <span>
+                                        Une si longue lettre
+                                    </span>
+
+                                </div>
+
+
+                                <span class="status-badge overdue">
+                                    2 jours
+                                </span>
+
+                            </div>
+
+                        </div>
+
+                    </article>
+
+
+
+                    <!-- =================================================
+                         DISPONIBILITÉ
+                         ================================================= -->
+
+                    <article class="dashboard-card availability-card">
+
+                        <div class="dashboard-card-header">
+
+                            <div>
+
+                                <h2>
+                                    Disponibilité
+                                </h2>
+
+                                <p>
+                                    État actuel de la collection
+                                </p>
+
+                            </div>
+
+                        </div>
+
+
+                        <div class="availability-content">
+
+
+                            <div
+                                class="availability-circle availability-ring"
+                                id="availabilityCircle"
+                            >
+
+                                <div class="availability-circle-inner">
+
+                                    <strong id="availabilityPercentage">0%</strong>
+
+                                    <span>
+                                        disponible
+                                    </span>
+
+                                </div>
+
+                            </div>
+
+
+                            <div class="availability-details">
+
+
+                                <div class="availability-row">
+
+                                    <span>
+
+                                        <i class="fa-solid fa-circle available"></i>
+
+                                        Disponibles
+
+                                    </span>
+
+
+                                    <strong id="availableBooks">0</strong>
+
+                                </div>
+
+
+                                <div class="availability-row">
+
+                                    <span>
+
+                                        <i class="fa-solid fa-circle borrowed"></i>
+
+                                        Empruntés
+
+                                    </span>
+
+
+                                    <strong id="borrowedBooks">0</strong>
+
+                                </div>
+
+                            </div>
+
+                        </div>
+
+                    </article>
+
+
+
+                    <!-- =================================================
+                         ACTIVITÉ RÉCENTE
+                         ================================================= -->
+
+                    <article class="dashboard-card activity-card">
+
+                        <div class="dashboard-card-header">
+
+                            <div>
+
+                                <h2>
+                                    Activité récente
+                                </h2>
+
+                                <p>
+                                    Les dernières actions effectuées
+                                </p>
+
+                            </div>
+
+                        </div>
+
+
+                        <div class="activity-list" id="activityList">
+
+
+                            <div class="activity-item dashboard-placeholder" hidden>
+
+                                <div class="activity-icon green">
+
+                                    <i class="fa-solid fa-arrow-right-arrow-left"></i>
+
+                                </div>
+
+
+                                <div class="activity-content">
+
+                                    <strong>
+                                        Nouvel emprunt
+                                    </strong>
+
+                                    <span>
+                                        Le Petit Prince — Claire N.
+                                    </span>
+
+                                </div>
+
+
+                                <time>
+                                    Il y a 10 min
+                                </time>
+
+                            </div>
+
+
+
+                            <div class="activity-item dashboard-placeholder" hidden>
+
+                                <div class="activity-icon purple">
+
+                                    <i class="fa-solid fa-book"></i>
+
+                                </div>
+
+
+                                <div class="activity-content">
+
+                                    <strong>
+                                        Nouveau livre
+                                    </strong>
+
+                                    <span>
+                                        L'Étranger ajouté à la collection
+                                    </span>
+
+                                </div>
+
+
+                                <time>
+                                    Il y a 1 h
+                                </time>
+
+                            </div>
+
+
+
+                            <div class="activity-item dashboard-placeholder" hidden>
+
+                                <div class="activity-icon blue">
+
+                                    <i class="fa-solid fa-user-plus"></i>
+
+                                </div>
+
+
+                                <div class="activity-content">
+
+                                    <strong>
+                                        Nouvel adhérent
+                                    </strong>
+
+                                    <span>
+                                        Inscription de Marie K.
+                                    </span>
+
+                                </div>
+
+
+                                <time>
+                                    Il y a 2 h
+                                </time>
+
+                            </div>
+
+                        </div>
+
+                    </article>
+
+
+
+                    <!-- =================================================
+                         ACTIONS RAPIDES
+                         ================================================= -->
+
+                    <article class="dashboard-card quick-actions-card">
+
+                        <div class="dashboard-card-header">
+
+                            <div>
+
+                                <h2>
+                                    Actions rapides
+                                </h2>
+
+                                <p>
+                                    Accédez rapidement aux opérations courantes
+                                </p>
+
+                            </div>
+
+                        </div>
+
+
+                        <div class="quick-actions">
+
+
+                            <a
+                                href="../livres/livres.html"
+                                class="quick-action"
+                            >
+
+                                <span class="quick-action-icon purple">
+
+                                    <i class="fa-solid fa-plus"></i>
+
+                                </span>
+
+
+                                <span>
+
+                                    <strong>
+                                        Ajouter un livre
+                                    </strong>
+
+                                    <small>
+                                        Enregistrer un nouveau livre
+                                    </small>
+
+                                </span>
+
+
+                                <i class="fa-solid fa-chevron-right"></i>
+
+                            </a>
+
+
+
+                            <a
+                                href="../adherents/adherents.html"
+                                class="quick-action"
+                            >
+
+                                <span class="quick-action-icon green">
+
+                                    <i class="fa-solid fa-user-plus"></i>
+
+                                </span>
+
+
+                                <span>
+
+                                    <strong>
+                                        Ajouter un adhérent
+                                    </strong>
+
+                                    <small>
+                                        Créer un nouveau membre
+                                    </small>
+
+                                </span>
+
+
+                                <i class="fa-solid fa-chevron-right"></i>
+
+                            </a>
+
+
+
+                            <a
+                                href="../emprunts/emprunts.html"
+                                class="quick-action"
+                            >
+
+                                <span class="quick-action-icon blue">
+
+                                    <i class="fa-solid fa-book-open"></i>
+
+                                </span>
+
+
+                                <span>
+
+                                    <strong>
+                                        Créer un emprunt
+                                    </strong>
+
+                                    <small>
+                                        Enregistrer un nouvel emprunt
+                                    </small>
+
+                                </span>
+
+
+                                <i class="fa-solid fa-chevron-right"></i>
+
+                            </a>
+
+                        </div>
+
+                    </article>
+
+                </section>
+
+            </div>
+
+        </main>
+
+
+
+        <!-- =====================================================
+             BOTTOM NAVIGATION MOBILE
+             ===================================================== -->
+
+        <nav
+            class="mobile-bottom-nav"
+            aria-label="Navigation mobile"
+        >
+
+            <ul class="mobile-bottom-nav-list">
+
+
+                <li class="mobile-bottom-nav-item active">
+
+                    <a
+                        href="../dashboard/dashboard.html"
+                        class="mobile-bottom-nav-button"
+                    >
+
+                        <i class="fa-solid fa-house"></i>
+
+                        <span>
+                            Accueil
+                        </span>
+
+                    </a>
+
+                </li>
+
+
+                <li class="mobile-bottom-nav-item">
+
+                    <a
+                        href="../livres/livres.html"
+                        class="mobile-bottom-nav-button"
+                    >
+
+                        <i class="fa-solid fa-book"></i>
+
+                        <span>
+                            Livres
+                        </span>
+
+                    </a>
+
+                </li>
+
+
+                <li class="mobile-bottom-nav-item">
+
+                    <a
+                        href="../emprunts/emprunts.html"
+                        class="mobile-bottom-nav-button"
+                    >
+
+                        <i class="fa-solid fa-arrow-right-arrow-left"></i>
+
+                        <span>
+                            Emprunts
+                        </span>
+
+                    </a>
+
+                </li>
+
+
+                <li class="mobile-bottom-nav-item">
+
+                    <a
+                        href="../adherents/adherents.html"
+                        class="mobile-bottom-nav-button"
+                    >
+
+                        <i class="fa-solid fa-users"></i>
+
+                        <span>
+                            Adhérents
+                        </span>
+
+                    </a>
+
+                </li>
+
+
+                <li class="mobile-bottom-nav-item">
+
+                    <button
+                        type="button"
+                        class="mobile-bottom-nav-button"
+                        id="mobileMoreButton"
+                    >
+
+                        <i class="fa-solid fa-ellipsis"></i>
+
+                        <span>
+                            Plus
+                        </span>
+
+                    </button>
+
+                </li>
+
+            </ul>
+
+        </nav>
+
+
+
+        <!-- =====================================================
+             BOTTOM SHEET
+             ===================================================== -->
+
+        <div
+            class="bottom-sheet-overlay"
+            id="bottomSheetOverlay"
+        ></div>
+
+
+        <section
+            class="bottom-sheet"
+            id="bottomSheet"
+            aria-hidden="true"
+            aria-labelledby="bottomSheetTitle"
+        >
+
+            <div class="bottom-sheet-handle"></div>
+
+
+            <div class="bottom-sheet-header">
+
+                <h2 id="bottomSheetTitle">
+                    Plus d'options
+                </h2>
+
+
+                <button
+                    type="button"
+                    class="bottom-sheet-close"
+                    id="bottomSheetClose"
+                    aria-label="Fermer"
+                >
+
+                    <i class="fa-solid fa-xmark"></i>
+
+                </button>
+
+            </div>
+
+
+            <ul class="bottom-sheet-list">
+
+
+                <li>
+
+                    <a href="../auteurs/auteurs.html">
+
+                        <i class="fa-solid fa-user-pen"></i>
+
+                        <span>
+                            Auteurs
+                        </span>
+
+                    </a>
+
+                </li>
+
+
+                <li>
+
+                    <a href="../categories/categories.html">
+
+                        <i class="fa-solid fa-tags"></i>
+
+                        <span>
+                            Catégories
+                        </span>
+
+                    </a>
+
+                </li>
+
+
+                <li>
+
+                    <button
+                        type="button"
+                        id="bottomSheetLogout"
+                    >
+
+                        <i class="fa-solid fa-right-from-bracket"></i>
+
+                        <span>
+                            Déconnexion
+                        </span>
+
+                    </button>
+
+                </li>
+
+            </ul>
+
+        </section>
+
+    </div>
+
+
+    <!-- JavaScript du Dashboard -->
+    <script src="../js/api.js"></script>
+    <script src="../js/toast.js"></script>
+    <script src="./dashboard.js"></script>
+
+</body>
+
+</html>

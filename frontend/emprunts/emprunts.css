@@ -1,0 +1,1321 @@
+ /* =========================================================
+    PAGE EMPRUNTS
+
+    Ce fichier concerne uniquement le contenu de la page
+    Emprunts.
+
+    Même design system que Livres et Adhérents.
+ ========================================================= */
+
+
+/* =========================================================
+   CONTAINER PRINCIPAL
+========================================================= */
+
+.emprunts-container {
+
+    width: 100%;
+
+    max-width: var(--content-max-width);
+
+    margin: 0 auto;
+
+}
+
+
+/* =========================================================
+   HEADER DE LA PAGE
+========================================================= */
+
+.emprunts-header {
+
+    display: flex;
+
+    align-items: center;
+
+    justify-content: space-between;
+
+    gap: var(--space-6);
+
+    margin-bottom: var(--space-8);
+
+}
+
+.emprunts-header-content {
+
+    min-width: 0;
+
+}
+
+.emprunts-eyebrow {
+
+    display: inline-block;
+
+    margin-bottom: var(--space-2);
+
+    color: var(--color-primary);
+
+    font-size: var(--font-size-sm);
+
+    font-weight: var(--font-weight-semibold);
+
+}
+
+.emprunts-header h1 {
+
+    margin: 0 0 var(--space-2);
+
+    color: var(--color-text);
+
+    font-size: var(--font-size-2xl);
+
+    font-weight: var(--font-weight-bold);
+
+}
+
+.emprunts-header p {
+
+    margin: 0;
+
+    color: var(--color-text-secondary);
+
+    font-size: var(--font-size-md);
+
+    line-height: 1.6;
+
+}
+
+
+/* =========================================================
+   BOUTON AJOUT
+========================================================= */
+
+.emprunts-add-button {
+
+    display: inline-flex;
+
+    align-items: center;
+
+    justify-content: center;
+
+    gap: var(--space-2);
+
+    min-height: 44px;
+
+    padding: 0 var(--space-5);
+
+    border: 0;
+
+    border-radius: var(--radius-md);
+
+    background: var(--color-primary);
+
+    color: var(--color-white);
+
+    font-family: inherit;
+
+    font-size: var(--font-size-sm);
+
+    font-weight: var(--font-weight-semibold);
+
+    cursor: pointer;
+
+    transition:
+        background var(--transition-fast),
+        transform var(--transition-fast),
+        box-shadow var(--transition-fast);
+
+}
+
+.emprunts-add-button:hover {
+
+    background: var(--color-primary-dark);
+
+    transform: translateY(-1px);
+
+    box-shadow: var(--shadow-hover);
+
+}
+
+
+/* =========================================================
+   STATISTIQUES
+========================================================= */
+
+.emprunts-stats {
+
+    display: grid;
+
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+
+    gap: var(--space-4);
+
+    margin-bottom: var(--space-6);
+
+}
+
+.emprunt-stat-card {
+
+    display: flex;
+
+    align-items: center;
+
+    gap: var(--space-4);
+
+    padding: var(--space-5);
+
+    background: var(--color-white);
+
+    border: 1px solid var(--color-border);
+
+    border-radius: var(--radius-lg);
+
+    box-shadow: var(--shadow-card);
+
+}
+
+.emprunt-stat-icon {
+
+    display: flex;
+
+    align-items: center;
+
+    justify-content: center;
+
+    width: 48px;
+
+    height: 48px;
+
+    flex-shrink: 0;
+
+    border-radius: var(--radius-md);
+
+    font-size: 18px;
+
+}
+
+.emprunt-stat-icon.purple {
+
+    background: var(--color-primary-light);
+
+    color: var(--color-primary);
+
+}
+
+.emprunt-stat-icon.green {
+
+    background: var(--color-green-light);
+
+    color: var(--color-green);
+
+}
+
+.emprunt-stat-icon.red {
+
+    background: var(--color-danger-light);
+
+    color: var(--color-danger);
+
+}
+
+.emprunt-stat-content {
+
+    display: flex;
+
+    flex-direction: column;
+
+    gap: var(--space-1);
+
+}
+
+.emprunt-stat-content span {
+
+    color: var(--color-text-secondary);
+
+    font-size: var(--font-size-sm);
+
+}
+
+.emprunt-stat-content strong {
+
+    color: var(--color-text);
+
+    font-size: var(--font-size-xl);
+
+    font-weight: var(--font-weight-bold);
+
+}
+
+
+/* =========================================================
+   TOOLBAR
+========================================================= */
+
+.emprunts-toolbar {
+
+    display: flex;
+
+    align-items: center;
+
+    justify-content: space-between;
+
+    gap: var(--space-4);
+
+    margin-bottom: var(--space-6);
+
+}
+
+.emprunts-search {
+
+    position: relative;
+
+    flex: 1;
+
+}
+
+.emprunts-search i {
+
+    position: absolute;
+
+    top: 50%;
+
+    left: var(--space-4);
+
+    color: var(--color-text-secondary);
+
+    transform: translateY(-50%);
+
+}
+
+.emprunts-search input {
+
+    width: 100%;
+
+    height: 46px;
+
+    padding: 0 var(--space-4) 0 44px;
+
+    border: 1px solid var(--color-border);
+
+    border-radius: var(--radius-md);
+
+    outline: none;
+
+    background: var(--color-white);
+
+    color: var(--color-text);
+
+    font-family: inherit;
+
+    font-size: var(--font-size-sm);
+
+    transition:
+        border-color var(--transition-fast),
+        box-shadow var(--transition-fast);
+
+}
+
+.emprunts-search input:focus {
+
+    border-color: var(--color-primary);
+
+    box-shadow: 0 0 0 3px var(--color-primary-light);
+
+}
+
+.emprunts-filters {
+
+    display: flex;
+
+    gap: var(--space-3);
+
+}
+
+.emprunts-filters select {
+
+    min-width: 190px;
+
+    height: 46px;
+
+    padding: 0 var(--space-4);
+
+    border: 1px solid var(--color-border);
+
+    border-radius: var(--radius-md);
+
+    outline: none;
+
+    background: var(--color-white);
+
+    color: var(--color-text);
+
+    font-family: inherit;
+
+    font-size: var(--font-size-sm);
+
+    cursor: pointer;
+
+}
+
+
+/* =========================================================
+   CARTE LISTE
+========================================================= */
+
+.emprunts-list-card {
+
+    overflow: hidden;
+
+    background: var(--color-white);
+
+    border: 1px solid var(--color-border);
+
+    border-radius: var(--radius-lg);
+
+    box-shadow: var(--shadow-card);
+
+}
+
+.emprunts-list-header {
+
+    display: flex;
+
+    align-items: center;
+
+    justify-content: space-between;
+
+    gap: var(--space-4);
+
+    padding: var(--space-6);
+
+    border-bottom: 1px solid var(--color-border);
+
+}
+
+.emprunts-list-header h2 {
+
+    margin: 0 0 var(--space-1);
+
+    color: var(--color-text);
+
+    font-size: var(--font-size-lg);
+
+    font-weight: var(--font-weight-semibold);
+
+}
+
+.emprunts-list-header p {
+
+    margin: 0;
+
+    color: var(--color-text-secondary);
+
+    font-size: var(--font-size-sm);
+
+}
+
+.emprunts-result-count {
+
+    flex-shrink: 0;
+
+    color: var(--color-text-secondary);
+
+    font-size: var(--font-size-sm);
+
+}
+
+
+/* =========================================================
+   TABLE
+========================================================= */
+
+.emprunts-table-wrapper {
+
+    width: 100%;
+
+    overflow-x: auto;
+
+}
+
+.emprunts-table {
+
+    width: 100%;
+
+    min-width: 1000px;
+
+    border-collapse: collapse;
+
+}
+
+.emprunts-table th {
+
+    padding: var(--space-4) var(--space-5);
+
+    background: var(--color-background);
+
+    color: var(--color-text-secondary);
+
+    text-align: left;
+
+    font-size: var(--font-size-xs);
+
+    font-weight: var(--font-weight-semibold);
+
+    white-space: nowrap;
+
+}
+
+.emprunts-table td {
+
+    padding: var(--space-5);
+
+    border-top: 1px solid var(--color-border);
+
+    color: var(--color-text);
+
+    font-size: var(--font-size-sm);
+
+    vertical-align: middle;
+
+}
+
+.emprunts-table tbody tr {
+
+    transition: background var(--transition-fast);
+
+}
+
+.emprunts-table tbody tr:hover {
+
+    background: #FAF9FB;
+
+}
+
+
+/* =========================================================
+   LIVRE
+========================================================= */
+
+.loan-book-cell {
+
+    display: flex;
+
+    align-items: center;
+
+    gap: var(--space-3);
+
+    min-width: 220px;
+
+}
+
+.loan-book-icon {
+
+    display: flex;
+
+    align-items: center;
+
+    justify-content: center;
+
+    width: 40px;
+
+    height: 48px;
+
+    flex-shrink: 0;
+
+    border-radius: var(--radius-sm);
+
+    background: var(--color-primary-light);
+
+    color: var(--color-primary);
+
+    font-size: 16px;
+
+}
+
+.loan-book-info {
+
+    display: flex;
+
+    flex-direction: column;
+
+    gap: 3px;
+
+}
+
+.loan-book-title {
+
+    color: var(--color-text);
+
+    font-weight: var(--font-weight-semibold);
+
+}
+
+.loan-book-isbn {
+
+    color: var(--color-text-secondary);
+
+    font-size: var(--font-size-xs);
+
+}
+
+
+/* =========================================================
+   ADHÉRENT
+========================================================= */
+
+.loan-member-cell {
+
+    display: flex;
+
+    align-items: center;
+
+    gap: var(--space-3);
+
+    min-width: 180px;
+
+}
+
+.loan-member-avatar {
+
+    display: flex;
+
+    align-items: center;
+
+    justify-content: center;
+
+    width: 38px;
+
+    height: 38px;
+
+    flex-shrink: 0;
+
+    border-radius: 50%;
+
+    background: var(--color-primary-light);
+
+    color: var(--color-primary);
+
+    font-size: 12px;
+
+    font-weight: var(--font-weight-semibold);
+
+}
+
+.loan-member-name {
+
+    color: var(--color-text);
+
+    font-weight: var(--font-weight-semibold);
+
+}
+
+
+/* =========================================================
+   BADGES DE STATUT
+========================================================= */
+
+.loan-status {
+
+    display: inline-flex;
+
+    align-items: center;
+
+    gap: 6px;
+
+    padding: 6px 10px;
+
+    border-radius: var(--radius-full);
+
+    font-size: var(--font-size-xs);
+
+    font-weight: var(--font-weight-semibold);
+
+}
+
+.loan-status.active {
+
+    background: var(--color-primary-light);
+
+    color: var(--color-primary);
+
+}
+
+.loan-status.returned {
+
+    background: var(--color-green-light);
+
+    color: var(--color-green);
+
+}
+
+.loan-status.late {
+
+    background: var(--color-danger-light);
+
+    color: var(--color-danger);
+
+}
+
+
+/* =========================================================
+   ACTIONS
+========================================================= */
+
+.loan-actions {
+
+    display: flex;
+
+    align-items: center;
+
+    gap: var(--space-2);
+
+}
+
+.loan-action-button {
+
+    display: inline-flex;
+
+    align-items: center;
+
+    justify-content: center;
+
+    width: 36px;
+
+    height: 36px;
+
+    border: 0;
+
+    border-radius: var(--radius-sm);
+
+    background: transparent;
+
+    color: var(--color-text-secondary);
+
+    cursor: pointer;
+
+    transition:
+        background var(--transition-fast),
+        color var(--transition-fast);
+
+}
+
+.loan-action-button:hover {
+
+    background: var(--color-primary-light);
+
+    color: var(--color-primary);
+
+}
+
+.loan-action-button.delete:hover {
+
+    background: var(--color-danger-light);
+
+    color: var(--color-danger);
+
+}
+
+
+/* =========================================================
+   EMPTY STATE
+========================================================= */
+
+.emprunts-empty-state {
+
+    display: flex;
+
+    align-items: center;
+
+    flex-direction: column;
+
+    padding: 64px var(--space-6);
+
+    text-align: center;
+
+}
+
+.emprunts-empty-icon {
+
+    display: flex;
+
+    align-items: center;
+
+    justify-content: center;
+
+    width: 64px;
+
+    height: 64px;
+
+    margin-bottom: var(--space-4);
+
+    border-radius: 50%;
+
+    background: var(--color-primary-light);
+
+    color: var(--color-primary);
+
+    font-size: 24px;
+
+}
+
+.emprunts-empty-state h3 {
+
+    margin: 0 0 var(--space-2);
+
+    color: var(--color-text);
+
+    font-size: var(--font-size-lg);
+
+}
+
+.emprunts-empty-state p {
+
+    max-width: 420px;
+
+    margin: 0;
+
+    color: var(--color-text-secondary);
+
+    font-size: var(--font-size-sm);
+
+    line-height: 1.6;
+
+}
+
+
+/* =========================================================
+   MODALE EMPRUNT
+========================================================= */
+
+.loan-modal-overlay,
+.loan-delete-modal-overlay {
+
+    position: fixed;
+
+    inset: 0;
+
+    z-index: var(--z-modal);
+
+    display: flex;
+
+    align-items: center;
+
+    justify-content: center;
+
+    padding: var(--space-6);
+
+    background: rgba(43, 35, 56, 0.45);
+
+}
+
+.loan-modal-overlay[hidden],
+.loan-delete-modal-overlay[hidden] {
+
+    display: none;
+
+}
+
+.loan-modal {
+
+    width: 100%;
+
+    max-width: 680px;
+
+    max-height: calc(100vh - 48px);
+
+    overflow-y: auto;
+
+    background: var(--color-white);
+
+    border-radius: var(--radius-xl);
+
+    box-shadow: var(--shadow-modal);
+
+}
+
+.loan-modal-header {
+
+    display: flex;
+
+    align-items: flex-start;
+
+    justify-content: space-between;
+
+    gap: var(--space-4);
+
+    padding: var(--space-6);
+
+    border-bottom: 1px solid var(--color-border);
+
+}
+
+.loan-modal-eyebrow {
+
+    display: block;
+
+    margin-bottom: var(--space-1);
+
+    color: var(--color-primary);
+
+    font-size: var(--font-size-xs);
+
+    font-weight: var(--font-weight-semibold);
+
+}
+
+.loan-modal-header h2 {
+
+    margin: 0;
+
+    color: var(--color-text);
+
+    font-size: var(--font-size-xl);
+
+}
+
+.loan-modal-close {
+
+    display: flex;
+
+    align-items: center;
+
+    justify-content: center;
+
+    width: 36px;
+
+    height: 36px;
+
+    border: 0;
+
+    border-radius: var(--radius-sm);
+
+    background: transparent;
+
+    color: var(--color-text-secondary);
+
+    cursor: pointer;
+
+}
+
+.loan-modal-close:hover {
+
+    background: var(--color-background);
+
+    color: var(--color-text);
+
+}
+
+
+/* =========================================================
+   FORMULAIRE
+========================================================= */
+
+#loanForm {
+
+    padding: var(--space-6);
+
+}
+
+.loan-form-grid {
+
+    display: grid;
+
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+
+    gap: var(--space-5);
+
+}
+
+.loan-form-group {
+
+    display: flex;
+
+    flex-direction: column;
+
+    gap: var(--space-2);
+
+}
+
+.loan-form-group label {
+
+    color: var(--color-text);
+
+    font-size: var(--font-size-sm);
+
+    font-weight: var(--font-weight-semibold);
+
+}
+
+.loan-form-group input,
+.loan-form-group select {
+
+    width: 100%;
+
+    height: 44px;
+
+    padding: 0 var(--space-3);
+
+    border: 1px solid var(--color-border);
+
+    border-radius: var(--radius-md);
+
+    outline: none;
+
+    background: var(--color-white);
+
+    color: var(--color-text);
+
+    font-family: inherit;
+
+    font-size: var(--font-size-sm);
+
+}
+
+.loan-form-group input:focus,
+.loan-form-group select:focus {
+
+    border-color: var(--color-primary);
+
+    box-shadow: 0 0 0 3px var(--color-primary-light);
+
+}
+
+.loan-form-message {
+
+    margin-bottom: var(--space-5);
+
+    padding: var(--space-3) var(--space-4);
+
+    border-radius: var(--radius-md);
+
+    background: var(--color-danger-light);
+
+    color: var(--color-danger);
+
+    font-size: var(--font-size-sm);
+
+}
+
+
+/* =========================================================
+   ACTIONS MODALE
+========================================================= */
+
+.loan-modal-actions,
+.loan-delete-modal-actions {
+
+    display: flex;
+
+    justify-content: flex-end;
+
+    gap: var(--space-3);
+
+    margin-top: var(--space-6);
+
+}
+
+.loan-button-primary,
+.loan-button-secondary,
+.loan-button-danger {
+
+    display: inline-flex;
+
+    align-items: center;
+
+    justify-content: center;
+
+    gap: var(--space-2);
+
+    min-height: 42px;
+
+    padding: 0 var(--space-5);
+
+    border-radius: var(--radius-md);
+
+    font-family: inherit;
+
+    font-size: var(--font-size-sm);
+
+    font-weight: var(--font-weight-semibold);
+
+    cursor: pointer;
+
+    transition:
+        background var(--transition-fast),
+        color var(--transition-fast);
+
+}
+
+.loan-button-primary {
+
+    border: 1px solid var(--color-primary);
+
+    background: var(--color-primary);
+
+    color: var(--color-white);
+
+}
+
+.loan-button-primary:hover {
+
+    background: var(--color-primary-dark);
+
+}
+
+.loan-button-secondary {
+
+    border: 1px solid var(--color-border);
+
+    background: var(--color-white);
+
+    color: var(--color-text);
+
+}
+
+.loan-button-secondary:hover {
+
+    background: var(--color-background);
+
+}
+
+.loan-button-danger {
+
+    border: 1px solid var(--color-danger);
+
+    background: var(--color-danger);
+
+    color: var(--color-white);
+
+}
+
+.loan-button-danger:hover {
+
+    opacity: 0.9;
+
+}
+
+
+/* =========================================================
+   MODALE SUPPRESSION
+========================================================= */
+
+.loan-delete-modal {
+
+    width: 100%;
+
+    max-width: 420px;
+
+    padding: var(--space-8);
+
+    background: var(--color-white);
+
+    border-radius: var(--radius-xl);
+
+    box-shadow: var(--shadow-modal);
+
+    text-align: center;
+
+}
+
+.loan-delete-modal-icon {
+
+    display: flex;
+
+    align-items: center;
+
+    justify-content: center;
+
+    width: 56px;
+
+    height: 56px;
+
+    margin: 0 auto var(--space-5);
+
+    border-radius: 50%;
+
+    background: var(--color-danger-light);
+
+    color: var(--color-danger);
+
+    font-size: 20px;
+
+}
+
+.loan-delete-modal h2 {
+
+    margin: 0 0 var(--space-3);
+
+    color: var(--color-text);
+
+    font-size: var(--font-size-xl);
+
+}
+
+.loan-delete-modal p {
+
+    margin: 0;
+
+    color: var(--color-text-secondary);
+
+    font-size: var(--font-size-sm);
+
+    line-height: 1.6;
+
+}
+
+
+/* =========================================================
+   RESPONSIVE
+========================================================= */
+
+@media (max-width: 1100px) {
+
+    .emprunts-toolbar {
+
+        align-items: stretch;
+
+        flex-direction: column;
+
+    }
+
+    .emprunts-filters {
+
+        display: grid;
+
+        grid-template-columns: repeat(2, minmax(0, 1fr));
+
+    }
+
+    .emprunts-filters select {
+
+        width: 100%;
+
+        min-width: 0;
+
+    }
+
+}
+
+
+@media (max-width: 768px) {
+
+    .emprunts-header {
+
+        align-items: flex-start;
+
+        flex-direction: column;
+
+    }
+
+    .emprunts-add-button {
+
+        width: 100%;
+
+    }
+
+    .emprunts-stats {
+
+        grid-template-columns: 1fr;
+
+    }
+
+    .emprunts-filters {
+
+        grid-template-columns: 1fr;
+
+    }
+
+    .emprunts-list-header {
+
+        align-items: flex-start;
+
+        flex-direction: column;
+
+    }
+
+    .loan-form-grid {
+
+        grid-template-columns: 1fr;
+
+    }
+
+    .loan-modal-overlay,
+    .loan-delete-modal-overlay {
+
+        align-items: flex-end;
+
+        padding: 0;
+
+    }
+
+    .loan-modal {
+
+        max-width: none;
+
+        max-height: 90vh;
+
+        border-radius:
+            var(--radius-xl)
+            var(--radius-xl)
+            0
+            0;
+
+    }
+
+    .loan-delete-modal {
+
+        max-width: none;
+
+        border-radius:
+            var(--radius-xl)
+            var(--radius-xl)
+            0
+            0;
+
+    }
+
+}
+
+
+@media (max-width: 480px) {
+
+    .emprunts-header h1 {
+
+        font-size: var(--font-size-xl);
+
+    }
+
+    .emprunt-stat-card {
+
+        padding: var(--space-4);
+
+    }
+
+    #loanForm {
+
+        padding: var(--space-5);
+
+    }
+
+    .loan-modal-header {
+
+        padding: var(--space-5);
+
+    }
+
+    .loan-modal-actions,
+    .loan-delete-modal-actions {
+
+        flex-direction: column-reverse;
+
+    }
+
+    .loan-button-primary,
+    .loan-button-secondary,
+    .loan-button-danger {
+
+        width: 100%;
+
+    }
+
+}

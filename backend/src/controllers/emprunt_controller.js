@@ -407,12 +407,7 @@ export async function returnEmpruntController(req, res) {
         );
     }
 
-    if (!date_retour) {
-        throw new AppError(
-            'La date de retour est obligatoire',
-            400
-        );
-    }
+    const returnDate = date_retour || new Date().toISOString().slice(0, 10);
 
 
     const emprunt = await findEmpruntById(
@@ -435,7 +430,7 @@ export async function returnEmpruntController(req, res) {
 
 
     if (
-        new Date(date_retour) <
+        new Date(returnDate) <
         new Date(emprunt.date_emprunt)
     ) {
         throw new AppError(
@@ -448,7 +443,7 @@ export async function returnEmpruntController(req, res) {
     const returnedEmprunt =
         await returnEmprunt(
             empruntId,
-            date_retour
+            returnDate
         );
 
 

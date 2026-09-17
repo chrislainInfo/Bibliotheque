@@ -48,6 +48,7 @@ export async function login(req, res) {
                 id: utilisateur.id,
                 role: utilisateur.role,
                 prenom: utilisateur.prenom,
+                nom: utilisateur.nom,
             }
         });
     }
@@ -125,7 +126,8 @@ export async function login(req, res) {
 
                 role: utilisateur.role,
 
-                prenom: utilisateur.prenom
+                prenom: utilisateur.prenom,
+                nom: utilisateur.nom
 
             }
 

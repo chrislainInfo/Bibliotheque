@@ -706,5 +706,3 @@ async function seed() {
         await pool.end();
     }
 }
-
-seed();
