@@ -13,11 +13,13 @@
 
     <title>Adherents — Bibliothèque</title>
 
-    <!-- CSS global -->
+    <link rel="icon" type="image/png" href="../assets/favicon/favicon-96x96.png" sizes="96x96" />
+    <link rel="icon" type="image/svg+xml" href="../assets/favicon/favicon.svg" />
+    <link rel="shortcut icon" href="../assets/favicon/favicon.ico" />
+    <link rel="apple-touch-icon" sizes="180x180" href="../assets/favicon/apple-touch-icon.png" />
+    <link rel="manifest" href="../assets/favicon    /site.webmanifest" />
+
     <link rel="stylesheet" href="../css/main.css">
-
-
-    <!-- CSS propre au Dashboard -->
     <link rel="stylesheet" href="./categories.css">
 </head>
 
@@ -34,11 +36,6 @@
 
             <!-- Logo -->
             <div class="sidebar-logo">
-
-                <!--
-                    Remplace cette zone par ton logo.
-                    Tu peux mettre ton image dans asset/images/
-                -->
                 <a href="../dashboard/dashboard.html">
 
                     <span class="sidebar-logo-icon">
@@ -201,7 +198,7 @@
             <div class="header-left">
 
                 <h1 class="header-title">
-                    Tableau de bord
+                    Categories
                 </h1>
 
             </div>
@@ -249,335 +246,335 @@
              ===================================================== -->
 
         <main class="main-content">
-    <div class="main-content-inner">
+            <div class="main-content-inner">
 
-        <!-- En-tête -->
-        <header class="categories-header">
-            <div class="categories-header-content">
-                <span class="categories-eyebrow">GESTION</span>
+                <!-- En-tête -->
+                <header class="categories-header">
+                    <div class="categories-header-content">
+                        <span class="categories-eyebrow">GESTION</span>
 
-                <h1>Catégories</h1>
+                        <h1>Catégories</h1>
 
-                <p>
-                    Gérez les catégories de livres de votre bibliothèque
-                    et organisez facilement votre catalogue.
-                </p>
+                        <p>
+                            Gérez les catégories de livres de votre bibliothèque
+                            et organisez facilement votre catalogue.
+                        </p>
+                    </div>
+
+                    <button class="categories-add-button" id="openAddCategoryButton">
+                        <i class="fa-solid fa-plus"></i>
+                        <span>Ajouter une catégorie</span>
+                    </button>
+                </header>
+
+
+                <!-- Statistiques -->
+                <section class="categories-stats">
+
+                    <article class="categorie-stat-card">
+                        <div class="categorie-stat-icon">
+                            <i class="fa-solid fa-layer-group"></i>
+                        </div>
+
+                        <div class="categorie-stat-content">
+                            <span class="categorie-stat-label">
+                                Total catégories
+                            </span>
+
+                            <strong id="totalCategories">0</strong>
+                        </div>
+                    </article>
+
+
+                    <article class="categorie-stat-card">
+                        <div class="categorie-stat-icon">
+                            <i class="fa-solid fa-book"></i>
+                        </div>
+
+                        <div class="categorie-stat-content">
+                            <span class="categorie-stat-label">
+                                Catégories utilisées
+                            </span>
+
+                            <strong id="usedCategories">0</strong>
+                        </div>
+                    </article>
+
+
+                    <article class="categorie-stat-card">
+                        <div class="categorie-stat-icon">
+                            <i class="fa-solid fa-folder-plus"></i>
+                        </div>
+
+                        <div class="categorie-stat-content">
+                            <span class="categorie-stat-label">
+                                Ajoutées récemment
+                            </span>
+
+                            <strong id="recentCategories">0</strong>
+                        </div>
+                    </article>
+
+                </section>
+
+
+                <!-- Barre de recherche -->
+                <section class="categories-toolbar">
+
+                    <div class="categories-search">
+                        <i class="fa-solid fa-magnifying-glass"></i>
+
+                        <input
+                            type="search"
+                            id="categorySearch"
+                            placeholder="Rechercher une catégorie..."
+                            autocomplete="off"
+                        >
+                    </div>
+
+                </section>
+
+
+                <!-- Liste des catégories -->
+                <section class="categories-list-card">
+
+                    <div class="categories-list-header">
+                        <div>
+                            <h2>Liste des catégories</h2>
+
+                            <p>
+                                <span id="categoriesResultCount">0</span>
+                                catégorie(s)
+                            </p>
+                        </div>
+                    </div>
+
+
+                    <div class="categories-table-wrapper">
+
+                        <table class="categories-table">
+
+                            <thead>
+                                <tr>
+                                    <th>Nom</th>
+                                    <th>Nombre de livres</th>
+                                    <th>Date d'ajout</th>
+                                    <th>Actions</th>
+                                </tr>
+                            </thead>
+
+                            <tbody id="categoriesTableBody">
+                                <!-- Les catégories seront injectées ici -->
+                            </tbody>
+
+                        </table>
+
+                    </div>
+
+
+                    <!-- État vide -->
+                    <div
+                        class="categories-empty-state"
+                        id="categoriesEmptyState"
+                        hidden
+                    >
+
+                        <div class="categories-empty-icon">
+                            <i class="fa-solid fa-folder-open"></i>
+                        </div>
+
+                        <h3>Aucune catégorie trouvée</h3>
+
+                        <p>
+                            Aucune catégorie ne correspond à votre recherche.
+                        </p>
+
+                    </div>
+
+                </section>
+
             </div>
-
-            <button class="categories-add-button" id="openAddCategoryButton">
-                <i class="fa-solid fa-plus"></i>
-                <span>Ajouter une catégorie</span>
-            </button>
-        </header>
+        </main>
 
 
-        <!-- Statistiques -->
-        <section class="categories-stats">
-
-            <article class="categorie-stat-card">
-                <div class="categorie-stat-icon">
-                    <i class="fa-solid fa-layer-group"></i>
-                </div>
-
-                <div class="categorie-stat-content">
-                    <span class="categorie-stat-label">
-                        Total catégories
-                    </span>
-
-                    <strong id="totalCategories">0</strong>
-                </div>
-            </article>
-
-
-            <article class="categorie-stat-card">
-                <div class="categorie-stat-icon">
-                    <i class="fa-solid fa-book"></i>
-                </div>
-
-                <div class="categorie-stat-content">
-                    <span class="categorie-stat-label">
-                        Catégories utilisées
-                    </span>
-
-                    <strong id="usedCategories">0</strong>
-                </div>
-            </article>
-
-
-            <article class="categorie-stat-card">
-                <div class="categorie-stat-icon">
-                    <i class="fa-solid fa-folder-plus"></i>
-                </div>
-
-                <div class="categorie-stat-content">
-                    <span class="categorie-stat-label">
-                        Ajoutées récemment
-                    </span>
-
-                    <strong id="recentCategories">0</strong>
-                </div>
-            </article>
-
-        </section>
-
-
-        <!-- Barre de recherche -->
-        <section class="categories-toolbar">
-
-            <div class="categories-search">
-                <i class="fa-solid fa-magnifying-glass"></i>
-
-                <input
-                    type="search"
-                    id="categorySearch"
-                    placeholder="Rechercher une catégorie..."
-                    autocomplete="off"
-                >
-            </div>
-
-        </section>
-
-
-        <!-- Liste des catégories -->
-        <section class="categories-list-card">
-
-            <div class="categories-list-header">
-                <div>
-                    <h2>Liste des catégories</h2>
-
-                    <p>
-                        <span id="categoriesResultCount">0</span>
-                        catégorie(s)
-                    </p>
-                </div>
-            </div>
-
-
-            <div class="categories-table-wrapper">
-
-                <table class="categories-table">
-
-                    <thead>
-                        <tr>
-                            <th>Nom</th>
-                            <th>Nombre de livres</th>
-                            <th>Date d'ajout</th>
-                            <th>Actions</th>
-                        </tr>
-                    </thead>
-
-                    <tbody id="categoriesTableBody">
-                        <!-- Les catégories seront injectées ici -->
-                    </tbody>
-
-                </table>
-
-            </div>
-
-
-            <!-- État vide -->
-            <div
-                class="categories-empty-state"
-                id="categoriesEmptyState"
-                hidden
-            >
-
-                <div class="categories-empty-icon">
-                    <i class="fa-solid fa-folder-open"></i>
-                </div>
-
-                <h3>Aucune catégorie trouvée</h3>
-
-                <p>
-                    Aucune catégorie ne correspond à votre recherche.
-                </p>
-
-            </div>
-
-        </section>
-
-    </div>
-</main>
-
-
-<!-- =========================================================
+        <!-- =========================================================
      MODAL : AJOUT / MODIFICATION
      ========================================================= -->
 
-<div class="modal-overlay" id="categoryModal" hidden>
+        <div class="modal-overlay" id="categoryModal" hidden>
 
-    <div class="modal">
+            <div class="modal">
 
-        <div class="modal-header">
+                <div class="modal-header">
 
-            <div>
-                <span class="modal-eyebrow">GESTION</span>
+                    <div>
+                        <span class="modal-eyebrow">GESTION</span>
 
-                <h2 id="categoryModalTitle">
-                    Ajouter une catégorie
-                </h2>
+                        <h2 id="categoryModalTitle">
+                            Ajouter une catégorie
+                        </h2>
+                    </div>
+
+                    <button
+                        type="button"
+                        class="modal-close"
+                        id="closeCategoryModalButton"
+                        aria-label="Fermer"
+                    >
+                        <i class="fa-solid fa-xmark"></i>
+                    </button>
+
+                </div>
+
+
+                <form id="categoryForm">
+
+                    <input
+                        type="hidden"
+                        id="categoryId"
+                    >
+
+
+                    <div class="form-group">
+
+                        <label for="categoryName">
+                            Nom
+                        </label>
+
+                        <input
+                            type="text"
+                            id="categoryName"
+                            name="nom"
+                            placeholder="Ex. Roman"
+                            required
+                        >
+
+                    </div>
+
+
+                    <div class="form-group">
+
+                        <label for="categoryDescription">
+                            Description
+                            <span>(optionnel)</span>
+                        </label>
+
+                        <textarea
+                            id="categoryDescription"
+                            name="description"
+                            rows="4"
+                            placeholder="Décrivez cette catégorie..."
+                        ></textarea>
+
+                    </div>
+
+
+                    <div
+                        class="form-message"
+                        id="categoryFormMessage"
+                    ></div>
+
+
+                    <div class="modal-actions">
+
+                        <button
+                            type="button"
+                            class="button-secondary"
+                            id="cancelCategoryButton"
+                        >
+                            Annuler
+                        </button>
+
+                        <button
+                            type="submit"
+                            class="button-primary"
+                            id="saveCategoryButton"
+                        >
+                            Enregistrer
+                        </button>
+
+                    </div>
+
+                </form>
+
             </div>
-
-            <button
-                type="button"
-                class="modal-close"
-                id="closeCategoryModalButton"
-                aria-label="Fermer"
-            >
-                <i class="fa-solid fa-xmark"></i>
-            </button>
 
         </div>
 
 
-        <form id="categoryForm">
+        <!-- =========================================================
+            MODAL : SUPPRESSION
+            ========================================================= -->
 
-            <input
-                type="hidden"
-                id="categoryId"
-            >
+        <div
+            class="modal-overlay"
+            id="categoryDeleteModal"
+            hidden
+        >
+
+            <div class="modal modal-small">
+
+                <div class="modal-header">
+
+                    <div>
+                        <span class="modal-eyebrow">
+                            ATTENTION
+                        </span>
+
+                        <h2>
+                            Supprimer la catégorie
+                        </h2>
+                    </div>
+
+                    <button
+                        type="button"
+                        class="modal-close"
+                        id="closeDeleteCategoryModalButton"
+                        aria-label="Fermer"
+                    >
+                        <i class="fa-solid fa-xmark"></i>
+                    </button>
+
+                </div>
 
 
-            <div class="form-group">
+                <div class="delete-content">
 
-                <label for="categoryName">
-                    Nom
-                </label>
+                    <div class="delete-icon">
+                        <i class="fa-solid fa-trash"></i>
+                    </div>
 
-                <input
-                    type="text"
-                    id="categoryName"
-                    name="nom"
-                    placeholder="Ex. Roman"
-                    required
-                >
+                    <p>
+                        Voulez-vous vraiment supprimer cette catégorie ?
+                        Cette action est irréversible.
+                    </p>
+
+                </div>
+
+
+                <div class="modal-actions">
+
+                    <button
+                        type="button"
+                        class="button-secondary"
+                        id="cancelDeleteCategoryButton"
+                    >
+                        Annuler
+                    </button>
+
+                    <button
+                        type="button"
+                        class="button-danger"
+                        id="confirmDeleteCategoryButton"
+                    >
+                        Supprimer
+                    </button>
+
+                </div>
 
             </div>
-
-
-            <div class="form-group">
-
-                <label for="categoryDescription">
-                    Description
-                    <span>(optionnel)</span>
-                </label>
-
-                <textarea
-                    id="categoryDescription"
-                    name="description"
-                    rows="4"
-                    placeholder="Décrivez cette catégorie..."
-                ></textarea>
-
-            </div>
-
-
-            <div
-                class="form-message"
-                id="categoryFormMessage"
-            ></div>
-
-
-            <div class="modal-actions">
-
-                <button
-                    type="button"
-                    class="button-secondary"
-                    id="cancelCategoryButton"
-                >
-                    Annuler
-                </button>
-
-                <button
-                    type="submit"
-                    class="button-primary"
-                    id="saveCategoryButton"
-                >
-                    Enregistrer
-                </button>
-
-            </div>
-
-        </form>
-
-    </div>
-
-</div>
-
-
-<!-- =========================================================
-     MODAL : SUPPRESSION
-     ========================================================= -->
-
-<div
-    class="modal-overlay"
-    id="categoryDeleteModal"
-    hidden
->
-
-    <div class="modal modal-small">
-
-        <div class="modal-header">
-
-            <div>
-                <span class="modal-eyebrow">
-                    ATTENTION
-                </span>
-
-                <h2>
-                    Supprimer la catégorie
-                </h2>
-            </div>
-
-            <button
-                type="button"
-                class="modal-close"
-                id="closeDeleteCategoryModalButton"
-                aria-label="Fermer"
-            >
-                <i class="fa-solid fa-xmark"></i>
-            </button>
 
         </div>
-
-
-        <div class="delete-content">
-
-            <div class="delete-icon">
-                <i class="fa-solid fa-trash"></i>
-            </div>
-
-            <p>
-                Voulez-vous vraiment supprimer cette catégorie ?
-                Cette action est irréversible.
-            </p>
-
-        </div>
-
-
-        <div class="modal-actions">
-
-            <button
-                type="button"
-                class="button-secondary"
-                id="cancelDeleteCategoryButton"
-            >
-                Annuler
-            </button>
-
-            <button
-                type="button"
-                class="button-danger"
-                id="confirmDeleteCategoryButton"
-            >
-                Supprimer
-            </button>
-
-        </div>
-
-    </div>
-
-</div>
 
 
 
