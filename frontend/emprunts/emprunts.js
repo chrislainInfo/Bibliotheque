@@ -2,7 +2,7 @@
 // EMPRUNTS - Gestion des emprunts
 // ============================================================
 
-const API_URL = "http://localhost:3000/api/emprunts";
+const API_URL = "https://bibliotheque-da9x.onrender.com/api/emprunts";
 
 // ============================================================
 // ÉLÉMENTS HTML
