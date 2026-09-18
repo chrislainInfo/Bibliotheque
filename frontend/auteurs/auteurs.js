@@ -1,4 +1,4 @@
-const API_URL = "http://localhost:3000/api/auteurs";
+const API_URL = "https://bibliotheque-da9x.onrender.com/api/auteurs";
 
 // ============================================================
 // ÉLÉMENTS HTML

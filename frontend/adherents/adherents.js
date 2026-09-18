@@ -3,7 +3,7 @@
 // ============================================================
 
 // URL de base de l'API
-const API_URL = "http://localhost:3000/api/adherents";
+const API_URL = "https://bibliotheque-da9x.onrender.com/api/adherents";
 
 // ============================================================
 // ÉLÉMENTS HTML
