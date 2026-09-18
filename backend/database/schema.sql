@@ -145,5 +145,11 @@ CREATE TABLE emprunts (
 
     CONSTRAINT emprunts_bibliothecaire_fk
         FOREIGN KEY (id_bibliothecaire)
-        REFERENCES bibliothecaires(id)
+        REFERENCES bibliothecaires(id),
+
+    CONSTRAINT emprunts_dates_check
+        CHECK (date_retour_prevue >= date_emprunt),
+
+    CONSTRAINT emprunts_retour_check
+        CHECK (date_retour IS NULL OR date_retour >= date_emprunt)
 );
