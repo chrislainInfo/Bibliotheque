@@ -51,7 +51,8 @@ app.use((error, req, res, next) => {
     })
 })
 
+const PORT = process.env.PORT || 3000
 
-app.listen(process.env.PORT, () => {
+app.listen(PORT, '0.0.0.0' ,() => {
     console.log(`Le server écoute sur le port ${process.env.PORT}`)
 })
