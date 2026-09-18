@@ -4,6 +4,12 @@
 
 Bibliothèque est une application web de gestion destinée à une bibliothèque de quartier. Elle permet au personnel de gérer la collection de livres, les adhérents, les emprunts, les auteurs et les catégories depuis une interface web.
 
+Lien vers le site: https://bibliotheque-1-c36o.onrender.com/
+
+Connexion: 
+- Email: adelininfo08@gmail.com
+- Password: chrislain
+
 Le projet est composé de deux parties :
 
 - un backend REST développé avec Node.js et Express ;
